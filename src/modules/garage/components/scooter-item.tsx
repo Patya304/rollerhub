@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { ServiceLog } from "@/modules/services/components/service-log";
 
 type Scooter = {
   id: string;
@@ -29,6 +30,7 @@ export function ScooterItem({
   const [busy, setBusy] = useState(false);
   const [estimate, setEstimate] = useState<number | null>(null);
   const [estimateMsg, setEstimateMsg] = useState("");
+  const [showServices, setShowServices] = useState(false);
 
   async function handleSave() {
     setBusy(true);
@@ -119,7 +121,7 @@ export function ScooterItem({
 
   return (
     <li className="space-y-2 rounded-lg border p-3">
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between gap-2">
         <div>
           <p className="font-medium">
             {scooter.brand} {scooter.model}
@@ -132,9 +134,16 @@ export function ScooterItem({
               : ""}
           </p>
         </div>
-        <div className="flex gap-2">
+        <div className="flex flex-wrap justify-end gap-2">
           <Button size="sm" onClick={handleEstimate} disabled={busy}>
             Becsült érték
+          </Button>
+          <Button
+            size="sm"
+            variant="outline"
+            onClick={() => setShowServices((v) => !v)}
+          >
+            Szervizek
           </Button>
           <Button
             size="sm"
@@ -160,6 +169,7 @@ export function ScooterItem({
         </p>
       )}
       {estimateMsg && <p className="text-sm text-red-500">{estimateMsg}</p>}
+      {showServices && <ServiceLog scooterId={scooter.id} />}
     </li>
   );
 }

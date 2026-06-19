@@ -41,8 +41,23 @@ model Scooter {
   deletedAt      DateTime?
 
   valueEstimates ValueEstimate[]
+  services       Service[]
 
   @@index([userId])
+}
+
+model Service {
+  id          String   @id @default(cuid())
+  scooterId   String
+  scooter     Scooter  @relation(fields: [scooterId], references: [id], onDelete: Cascade)
+  type        String
+  performedAt DateTime
+  odometerKm  Int?
+  cost        Int?
+  notes       String?
+  createdAt   DateTime @default(now())
+
+  @@index([scooterId])
 }
 
 model ValueEstimate {
