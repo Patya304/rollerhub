@@ -43,3 +43,17 @@ export async function estimateScooterValue(userId: string, scooterId: string) {
 
   return { status: "ok" as const, estimatedValue };
 }
+
+export async function getValueHistory(userId: string, scooterId: string) {
+  const scooter = await prisma.scooter.findFirst({
+    where: { id: scooterId, userId, deletedAt: null },
+    select: { id: true },
+  });
+  if (!scooter) return null;
+
+  return prisma.valueEstimate.findMany({
+    where: { scooterId },
+    orderBy: { createdAt: "asc" },
+    select: { id: true, estimatedValue: true, createdAt: true },
+  });
+}

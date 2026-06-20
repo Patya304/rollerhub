@@ -1,7 +1,26 @@
 import { NextRequest, NextResponse } from "next/server";
 import { headers } from "next/headers";
 import { auth } from "@/lib/auth";
-import { estimateScooterValue } from "@/modules/value/services/value-service";
+import {
+  estimateScooterValue,
+  getValueHistory,
+} from "@/modules/value/services/value-service";
+
+export async function GET(
+  _req: NextRequest,
+  { params }: { params: Promise<{ id: string }> },
+) {
+  const session = await auth.api.getSession({ headers: await headers() });
+  if (!session) {
+    return NextResponse.json({ error: "unauthorized" }, { status: 401 });
+  }
+  const { id } = await params;
+  const history = await getValueHistory(session.user.id, id);
+  if (history === null) {
+    return NextResponse.json({ error: "not found" }, { status: 404 });
+  }
+  return NextResponse.json(history);
+}
 
 export async function POST(
   _req: NextRequest,

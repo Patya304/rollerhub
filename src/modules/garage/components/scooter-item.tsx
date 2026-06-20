@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { ServiceLog } from "@/modules/services/components/service-log";
+import { ValueHistory } from "@/modules/value/components/value-history";
 
 type Scooter = {
   id: string;
@@ -31,6 +32,7 @@ export function ScooterItem({
   const [estimate, setEstimate] = useState<number | null>(null);
   const [estimateMsg, setEstimateMsg] = useState("");
   const [showServices, setShowServices] = useState(false);
+  const [showHistory, setShowHistory] = useState(false);
 
   async function handleSave() {
     setBusy(true);
@@ -141,6 +143,13 @@ export function ScooterItem({
           <Button
             size="sm"
             variant="outline"
+            onClick={() => setShowHistory((v) => !v)}
+          >
+            Értéktörténet
+          </Button>
+          <Button
+            size="sm"
+            variant="outline"
             onClick={() => setShowServices((v) => !v)}
           >
             Szervizek
@@ -169,6 +178,7 @@ export function ScooterItem({
         </p>
       )}
       {estimateMsg && <p className="text-sm text-red-500">{estimateMsg}</p>}
+      {showHistory && <ValueHistory scooterId={scooter.id} />}
       {showServices && <ServiceLog scooterId={scooter.id} />}
     </li>
   );
