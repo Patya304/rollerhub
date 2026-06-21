@@ -37,6 +37,9 @@ const items = [
 export function AppSidebar() {
   const pathname = usePathname();
 
+  const isActive = (url: string) =>
+    pathname === url || pathname.startsWith(url + "/");
+
   return (
     <Sidebar>
       <SidebarHeader className="px-4 py-3 text-lg font-semibold">
@@ -48,7 +51,7 @@ export function AppSidebar() {
             <SidebarMenu>
               {items.map((item) => (
                 <SidebarMenuItem key={item.url}>
-                  <SidebarMenuButton asChild isActive={pathname === item.url}>
+                  <SidebarMenuButton asChild isActive={isActive(item.url)}>
                     <Link href={item.url}>
                       <item.icon />
                       <span>{item.title}</span>
