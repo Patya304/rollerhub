@@ -2,13 +2,10 @@ import { NextRequest, NextResponse } from "next/server";
 import { headers } from "next/headers";
 import { auth } from "@/lib/auth";
 import {
-  SERVICE_TYPES,
-  type ServiceType,
-} from "@/modules/services/service-types";
-import {
   getServicesByScooter,
   createService,
 } from "@/modules/services/services/service-log-service";
+import { createServiceSchema } from "@/modules/services/schemas/service-schema";
 
 export async function GET(
   _req: NextRequest,
@@ -34,28 +31,29 @@ export async function POST(
     return NextResponse.json({ error: "unauthorized" }, { status: 401 });
 
   const { id } = await params;
-  const body = await req.json();
+  const body = await req.json().catch(() => null);
+  if (!body || typeof body !== "object") {
+    return NextResponse.json({ error: "Érvénytelen kérés." }, { status: 400 });
+  }
 
-  const type = body.type as ServiceType;
-  const performedAt = body.performedAt ? new Date(body.performedAt) : null;
-  if (
-    !type ||
-    !SERVICE_TYPES.includes(type) ||
-    !performedAt ||
-    isNaN(performedAt.getTime())
-  ) {
+  const parsed = createServiceSchema.safeParse(body);
+  if (!parsed.success) {
     return NextResponse.json(
-      { error: "Érvénytelen szerviztípus vagy dátum." },
+      {
+        error:
+          parsed.error.issues[0]?.message ??
+          "Érvénytelen szerviztípus vagy dátum.",
+      },
       { status: 400 },
     );
   }
 
   const service = await createService(session.user.id, id, {
-    type,
-    performedAt,
-    odometerKm: body.odometerKm ? Number(body.odometerKm) : undefined,
-    cost: body.cost ? Number(body.cost) : undefined,
-    notes: body.notes ? String(body.notes) : undefined,
+    type: parsed.data.type,
+    performedAt: parsed.data.performedAt,
+    odometerKm: parsed.data.odometerKm,
+    cost: parsed.data.cost,
+    notes: parsed.data.notes,
   });
   if (service === null)
     return NextResponse.json({ error: "not found" }, { status: 404 });

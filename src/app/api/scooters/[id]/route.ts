@@ -6,6 +6,7 @@ import {
   updateScooter,
   deleteScooter,
 } from "@/modules/garage/services/scooter-service";
+import { updateScooterSchema } from "@/modules/garage/schemas/scooter-schema";
 
 export async function GET(
   _req: NextRequest,
@@ -31,44 +32,20 @@ export async function PATCH(
     return NextResponse.json({ error: "unauthorized" }, { status: 401 });
 
   const { id } = await params;
-  const body = await req.json();
+  const body = await req.json().catch(() => null);
+  if (!body || typeof body !== "object") {
+    return NextResponse.json({ error: "Érvénytelen kérés." }, { status: 400 });
+  }
 
-  const data: {
-    brand?: string;
-    model?: string;
-    color?: string | null;
-    serialNumber?: string | null;
-    year?: number | null;
-    currentMileage?: number;
-    batteryCapacity?: number | null;
-    topSpeed?: number | null;
-    rangeKm?: number | null;
-    photoUrl?: string | null;
-    notes?: string | null;
-  } = {};
-  if (body.brand !== undefined) data.brand = String(body.brand).trim();
-  if (body.model !== undefined) data.model = String(body.model).trim();
-  if (body.color !== undefined)
-    data.color = body.color ? String(body.color) : null;
-  if (body.serialNumber !== undefined)
-    data.serialNumber = body.serialNumber ? String(body.serialNumber) : null;
-  if (body.year !== undefined) data.year = body.year ? Number(body.year) : null;
-  if (body.currentMileage !== undefined)
-    data.currentMileage = Number(body.currentMileage) || 0;
-  if (body.batteryCapacity !== undefined)
-    data.batteryCapacity = body.batteryCapacity
-      ? Number(body.batteryCapacity)
-      : null;
-  if (body.topSpeed !== undefined)
-    data.topSpeed = body.topSpeed ? Number(body.topSpeed) : null;
-  if (body.rangeKm !== undefined)
-    data.rangeKm = body.rangeKm ? Number(body.rangeKm) : null;
-  if (body.photoUrl !== undefined)
-    data.photoUrl = body.photoUrl ? String(body.photoUrl) : null;
-  if (body.notes !== undefined)
-    data.notes = body.notes ? String(body.notes) : null;
+  const parsed = updateScooterSchema.safeParse(body);
+  if (!parsed.success) {
+    return NextResponse.json(
+      { error: parsed.error.issues[0]?.message ?? "Érvénytelen adatok." },
+      { status: 400 },
+    );
+  }
 
-  const count = await updateScooter(session.user.id, id, data);
+  const count = await updateScooter(session.user.id, id, parsed.data);
   if (count === 0) {
     return NextResponse.json({ error: "not found" }, { status: 404 });
   }

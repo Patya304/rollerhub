@@ -5,6 +5,7 @@ import {
   getScootersByUser,
   createScooter,
 } from "@/modules/garage/services/scooter-service";
+import { createScooterSchema } from "@/modules/garage/schemas/scooter-schema";
 
 export async function GET() {
   const session = await auth.api.getSession({ headers: await headers() });
@@ -21,34 +22,19 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "unauthorized" }, { status: 401 });
   }
 
-  const body = await req.json();
-  const brand = String(body.brand ?? "").trim();
-  const model = String(body.model ?? "").trim();
-  if (!brand || !model) {
+  const body = await req.json().catch(() => null);
+  if (!body || typeof body !== "object") {
+    return NextResponse.json({ error: "Érvénytelen kérés." }, { status: 400 });
+  }
+
+  const parsed = createScooterSchema.safeParse(body);
+  if (!parsed.success) {
     return NextResponse.json(
-      { error: "A márka és a modell kötelező." },
+      { error: parsed.error.issues[0]?.message ?? "Érvénytelen adatok." },
       { status: 400 },
     );
   }
 
-  const scooter = await createScooter(session.user.id, {
-    brand,
-    model,
-    color: body.color ? String(body.color) : undefined,
-    serialNumber: body.serialNumber ? String(body.serialNumber) : undefined,
-    year: body.year ? Number(body.year) : undefined,
-    currentMileage: body.currentMileage
-      ? Number(body.currentMileage)
-      : undefined,
-    purchasePrice: body.purchasePrice ? Number(body.purchasePrice) : undefined,
-    batteryCapacity: body.batteryCapacity
-      ? Number(body.batteryCapacity)
-      : undefined,
-    topSpeed: body.topSpeed ? Number(body.topSpeed) : undefined,
-    rangeKm: body.rangeKm ? Number(body.rangeKm) : undefined,
-    photoUrl: body.photoUrl ? String(body.photoUrl) : undefined,
-    notes: body.notes ? String(body.notes) : undefined,
-  });
-
+  const scooter = await createScooter(session.user.id, parsed.data);
   return NextResponse.json(scooter, { status: 201 });
 }
