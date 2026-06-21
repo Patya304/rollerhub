@@ -2,6 +2,10 @@ import { NextRequest, NextResponse } from "next/server";
 import { headers } from "next/headers";
 import { auth } from "@/lib/auth";
 import {
+  SERVICE_TYPES,
+  type ServiceType,
+} from "@/modules/services/service-types";
+import {
   getServicesByScooter,
   createService,
 } from "@/modules/services/services/service-log-service";
@@ -32,11 +36,16 @@ export async function POST(
   const { id } = await params;
   const body = await req.json();
 
-  const type = String(body.type ?? "").trim();
+  const type = body.type as ServiceType;
   const performedAt = body.performedAt ? new Date(body.performedAt) : null;
-  if (!type || !performedAt || isNaN(performedAt.getTime())) {
+  if (
+    !type ||
+    !SERVICE_TYPES.includes(type) ||
+    !performedAt ||
+    isNaN(performedAt.getTime())
+  ) {
     return NextResponse.json(
-      { error: "A típus és a dátum kötelező." },
+      { error: "Érvénytelen szerviztípus vagy dátum." },
       { status: 400 },
     );
   }

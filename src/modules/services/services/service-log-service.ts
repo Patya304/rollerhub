@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/prisma";
+import { ServiceType } from "@/modules/services/service-types";
 
 async function ownsScooter(userId: string, scooterId: string) {
   const scooter = await prisma.scooter.findFirst({
@@ -20,7 +21,7 @@ export async function createService(
   userId: string,
   scooterId: string,
   data: {
-    type: string;
+    type: ServiceType;
     performedAt: Date;
     odometerKm?: number;
     cost?: number;

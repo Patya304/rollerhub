@@ -52,16 +52,24 @@ model Scooter {
   @@index([userId])
 }
 
+enum ServiceType {
+  TIRE_CHANGE
+  BRAKE_CHANGE
+  BATTERY
+  SERVICE
+  OTHER
+}
+
 model Service {
-  id          String   @id @default(cuid())
+  id          String      @id @default(cuid())
   scooterId   String
-  scooter     Scooter  @relation(fields: [scooterId], references: [id], onDelete: Cascade)
-  type        String
+  scooter     Scooter     @relation(fields: [scooterId], references: [id], onDelete: Cascade)
+  type        ServiceType
   performedAt DateTime
   odometerKm  Int?
   cost        Int?
   notes       String?
-  createdAt   DateTime @default(now())
+  createdAt   DateTime    @default(now())
 
   @@index([scooterId])
 }
