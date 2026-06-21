@@ -1,10 +1,10 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { ScooterItem } from "./scooter-item";
 
 type Scooter = {
   id: string;
@@ -20,6 +20,16 @@ type Scooter = {
   rangeKm: number | null;
   photoUrl: string | null;
 };
+
+function liveEstimate(s: Scooter): number | null {
+  if (s.purchasePrice == null) return null;
+  const currentYear = new Date().getFullYear();
+  const ageYears = s.year ? Math.max(0, currentYear - s.year) : 0;
+  const ageDep = ageYears * 0.12;
+  const kmDep = (s.currentMileage / 1000) * 0.01;
+  const totalDep = Math.min(0.8, ageDep + kmDep);
+  return Math.round(s.purchasePrice * (1 - totalDep));
+}
 
 export function Garage() {
   const [scooters, setScooters] = useState<Scooter[]>([]);
@@ -200,9 +210,37 @@ export function Garage() {
           </p>
         ) : (
           <ul className="space-y-2">
-            {scooters.map((s) => (
-              <ScooterItem key={s.id} scooter={s} onChanged={load} />
-            ))}
+            {scooters.map((s) => {
+              const est = liveEstimate(s);
+              return (
+                <li key={s.id}>
+                  <Link
+                    href={`/garage/${s.id}`}
+                    className="hover:bg-muted/50 flex items-center justify-between gap-3 rounded-lg border p-3 transition-colors"
+                  >
+                    <div className="min-w-0">
+                      <p className="truncate font-medium">
+                        {s.brand} {s.model}
+                      </p>
+                      <p className="text-muted-foreground text-sm">
+                        {[
+                          s.year ? `${s.year}` : null,
+                          `${s.currentMileage.toLocaleString("hu-HU")} km`,
+                          est != null
+                            ? `~${est.toLocaleString("hu-HU")} Ft`
+                            : null,
+                        ]
+                          .filter(Boolean)
+                          .join(" · ")}
+                      </p>
+                    </div>
+                    <span className="text-muted-foreground shrink-0 text-sm">
+                      Megnyitás →
+                    </span>
+                  </Link>
+                </li>
+              );
+            })}
           </ul>
         )}
       </div>

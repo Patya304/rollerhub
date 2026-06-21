@@ -2,18 +2,33 @@ import { NextRequest, NextResponse } from "next/server";
 import { headers } from "next/headers";
 import { auth } from "@/lib/auth";
 import {
+  getScooterDetails,
   updateScooter,
   deleteScooter,
 } from "@/modules/garage/services/scooter-service";
+
+export async function GET(
+  _req: NextRequest,
+  { params }: { params: Promise<{ id: string }> },
+) {
+  const session = await auth.api.getSession({ headers: await headers() });
+  if (!session)
+    return NextResponse.json({ error: "unauthorized" }, { status: 401 });
+
+  const { id } = await params;
+  const scooter = await getScooterDetails(session.user.id, id);
+  if (!scooter)
+    return NextResponse.json({ error: "not found" }, { status: 404 });
+  return NextResponse.json(scooter);
+}
 
 export async function PATCH(
   req: NextRequest,
   { params }: { params: Promise<{ id: string }> },
 ) {
   const session = await auth.api.getSession({ headers: await headers() });
-  if (!session) {
+  if (!session)
     return NextResponse.json({ error: "unauthorized" }, { status: 401 });
-  }
 
   const { id } = await params;
   const body = await req.json();
@@ -65,9 +80,8 @@ export async function DELETE(
   { params }: { params: Promise<{ id: string }> },
 ) {
   const session = await auth.api.getSession({ headers: await headers() });
-  if (!session) {
+  if (!session)
     return NextResponse.json({ error: "unauthorized" }, { status: 401 });
-  }
 
   const { id } = await params;
   const count = await deleteScooter(session.user.id, id);
