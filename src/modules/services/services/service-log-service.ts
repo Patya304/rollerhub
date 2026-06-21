@@ -17,6 +17,14 @@ export async function getServicesByScooter(userId: string, scooterId: string) {
   });
 }
 
+export async function getServicesByUser(userId: string) {
+  return prisma.service.findMany({
+    where: { scooter: { userId, deletedAt: null } },
+    orderBy: { performedAt: "desc" },
+    include: { scooter: { select: { id: true, brand: true, model: true } } },
+  });
+}
+
 export async function createService(
   userId: string,
   scooterId: string,
