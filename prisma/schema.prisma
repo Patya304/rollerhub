@@ -48,6 +48,7 @@ model Scooter {
 
   valueEstimates ValueEstimate[]
   services       Service[]
+  rides          Ride[]
 
   @@index([userId])
 }
@@ -70,6 +71,20 @@ model Service {
   cost        Int?
   notes       String?
   createdAt   DateTime    @default(now())
+
+  @@index([scooterId])
+}
+
+model Ride {
+  id         String    @id @default(cuid())
+  scooterId  String
+  scooter    Scooter   @relation(fields: [scooterId], references: [id], onDelete: Cascade)
+  startAt    DateTime
+  endAt      DateTime?
+  distanceKm Float?
+  avgSpeed   Float?
+  maxSpeed   Float?
+  createdAt  DateTime  @default(now())
 
   @@index([scooterId])
 }
