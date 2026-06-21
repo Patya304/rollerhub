@@ -12,9 +12,15 @@ export async function createScooter(
   data: {
     brand: string;
     model: string;
+    color?: string;
+    serialNumber?: string;
     year?: number;
     currentMileage?: number;
     purchasePrice?: number;
+    batteryCapacity?: number;
+    topSpeed?: number;
+    rangeKm?: number;
+    photoUrl?: string;
     notes?: string;
   },
 ) {
@@ -23,9 +29,15 @@ export async function createScooter(
       userId,
       brand: data.brand,
       model: data.model,
+      color: data.color ?? null,
+      serialNumber: data.serialNumber ?? null,
       year: data.year ?? null,
       currentMileage: data.currentMileage ?? 0,
       purchasePrice: data.purchasePrice ?? null,
+      batteryCapacity: data.batteryCapacity ?? null,
+      topSpeed: data.topSpeed ?? null,
+      rangeKm: data.rangeKm ?? null,
+      photoUrl: data.photoUrl ?? null,
       notes: data.notes ?? null,
     },
   });
@@ -37,8 +49,14 @@ export async function updateScooter(
   data: {
     brand?: string;
     model?: string;
+    color?: string | null;
+    serialNumber?: string | null;
     year?: number | null;
     currentMileage?: number;
+    batteryCapacity?: number | null;
+    topSpeed?: number | null;
+    rangeKm?: number | null;
+    photoUrl?: string | null;
     notes?: string | null;
   },
 ) {

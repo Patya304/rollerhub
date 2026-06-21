@@ -10,9 +10,15 @@ type Scooter = {
   id: string;
   brand: string;
   model: string;
+  color: string | null;
+  serialNumber: string | null;
   year: number | null;
   currentMileage: number;
   purchasePrice: number | null;
+  batteryCapacity: number | null;
+  topSpeed: number | null;
+  rangeKm: number | null;
+  photoUrl: string | null;
 };
 
 export function Garage() {
@@ -20,9 +26,15 @@ export function Garage() {
   const [loading, setLoading] = useState(true);
   const [brand, setBrand] = useState("");
   const [model, setModel] = useState("");
+  const [color, setColor] = useState("");
+  const [serialNumber, setSerialNumber] = useState("");
   const [year, setYear] = useState("");
   const [mileage, setMileage] = useState("");
   const [price, setPrice] = useState("");
+  const [battery, setBattery] = useState("");
+  const [topSpeed, setTopSpeed] = useState("");
+  const [rangeKm, setRangeKm] = useState("");
+  const [photoUrl, setPhotoUrl] = useState("");
   const [error, setError] = useState("");
 
   async function load() {
@@ -44,9 +56,15 @@ export function Garage() {
       body: JSON.stringify({
         brand,
         model,
+        color: color || undefined,
+        serialNumber: serialNumber || undefined,
         year: year || undefined,
         currentMileage: mileage || undefined,
         purchasePrice: price || undefined,
+        batteryCapacity: battery || undefined,
+        topSpeed: topSpeed || undefined,
+        rangeKm: rangeKm || undefined,
+        photoUrl: photoUrl || undefined,
       }),
     });
     if (!res.ok) {
@@ -56,9 +74,15 @@ export function Garage() {
     }
     setBrand("");
     setModel("");
+    setColor("");
+    setSerialNumber("");
     setYear("");
     setMileage("");
     setPrice("");
+    setBattery("");
+    setTopSpeed("");
+    setRangeKm("");
+    setPhotoUrl("");
     await load();
   }
 
@@ -81,6 +105,22 @@ export function Garage() {
               id="model"
               value={model}
               onChange={(e) => setModel(e.target.value)}
+            />
+          </div>
+          <div className="space-y-1">
+            <Label htmlFor="color">Szín</Label>
+            <Input
+              id="color"
+              value={color}
+              onChange={(e) => setColor(e.target.value)}
+            />
+          </div>
+          <div className="space-y-1">
+            <Label htmlFor="serialNumber">Alvázszám</Label>
+            <Input
+              id="serialNumber"
+              value={serialNumber}
+              onChange={(e) => setSerialNumber(e.target.value)}
             />
           </div>
           <div className="space-y-1">
@@ -108,6 +148,41 @@ export function Garage() {
               type="number"
               value={price}
               onChange={(e) => setPrice(e.target.value)}
+            />
+          </div>
+          <div className="space-y-1">
+            <Label htmlFor="battery">Akku (Wh)</Label>
+            <Input
+              id="battery"
+              type="number"
+              value={battery}
+              onChange={(e) => setBattery(e.target.value)}
+            />
+          </div>
+          <div className="space-y-1">
+            <Label htmlFor="topSpeed">Végsebesség (km/h)</Label>
+            <Input
+              id="topSpeed"
+              type="number"
+              value={topSpeed}
+              onChange={(e) => setTopSpeed(e.target.value)}
+            />
+          </div>
+          <div className="space-y-1">
+            <Label htmlFor="rangeKm">Hatótáv (km)</Label>
+            <Input
+              id="rangeKm"
+              type="number"
+              value={rangeKm}
+              onChange={(e) => setRangeKm(e.target.value)}
+            />
+          </div>
+          <div className="col-span-2 space-y-1">
+            <Label htmlFor="photoUrl">Fénykép URL</Label>
+            <Input
+              id="photoUrl"
+              value={photoUrl}
+              onChange={(e) => setPhotoUrl(e.target.value)}
             />
           </div>
         </div>

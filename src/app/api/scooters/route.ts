@@ -34,11 +34,19 @@ export async function POST(req: NextRequest) {
   const scooter = await createScooter(session.user.id, {
     brand,
     model,
+    color: body.color ? String(body.color) : undefined,
+    serialNumber: body.serialNumber ? String(body.serialNumber) : undefined,
     year: body.year ? Number(body.year) : undefined,
     currentMileage: body.currentMileage
       ? Number(body.currentMileage)
       : undefined,
     purchasePrice: body.purchasePrice ? Number(body.purchasePrice) : undefined,
+    batteryCapacity: body.batteryCapacity
+      ? Number(body.batteryCapacity)
+      : undefined,
+    topSpeed: body.topSpeed ? Number(body.topSpeed) : undefined,
+    rangeKm: body.rangeKm ? Number(body.rangeKm) : undefined,
+    photoUrl: body.photoUrl ? String(body.photoUrl) : undefined,
     notes: body.notes ? String(body.notes) : undefined,
   });
 

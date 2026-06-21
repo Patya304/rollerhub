@@ -21,15 +21,35 @@ export async function PATCH(
   const data: {
     brand?: string;
     model?: string;
+    color?: string | null;
+    serialNumber?: string | null;
     year?: number | null;
     currentMileage?: number;
+    batteryCapacity?: number | null;
+    topSpeed?: number | null;
+    rangeKm?: number | null;
+    photoUrl?: string | null;
     notes?: string | null;
   } = {};
   if (body.brand !== undefined) data.brand = String(body.brand).trim();
   if (body.model !== undefined) data.model = String(body.model).trim();
+  if (body.color !== undefined)
+    data.color = body.color ? String(body.color) : null;
+  if (body.serialNumber !== undefined)
+    data.serialNumber = body.serialNumber ? String(body.serialNumber) : null;
   if (body.year !== undefined) data.year = body.year ? Number(body.year) : null;
   if (body.currentMileage !== undefined)
     data.currentMileage = Number(body.currentMileage) || 0;
+  if (body.batteryCapacity !== undefined)
+    data.batteryCapacity = body.batteryCapacity
+      ? Number(body.batteryCapacity)
+      : null;
+  if (body.topSpeed !== undefined)
+    data.topSpeed = body.topSpeed ? Number(body.topSpeed) : null;
+  if (body.rangeKm !== undefined)
+    data.rangeKm = body.rangeKm ? Number(body.rangeKm) : null;
+  if (body.photoUrl !== undefined)
+    data.photoUrl = body.photoUrl ? String(body.photoUrl) : null;
   if (body.notes !== undefined)
     data.notes = body.notes ? String(body.notes) : null;
 

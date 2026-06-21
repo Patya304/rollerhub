@@ -11,9 +11,15 @@ type Scooter = {
   id: string;
   brand: string;
   model: string;
+  color: string | null;
+  serialNumber: string | null;
   year: number | null;
   currentMileage: number;
   purchasePrice: number | null;
+  batteryCapacity: number | null;
+  topSpeed: number | null;
+  rangeKm: number | null;
+  photoUrl: string | null;
 };
 
 export function ScooterItem({
@@ -26,8 +32,16 @@ export function ScooterItem({
   const [editing, setEditing] = useState(false);
   const [brand, setBrand] = useState(scooter.brand);
   const [model, setModel] = useState(scooter.model);
+  const [color, setColor] = useState(scooter.color ?? "");
+  const [serialNumber, setSerialNumber] = useState(scooter.serialNumber ?? "");
   const [year, setYear] = useState(scooter.year?.toString() ?? "");
   const [mileage, setMileage] = useState(scooter.currentMileage.toString());
+  const [battery, setBattery] = useState(
+    scooter.batteryCapacity?.toString() ?? "",
+  );
+  const [topSpeed, setTopSpeed] = useState(scooter.topSpeed?.toString() ?? "");
+  const [rangeKm, setRangeKm] = useState(scooter.rangeKm?.toString() ?? "");
+  const [photoUrl, setPhotoUrl] = useState(scooter.photoUrl ?? "");
   const [busy, setBusy] = useState(false);
   const [estimate, setEstimate] = useState<number | null>(null);
   const [estimateMsg, setEstimateMsg] = useState("");
@@ -42,8 +56,14 @@ export function ScooterItem({
       body: JSON.stringify({
         brand,
         model,
+        color: color || null,
+        serialNumber: serialNumber || null,
         year: year || null,
         currentMileage: mileage || 0,
+        batteryCapacity: battery || null,
+        topSpeed: topSpeed || null,
+        rangeKm: rangeKm || null,
+        photoUrl: photoUrl || null,
       }),
     });
     setBusy(false);
@@ -88,6 +108,17 @@ export function ScooterItem({
             <Input value={model} onChange={(e) => setModel(e.target.value)} />
           </div>
           <div className="space-y-1">
+            <Label>Szín</Label>
+            <Input value={color} onChange={(e) => setColor(e.target.value)} />
+          </div>
+          <div className="space-y-1">
+            <Label>Alvázszám</Label>
+            <Input
+              value={serialNumber}
+              onChange={(e) => setSerialNumber(e.target.value)}
+            />
+          </div>
+          <div className="space-y-1">
             <Label>Évjárat</Label>
             <Input
               type="number"
@@ -101,6 +132,37 @@ export function ScooterItem({
               type="number"
               value={mileage}
               onChange={(e) => setMileage(e.target.value)}
+            />
+          </div>
+          <div className="space-y-1">
+            <Label>Akku (Wh)</Label>
+            <Input
+              type="number"
+              value={battery}
+              onChange={(e) => setBattery(e.target.value)}
+            />
+          </div>
+          <div className="space-y-1">
+            <Label>Végsebesség (km/h)</Label>
+            <Input
+              type="number"
+              value={topSpeed}
+              onChange={(e) => setTopSpeed(e.target.value)}
+            />
+          </div>
+          <div className="space-y-1">
+            <Label>Hatótáv (km)</Label>
+            <Input
+              type="number"
+              value={rangeKm}
+              onChange={(e) => setRangeKm(e.target.value)}
+            />
+          </div>
+          <div className="col-span-2 space-y-1">
+            <Label>Fénykép URL</Label>
+            <Input
+              value={photoUrl}
+              onChange={(e) => setPhotoUrl(e.target.value)}
             />
           </div>
         </div>
@@ -121,20 +183,41 @@ export function ScooterItem({
     );
   }
 
+  const specs = [
+    scooter.color,
+    scooter.serialNumber ? `#${scooter.serialNumber}` : null,
+    scooter.batteryCapacity ? `${scooter.batteryCapacity} Wh` : null,
+    scooter.topSpeed ? `${scooter.topSpeed} km/h` : null,
+    scooter.rangeKm ? `${scooter.rangeKm} km hatótáv` : null,
+  ]
+    .filter(Boolean)
+    .join(" · ");
+
   return (
     <li className="space-y-2 rounded-lg border p-3">
       <div className="flex items-center justify-between gap-2">
-        <div>
-          <p className="font-medium">
-            {scooter.brand} {scooter.model}
-          </p>
-          <p className="text-muted-foreground text-sm">
-            {scooter.year ? `${scooter.year} · ` : ""}
-            {scooter.currentMileage} km
-            {scooter.purchasePrice
-              ? ` · ${scooter.purchasePrice.toLocaleString("hu-HU")} Ft`
-              : ""}
-          </p>
+        <div className="flex items-center gap-3">
+          {scooter.photoUrl && (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              src={scooter.photoUrl}
+              alt={`${scooter.brand} ${scooter.model}`}
+              className="h-14 w-14 rounded object-cover"
+            />
+          )}
+          <div>
+            <p className="font-medium">
+              {scooter.brand} {scooter.model}
+            </p>
+            <p className="text-muted-foreground text-sm">
+              {scooter.year ? `${scooter.year} · ` : ""}
+              {scooter.currentMileage} km
+              {scooter.purchasePrice
+                ? ` · ${scooter.purchasePrice.toLocaleString("hu-HU")} Ft`
+                : ""}
+            </p>
+            {specs && <p className="text-muted-foreground text-sm">{specs}</p>}
+          </div>
         </div>
         <div className="flex flex-wrap justify-end gap-2">
           <Button size="sm" onClick={handleEstimate} disabled={busy}>

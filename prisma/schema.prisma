@@ -26,19 +26,25 @@ model User {
 }
 
 model Scooter {
-  id             String    @id @default(cuid())
-  userId         String
-  user           User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  brand          String
-  model          String
-  year           Int?
-  purchaseDate   DateTime?
-  purchasePrice  Int?
-  currentMileage Int       @default(0)
-  notes          String?
-  createdAt      DateTime  @default(now())
-  updatedAt      DateTime  @updatedAt
-  deletedAt      DateTime?
+  id              String    @id @default(cuid())
+  userId          String
+  user            User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  brand           String
+  model           String
+  color           String?
+  serialNumber    String?
+  year            Int?
+  purchaseDate    DateTime?
+  purchasePrice   Int?
+  currentMileage  Int       @default(0)
+  batteryCapacity Int?
+  topSpeed        Int?
+  rangeKm         Int?
+  photoUrl        String?
+  notes           String?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  deletedAt       DateTime?
 
   valueEstimates ValueEstimate[]
   services       Service[]
