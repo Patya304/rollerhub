@@ -34,6 +34,7 @@ function liveEstimate(s: Scooter): number | null {
 export function Garage() {
   const [scooters, setScooters] = useState<Scooter[]>([]);
   const [loading, setLoading] = useState(true);
+  const [showMore, setShowMore] = useState(false);
   const [brand, setBrand] = useState("");
   const [model, setModel] = useState("");
   const [color, setColor] = useState("");
@@ -93,6 +94,7 @@ export function Garage() {
     setTopSpeed("");
     setRangeKm("");
     setPhotoUrl("");
+    setShowMore(false);
     await load();
   }
 
@@ -100,7 +102,8 @@ export function Garage() {
     <div className="space-y-8">
       <div className="space-y-3 rounded-lg border p-4">
         <h2 className="font-medium">Új roller hozzáadása</h2>
-        <div className="grid grid-cols-2 gap-3">
+
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
           <div className="space-y-1">
             <Label htmlFor="brand">Márka</Label>
             <Input
@@ -115,22 +118,6 @@ export function Garage() {
               id="model"
               value={model}
               onChange={(e) => setModel(e.target.value)}
-            />
-          </div>
-          <div className="space-y-1">
-            <Label htmlFor="color">Szín</Label>
-            <Input
-              id="color"
-              value={color}
-              onChange={(e) => setColor(e.target.value)}
-            />
-          </div>
-          <div className="space-y-1">
-            <Label htmlFor="serialNumber">Alvázszám</Label>
-            <Input
-              id="serialNumber"
-              value={serialNumber}
-              onChange={(e) => setSerialNumber(e.target.value)}
             />
           </div>
           <div className="space-y-1">
@@ -151,7 +138,7 @@ export function Garage() {
               onChange={(e) => setMileage(e.target.value)}
             />
           </div>
-          <div className="space-y-1">
+          <div className="space-y-1 sm:col-span-2">
             <Label htmlFor="price">Vételár (Ft)</Label>
             <Input
               id="price"
@@ -160,42 +147,73 @@ export function Garage() {
               onChange={(e) => setPrice(e.target.value)}
             />
           </div>
-          <div className="space-y-1">
-            <Label htmlFor="battery">Akku (Wh)</Label>
-            <Input
-              id="battery"
-              type="number"
-              value={battery}
-              onChange={(e) => setBattery(e.target.value)}
-            />
-          </div>
-          <div className="space-y-1">
-            <Label htmlFor="topSpeed">Végsebesség (km/h)</Label>
-            <Input
-              id="topSpeed"
-              type="number"
-              value={topSpeed}
-              onChange={(e) => setTopSpeed(e.target.value)}
-            />
-          </div>
-          <div className="space-y-1">
-            <Label htmlFor="rangeKm">Hatótáv (km)</Label>
-            <Input
-              id="rangeKm"
-              type="number"
-              value={rangeKm}
-              onChange={(e) => setRangeKm(e.target.value)}
-            />
-          </div>
-          <div className="col-span-2 space-y-1">
-            <Label htmlFor="photoUrl">Fénykép URL</Label>
-            <Input
-              id="photoUrl"
-              value={photoUrl}
-              onChange={(e) => setPhotoUrl(e.target.value)}
-            />
-          </div>
         </div>
+
+        <Button
+          type="button"
+          variant="outline"
+          size="sm"
+          onClick={() => setShowMore((v) => !v)}
+        >
+          {showMore ? "Kevesebb adat ▴" : "További adatok ▾"}
+        </Button>
+
+        {showMore && (
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+            <div className="space-y-1">
+              <Label htmlFor="color">Szín</Label>
+              <Input
+                id="color"
+                value={color}
+                onChange={(e) => setColor(e.target.value)}
+              />
+            </div>
+            <div className="space-y-1">
+              <Label htmlFor="serialNumber">Alvázszám</Label>
+              <Input
+                id="serialNumber"
+                value={serialNumber}
+                onChange={(e) => setSerialNumber(e.target.value)}
+              />
+            </div>
+            <div className="space-y-1">
+              <Label htmlFor="battery">Akku (Wh)</Label>
+              <Input
+                id="battery"
+                type="number"
+                value={battery}
+                onChange={(e) => setBattery(e.target.value)}
+              />
+            </div>
+            <div className="space-y-1">
+              <Label htmlFor="topSpeed">Végsebesség (km/h)</Label>
+              <Input
+                id="topSpeed"
+                type="number"
+                value={topSpeed}
+                onChange={(e) => setTopSpeed(e.target.value)}
+              />
+            </div>
+            <div className="space-y-1">
+              <Label htmlFor="rangeKm">Hatótáv (km)</Label>
+              <Input
+                id="rangeKm"
+                type="number"
+                value={rangeKm}
+                onChange={(e) => setRangeKm(e.target.value)}
+              />
+            </div>
+            <div className="space-y-1 sm:col-span-2">
+              <Label htmlFor="photoUrl">Fénykép URL</Label>
+              <Input
+                id="photoUrl"
+                value={photoUrl}
+                onChange={(e) => setPhotoUrl(e.target.value)}
+              />
+            </div>
+          </div>
+        )}
+
         {error && <p className="text-sm text-red-500">{error}</p>}
         <Button onClick={handleAdd}>Hozzáadás</Button>
       </div>
