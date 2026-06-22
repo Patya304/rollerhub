@@ -16,6 +16,14 @@ export async function getRidesByScooter(userId: string, scooterId: string) {
   });
 }
 
+export async function getRidesByUser(userId: string) {
+  return prisma.ride.findMany({
+    where: { scooter: { userId, deletedAt: null } },
+    orderBy: { startAt: "desc" },
+    include: { scooter: { select: { id: true, brand: true, model: true } } },
+  });
+}
+
 export async function createRide(
   userId: string,
   scooterId: string,
