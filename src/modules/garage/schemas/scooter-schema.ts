@@ -74,6 +74,7 @@ export const updateScooterSchema = z.object({
     (v) => (v === "" ? 0 : v),
     z.coerce.number().int().min(0, "Nem lehet negatív.").optional(),
   ),
+  purchasePrice: updInt,
   batteryCapacity: updInt,
   topSpeed: updInt,
   rangeKm: updInt,

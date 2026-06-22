@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { calculateEstimate } from "@/modules/value/utils/calculate-estimate";
 
 type Scooter = {
   id: string;
@@ -20,16 +21,6 @@ type Scooter = {
   rangeKm: number | null;
   photoUrl: string | null;
 };
-
-function liveEstimate(s: Scooter): number | null {
-  if (s.purchasePrice == null) return null;
-  const currentYear = new Date().getFullYear();
-  const ageYears = s.year ? Math.max(0, currentYear - s.year) : 0;
-  const ageDep = ageYears * 0.12;
-  const kmDep = (s.currentMileage / 1000) * 0.01;
-  const totalDep = Math.min(0.8, ageDep + kmDep);
-  return Math.round(s.purchasePrice * (1 - totalDep));
-}
 
 export function Garage() {
   const [scooters, setScooters] = useState<Scooter[]>([]);
@@ -229,7 +220,14 @@ export function Garage() {
         ) : (
           <ul className="space-y-2">
             {scooters.map((s) => {
-              const est = liveEstimate(s);
+              const est =
+                s.purchasePrice != null
+                  ? calculateEstimate({
+                      purchasePrice: s.purchasePrice,
+                      year: s.year,
+                      currentMileage: s.currentMileage,
+                    })
+                  : null;
               return (
                 <li key={s.id}>
                   <Link

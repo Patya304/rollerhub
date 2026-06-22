@@ -99,10 +99,12 @@ export default async function ScooterDetailsPage({
               serialNumber: scooter.serialNumber,
               year: scooter.year,
               currentMileage: scooter.currentMileage,
+              purchasePrice: scooter.purchasePrice,
               batteryCapacity: scooter.batteryCapacity,
               topSpeed: scooter.topSpeed,
               rangeKm: scooter.rangeKm,
               photoUrl: scooter.photoUrl,
+              notes: scooter.notes,
             }}
           />
         </CardContent>

@@ -1,19 +1,7 @@
 import { prisma } from "@/lib/prisma";
+import { calculateEstimate } from "@/modules/value/utils/calculate-estimate";
 
 const ALGORITHM_VERSION = "v1";
-
-export function calculateEstimate(input: {
-  purchasePrice: number;
-  year: number | null;
-  currentMileage: number;
-}): number {
-  const currentYear = new Date().getFullYear();
-  const ageYears = input.year ? Math.max(0, currentYear - input.year) : 0;
-  const ageDep = ageYears * 0.12; // 12% / év
-  const kmDep = (input.currentMileage / 1000) * 0.01; // 1% / 1000 km
-  const totalDep = Math.min(0.8, ageDep + kmDep); // max 80%
-  return Math.round(input.purchasePrice * (1 - totalDep));
-}
 
 export async function estimateScooterValue(userId: string, scooterId: string) {
   const scooter = await prisma.scooter.findFirst({
@@ -33,6 +21,21 @@ export async function estimateScooterValue(userId: string, scooterId: string) {
     currentMileage: scooter.currentMileage,
   });
 
+  // Dedup: ha az utolsó becslés ugyanaz az érték és algoritmus-verzió,
+  // ne hozzunk létre új rekordot (ne szemeteljük az értéktörténetet).
+  const last = await prisma.valueEstimate.findFirst({
+    where: { scooterId },
+    orderBy: { createdAt: "desc" },
+  });
+
+  if (
+    last &&
+    last.estimatedValue === estimatedValue &&
+    last.algorithmVersion === ALGORITHM_VERSION
+  ) {
+    return { status: "ok" as const, estimatedValue, saved: false };
+  }
+
   await prisma.valueEstimate.create({
     data: {
       scooterId,
@@ -41,7 +44,7 @@ export async function estimateScooterValue(userId: string, scooterId: string) {
     },
   });
 
-  return { status: "ok" as const, estimatedValue };
+  return { status: "ok" as const, estimatedValue, saved: true };
 }
 
 export async function getValueHistory(userId: string, scooterId: string) {

@@ -2,7 +2,7 @@ import { redirect } from "next/navigation";
 import { headers } from "next/headers";
 import { auth } from "@/lib/auth";
 import { getScootersByUser } from "@/modules/garage/services/scooter-service";
-import { calculateEstimate } from "@/modules/value/services/value-service";
+import { calculateEstimate } from "@/modules/value/utils/calculate-estimate";
 
 export default async function ValuePage() {
   const session = await auth.api.getSession({ headers: await headers() });

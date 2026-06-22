@@ -64,6 +64,7 @@ export async function updateScooter(
     serialNumber?: string | null;
     year?: number | null;
     currentMileage?: number;
+    purchasePrice?: number | null;
     batteryCapacity?: number | null;
     topSpeed?: number | null;
     rangeKm?: number | null;

@@ -14,10 +14,12 @@ type Scooter = {
   serialNumber: string | null;
   year: number | null;
   currentMileage: number;
+  purchasePrice: number | null;
   batteryCapacity: number | null;
   topSpeed: number | null;
   rangeKm: number | null;
   photoUrl: string | null;
+  notes: string | null;
 };
 
 export function ScooterActions({ scooter }: { scooter: Scooter }) {
@@ -29,12 +31,14 @@ export function ScooterActions({ scooter }: { scooter: Scooter }) {
   const [serialNumber, setSerialNumber] = useState(scooter.serialNumber ?? "");
   const [year, setYear] = useState(scooter.year?.toString() ?? "");
   const [mileage, setMileage] = useState(scooter.currentMileage.toString());
+  const [price, setPrice] = useState(scooter.purchasePrice?.toString() ?? "");
   const [battery, setBattery] = useState(
     scooter.batteryCapacity?.toString() ?? "",
   );
   const [topSpeed, setTopSpeed] = useState(scooter.topSpeed?.toString() ?? "");
   const [rangeKm, setRangeKm] = useState(scooter.rangeKm?.toString() ?? "");
   const [photoUrl, setPhotoUrl] = useState(scooter.photoUrl ?? "");
+  const [notes, setNotes] = useState(scooter.notes ?? "");
   const [busy, setBusy] = useState(false);
   const [estimate, setEstimate] = useState<number | null>(null);
   const [estimateMsg, setEstimateMsg] = useState("");
@@ -51,10 +55,12 @@ export function ScooterActions({ scooter }: { scooter: Scooter }) {
         serialNumber: serialNumber || null,
         year: year || null,
         currentMileage: mileage || 0,
+        purchasePrice: price || null,
         batteryCapacity: battery || null,
         topSpeed: topSpeed || null,
         rangeKm: rangeKm || null,
         photoUrl: photoUrl || null,
+        notes: notes || null,
       }),
     });
     setBusy(false);
@@ -99,17 +105,6 @@ export function ScooterActions({ scooter }: { scooter: Scooter }) {
             <Input value={model} onChange={(e) => setModel(e.target.value)} />
           </div>
           <div className="space-y-1">
-            <Label>Szín</Label>
-            <Input value={color} onChange={(e) => setColor(e.target.value)} />
-          </div>
-          <div className="space-y-1">
-            <Label>Alvázszám</Label>
-            <Input
-              value={serialNumber}
-              onChange={(e) => setSerialNumber(e.target.value)}
-            />
-          </div>
-          <div className="space-y-1">
             <Label>Évjárat</Label>
             <Input
               type="number"
@@ -123,6 +118,25 @@ export function ScooterActions({ scooter }: { scooter: Scooter }) {
               type="number"
               value={mileage}
               onChange={(e) => setMileage(e.target.value)}
+            />
+          </div>
+          <div className="space-y-1 sm:col-span-2">
+            <Label>Vételár (Ft)</Label>
+            <Input
+              type="number"
+              value={price}
+              onChange={(e) => setPrice(e.target.value)}
+            />
+          </div>
+          <div className="space-y-1">
+            <Label>Szín</Label>
+            <Input value={color} onChange={(e) => setColor(e.target.value)} />
+          </div>
+          <div className="space-y-1">
+            <Label>Alvázszám</Label>
+            <Input
+              value={serialNumber}
+              onChange={(e) => setSerialNumber(e.target.value)}
             />
           </div>
           <div className="space-y-1">
@@ -155,6 +169,10 @@ export function ScooterActions({ scooter }: { scooter: Scooter }) {
               value={photoUrl}
               onChange={(e) => setPhotoUrl(e.target.value)}
             />
+          </div>
+          <div className="space-y-1 sm:col-span-2">
+            <Label>Megjegyzés</Label>
+            <Input value={notes} onChange={(e) => setNotes(e.target.value)} />
           </div>
         </div>
         <div className="flex gap-2">

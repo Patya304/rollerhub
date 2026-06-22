@@ -1,5 +1,5 @@
 import { prisma } from "@/lib/prisma";
-import { calculateEstimate } from "@/modules/value/services/value-service";
+import { calculateEstimate } from "@/modules/value/utils/calculate-estimate";
 
 export async function getDashboardData(userId: string) {
   const scooters = await prisma.scooter.findMany({
