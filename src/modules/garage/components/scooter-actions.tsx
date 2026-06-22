@@ -42,37 +42,63 @@ export function ScooterActions({ scooter }: { scooter: Scooter }) {
   const [busy, setBusy] = useState(false);
   const [estimate, setEstimate] = useState<number | null>(null);
   const [estimateMsg, setEstimateMsg] = useState("");
+  const [error, setError] = useState("");
 
   async function handleSave() {
     setBusy(true);
-    await fetch(`/api/scooters/${scooter.id}`, {
-      method: "PATCH",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        brand,
-        model,
-        color: color || null,
-        serialNumber: serialNumber || null,
-        year: year || null,
-        currentMileage: mileage || 0,
-        purchasePrice: price || null,
-        batteryCapacity: battery || null,
-        topSpeed: topSpeed || null,
-        rangeKm: rangeKm || null,
-        photoUrl: photoUrl || null,
-        notes: notes || null,
-      }),
-    });
-    setBusy(false);
-    setEditing(false);
-    router.refresh();
+    setError("");
+    try {
+      const res = await fetch(`/api/scooters/${scooter.id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          brand,
+          model,
+          color: color || null,
+          serialNumber: serialNumber || null,
+          year: year || null,
+          currentMileage: mileage || 0,
+          purchasePrice: price || null,
+          batteryCapacity: battery || null,
+          topSpeed: topSpeed || null,
+          rangeKm: rangeKm || null,
+          photoUrl: photoUrl || null,
+          notes: notes || null,
+        }),
+      });
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        setError(data.error ?? "Hiba a mentéskor.");
+        return; // a szerkesztő nyitva marad
+      }
+      setEditing(false);
+      router.refresh();
+    } catch {
+      setError("Hálózati hiba a mentéskor.");
+    } finally {
+      setBusy(false);
+    }
   }
 
   async function handleDelete() {
     if (!confirm("Biztosan törlöd ezt a rollert?")) return;
     setBusy(true);
-    await fetch(`/api/scooters/${scooter.id}`, { method: "DELETE" });
-    router.push("/garage");
+    setError("");
+    try {
+      const res = await fetch(`/api/scooters/${scooter.id}`, {
+        method: "DELETE",
+      });
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        setError(data.error ?? "Hiba a törléskor.");
+        setBusy(false);
+        return;
+      }
+      router.push("/garage");
+    } catch {
+      setError("Hálózati hiba a törléskor.");
+      setBusy(false);
+    }
   }
 
   async function handleEstimate() {
@@ -175,6 +201,7 @@ export function ScooterActions({ scooter }: { scooter: Scooter }) {
             <Input value={notes} onChange={(e) => setNotes(e.target.value)} />
           </div>
         </div>
+        {error && <p className="text-sm text-red-500">{error}</p>}
         <div className="flex gap-2">
           <Button size="sm" onClick={handleSave} disabled={busy}>
             Mentés
@@ -221,6 +248,7 @@ export function ScooterActions({ scooter }: { scooter: Scooter }) {
         </p>
       )}
       {estimateMsg && <p className="text-sm text-red-500">{estimateMsg}</p>}
+      {error && <p className="text-sm text-red-500">{error}</p>}
     </div>
   );
 }

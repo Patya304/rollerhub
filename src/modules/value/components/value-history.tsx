@@ -1,36 +1,10 @@
-"use client";
-
-import { useEffect, useState } from "react";
-
 type Estimate = {
   id: string;
   estimatedValue: number;
-  createdAt: string;
+  createdAt: Date;
 };
 
-export function ValueHistory({ scooterId }: { scooterId: string }) {
-  const [history, setHistory] = useState<Estimate[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  async function load() {
-    const res = await fetch(`/api/scooters/${scooterId}/estimate`);
-    if (res.ok) setHistory(await res.json());
-    setLoading(false);
-  }
-
-  useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    load();
-  }, []);
-
-  if (loading) {
-    return (
-      <p className="text-muted-foreground mt-3 border-t pt-3 text-sm">
-        Betöltés...
-      </p>
-    );
-  }
-
+export function ValueHistory({ history }: { history: Estimate[] }) {
   if (history.length === 0) {
     return (
       <p className="text-muted-foreground mt-3 border-t pt-3 text-sm">

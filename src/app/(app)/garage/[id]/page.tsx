@@ -3,6 +3,7 @@ import { notFound, redirect } from "next/navigation";
 import { headers } from "next/headers";
 import { auth } from "@/lib/auth";
 import { getScooterDetails } from "@/modules/garage/services/scooter-service";
+import { getValueHistory } from "@/modules/value/services/value-service";
 import { ScooterActions } from "@/modules/garage/components/scooter-actions";
 import {
   SERVICE_TYPE_LABELS,
@@ -23,6 +24,8 @@ export default async function ScooterDetailsPage({
   const { id } = await params;
   const scooter = await getScooterDetails(session.user.id, id);
   if (!scooter) notFound();
+
+  const valueHistory = (await getValueHistory(session.user.id, id)) ?? [];
 
   const lastService = scooter.services[0] ?? null;
   const lastEstimate = scooter.valueEstimates[0] ?? null;
@@ -178,7 +181,7 @@ export default async function ScooterDetailsPage({
           <CardTitle>Értéktörténet</CardTitle>
         </CardHeader>
         <CardContent>
-          <ValueHistory scooterId={scooter.id} />
+          <ValueHistory history={valueHistory} />
         </CardContent>
       </Card>
     </div>

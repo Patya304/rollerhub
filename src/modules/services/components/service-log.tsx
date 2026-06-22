@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -20,6 +21,7 @@ type Service = {
 };
 
 export function ServiceLog({ scooterId }: { scooterId: string }) {
+  const router = useRouter();
   const [services, setServices] = useState<Service[]>([]);
   const [loading, setLoading] = useState(true);
   const [type, setType] = useState<ServiceType | "">("");
@@ -28,6 +30,7 @@ export function ServiceLog({ scooterId }: { scooterId: string }) {
   const [cost, setCost] = useState("");
   const [notes, setNotes] = useState("");
   const [error, setError] = useState("");
+  const [busy, setBusy] = useState(false);
 
   async function load() {
     const res = await fetch(`/api/scooters/${scooterId}/services`);
@@ -46,34 +49,56 @@ export function ServiceLog({ scooterId }: { scooterId: string }) {
       setError("A típus és a dátum kötelező.");
       return;
     }
-    const res = await fetch(`/api/scooters/${scooterId}/services`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        type,
-        performedAt: date,
-        odometerKm: km || undefined,
-        cost: cost || undefined,
-        notes: notes || undefined,
-      }),
-    });
-    if (!res.ok) {
-      const data = await res.json().catch(() => ({}));
-      setError(data.error ?? "Hiba a mentéskor.");
-      return;
+    setBusy(true);
+    try {
+      const res = await fetch(`/api/scooters/${scooterId}/services`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          type,
+          performedAt: date,
+          odometerKm: km || undefined,
+          cost: cost || undefined,
+          notes: notes || undefined,
+        }),
+      });
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        setError(data.error ?? "Hiba a mentéskor.");
+        return;
+      }
+      setType("");
+      setDate("");
+      setKm("");
+      setCost("");
+      setNotes("");
+      await load();
+      router.refresh(); // adatlap összesítő frissítése
+    } catch {
+      setError("Hálózati hiba a mentéskor.");
+    } finally {
+      setBusy(false);
     }
-    setType("");
-    setDate("");
-    setKm("");
-    setCost("");
-    setNotes("");
-    await load();
   }
 
   async function handleDelete(id: string) {
     if (!confirm("Törlöd ezt a szerviz-bejegyzést?")) return;
-    await fetch(`/api/services/${id}`, { method: "DELETE" });
-    await load();
+    setError("");
+    setBusy(true);
+    try {
+      const res = await fetch(`/api/services/${id}`, { method: "DELETE" });
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        setError(data.error ?? "Hiba a törléskor.");
+        return;
+      }
+      await load();
+      router.refresh();
+    } catch {
+      setError("Hálózati hiba a törléskor.");
+    } finally {
+      setBusy(false);
+    }
   }
 
   return (
@@ -132,7 +157,7 @@ export function ServiceLog({ scooterId }: { scooterId: string }) {
         </div>
       </div>
       {error && <p className="text-sm text-red-500">{error}</p>}
-      <Button size="sm" onClick={handleAdd}>
+      <Button size="sm" onClick={handleAdd} disabled={busy}>
         Szerviz hozzáadása
       </Button>
 
@@ -162,6 +187,7 @@ export function ServiceLog({ scooterId }: { scooterId: string }) {
                 size="sm"
                 variant="ghost"
                 onClick={() => handleDelete(s.id)}
+                disabled={busy}
               >
                 Törlés
               </Button>

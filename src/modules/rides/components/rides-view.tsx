@@ -42,35 +42,53 @@ export function RidesView({
       return;
     }
     setBusy(true);
-    const res = await fetch(`/api/scooters/${scooterId}/rides`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        startAt,
-        endAt: endAt || undefined,
-        distanceKm: distanceKm || undefined,
-        avgSpeed: avgSpeed || undefined,
-        maxSpeed: maxSpeed || undefined,
-      }),
-    });
-    setBusy(false);
-    if (!res.ok) {
-      const data = await res.json().catch(() => ({}));
-      setError(data.error ?? "Hiba a mentéskor.");
-      return;
+    try {
+      const res = await fetch(`/api/scooters/${scooterId}/rides`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          startAt,
+          endAt: endAt || undefined,
+          distanceKm: distanceKm || undefined,
+          avgSpeed: avgSpeed || undefined,
+          maxSpeed: maxSpeed || undefined,
+        }),
+      });
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        setError(data.error ?? "Hiba a mentéskor.");
+        return;
+      }
+      setStartAt("");
+      setEndAt("");
+      setDistanceKm("");
+      setAvgSpeed("");
+      setMaxSpeed("");
+      router.refresh();
+    } catch {
+      setError("Hálózati hiba a mentéskor.");
+    } finally {
+      setBusy(false);
     }
-    setStartAt("");
-    setEndAt("");
-    setDistanceKm("");
-    setAvgSpeed("");
-    setMaxSpeed("");
-    router.refresh();
   }
 
   async function handleDelete(id: string) {
     if (!confirm("Törlöd ezt a menetet?")) return;
-    await fetch(`/api/rides/${id}`, { method: "DELETE" });
-    router.refresh();
+    setError("");
+    setBusy(true);
+    try {
+      const res = await fetch(`/api/rides/${id}`, { method: "DELETE" });
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        setError(data.error ?? "Hiba a törléskor.");
+        return;
+      }
+      router.refresh();
+    } catch {
+      setError("Hálózati hiba a törléskor.");
+    } finally {
+      setBusy(false);
+    }
   }
 
   const filtered =
@@ -198,6 +216,7 @@ export function RidesView({
                       size="sm"
                       variant="ghost"
                       onClick={() => handleDelete(r.id)}
+                      disabled={busy}
                     >
                       Törlés
                     </Button>
