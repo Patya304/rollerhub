@@ -184,4 +184,14 @@ export const devlogEntries: DevlogEntry[] = [
     content:
       "A következő időszak fókusza a stabil V1 lezárása, a publikus landing oldal, a PWA előkészítés, az adatkezelési oldalak és a szeptemberi rolleres szabályváltozásokhoz kapcsolódó kommunikáció.",
   },
+  {
+    id: "pwa-install",
+    date: "2026-06-26",
+    title: "Telepíthető mobil élmény (PWA)",
+    type: "feature",
+    summary:
+      "A RollerHub mostantól telepíthető a telefon kezdőképernyőjére, app-szerű élményként.",
+    content:
+      "A RollerHub már hozzáadható a kezdőképernyőhöz, és saját ablakban, alkalmazásként indul — gyorsabb elérés, letisztultabb, böngésző nélküli használat.",
+  },
 ];
