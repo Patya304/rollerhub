@@ -194,4 +194,13 @@ export const devlogEntries: DevlogEntry[] = [
     content:
       "A RollerHub már hozzáadható a kezdőképernyőhöz, és saját ablakban, alkalmazásként indul — gyorsabb elérés, letisztultabb, böngésző nélküli használat.",
   },
+  {
+    id: "public-launch",
+    date: "2026-06-27",
+    title: "A RollerHub elérhető online",
+    type: "feature",
+    summary: "A RollerHub mostantól bárki számára elérhető a böngészőből.",
+    content:
+      "A RollerHub első nyilvános verziója felkerült az internetre, így már nem csak fejlesztői környezetben, hanem éles weboldalként is használható: regisztrálhatsz, felviheted a rollereidet, és kipróbálhatod a szervizkönyvet, az értékbecslést és a menetnaplót.",
+  },
 ];
