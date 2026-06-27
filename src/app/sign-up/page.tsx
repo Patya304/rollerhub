@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { signUp } from "@/lib/auth-client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -59,6 +60,12 @@ export default function SignUpPage() {
           Regisztrálok
         </Button>
         {message && <p className="text-sm">{message}</p>}
+        <p className="text-muted-foreground text-center text-sm">
+          Már van fiókod?{" "}
+          <Link href="/sign-in" className="underline">
+            Belépés
+          </Link>
+        </p>
       </div>
     </main>
   );

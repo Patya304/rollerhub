@@ -223,13 +223,19 @@ export function Garage() {
       </div>
 
       <div className="space-y-3">
-        <h2 className="font-medium">A rollerjeid</h2>
+        <h2 className="font-medium">
+          A rollerjeid
+          {!loading && scooters.length > 0 ? ` (${scooters.length})` : ""}
+        </h2>
         {loading ? (
           <p className="text-muted-foreground text-sm">Betöltés...</p>
         ) : scooters.length === 0 ? (
-          <p className="text-muted-foreground text-sm">
-            Még nincs rollered. Adj hozzá egyet fent!
-          </p>
+          <div className="rounded-lg border border-dashed p-6 text-center">
+            <p className="text-muted-foreground text-sm">
+              Még nincs rollered. Töltsd ki a fenti űrlapot az első
+              hozzáadásához.
+            </p>
+          </div>
         ) : (
           <ul className="space-y-2">
             {scooters.map((s) => {
