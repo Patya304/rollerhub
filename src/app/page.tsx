@@ -113,10 +113,19 @@ export default function Home() {
       </section>
 
       <footer className="text-muted-foreground mt-auto border-t px-6 py-6 text-center text-sm">
-        <p>
-          RollerHub · {new Date().getFullYear()} ·{" "}
+        <p className="flex flex-wrap items-center justify-center gap-x-2 gap-y-1">
+          <span>RollerHub · {new Date().getFullYear()}</span>
+          <span>·</span>
           <Link href="/devlog" className="underline">
             Fejlesztési napló
+          </Link>
+          <span>·</span>
+          <Link href="/privacy" className="underline">
+            Adatkezelés
+          </Link>
+          <span>·</span>
+          <Link href="/terms" className="underline">
+            Felhasználási feltételek
           </Link>
         </p>
       </footer>
