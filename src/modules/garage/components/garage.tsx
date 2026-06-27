@@ -40,6 +40,7 @@ export function Garage() {
   const [rangeKm, setRangeKm] = useState("");
   const [photoUrl, setPhotoUrl] = useState("");
   const [error, setError] = useState("");
+  const [busy, setBusy] = useState(false);
 
   async function load() {
     const res = await fetch("/api/scooters");
@@ -54,43 +55,50 @@ export function Garage() {
 
   async function handleAdd() {
     setError("");
-    const res = await fetch("/api/scooters", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        brand,
-        model,
-        color: color || undefined,
-        serialNumber: serialNumber || undefined,
-        year: year || undefined,
-        currentMileage: mileage || undefined,
-        purchasePrice: price || undefined,
-        purchaseDate: purchaseDate || undefined,
-        batteryCapacity: battery || undefined,
-        topSpeed: topSpeed || undefined,
-        rangeKm: rangeKm || undefined,
-        photoUrl: photoUrl || undefined,
-      }),
-    });
-    if (!res.ok) {
-      const data = await res.json().catch(() => ({}));
-      setError(data.error ?? "Hiba a mentéskor.");
-      return;
+    setBusy(true);
+    try {
+      const res = await fetch("/api/scooters", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          brand,
+          model,
+          color: color || undefined,
+          serialNumber: serialNumber || undefined,
+          year: year || undefined,
+          currentMileage: mileage || undefined,
+          purchasePrice: price || undefined,
+          purchaseDate: purchaseDate || undefined,
+          batteryCapacity: battery || undefined,
+          topSpeed: topSpeed || undefined,
+          rangeKm: rangeKm || undefined,
+          photoUrl: photoUrl || undefined,
+        }),
+      });
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        setError(data.error ?? "Hiba a mentéskor.");
+        return;
+      }
+      setBrand("");
+      setModel("");
+      setColor("");
+      setSerialNumber("");
+      setYear("");
+      setMileage("");
+      setPrice("");
+      setPurchaseDate("");
+      setBattery("");
+      setTopSpeed("");
+      setRangeKm("");
+      setPhotoUrl("");
+      setShowMore(false);
+      await load();
+    } catch {
+      setError("Hálózati hiba a mentéskor.");
+    } finally {
+      setBusy(false);
     }
-    setBrand("");
-    setModel("");
-    setColor("");
-    setSerialNumber("");
-    setYear("");
-    setMileage("");
-    setPrice("");
-    setPurchaseDate("");
-    setBattery("");
-    setTopSpeed("");
-    setRangeKm("");
-    setPhotoUrl("");
-    setShowMore(false);
-    await load();
   }
 
   return (
@@ -219,7 +227,9 @@ export function Garage() {
         )}
 
         {error && <p className="text-sm text-red-500">{error}</p>}
-        <Button onClick={handleAdd}>Hozzáadás</Button>
+        <Button onClick={handleAdd} disabled={busy}>
+          Hozzáadás
+        </Button>
       </div>
 
       <div className="space-y-3">

@@ -26,9 +26,23 @@ const optUrl = z.preprocess(
 );
 
 // Vásárlás dátuma — create: üres/hiányzó -> kimarad
+// Vásárlás dátuma — create: üres/hiányzó -> kimarad
+const PURCHASE_MAX_FUTURE_MS = 24 * 60 * 60 * 1000; // 1 nap tolerancia
+const notFuture = (d: Date) =>
+  d.getTime() <= Date.now() + PURCHASE_MAX_FUTURE_MS;
+
 const optDate = z.preprocess(
   (v) => (v === "" || v == null ? undefined : v),
-  z.string().trim().min(1).pipe(z.coerce.date()).optional(),
+  z
+    .string()
+    .trim()
+    .min(1)
+    .pipe(
+      z.coerce
+        .date()
+        .refine(notFuture, "A vásárlás dátuma nem lehet a jövőben."),
+    )
+    .optional(),
 );
 
 export const createScooterSchema = z.object({

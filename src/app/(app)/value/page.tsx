@@ -37,8 +37,8 @@ export default async function ValuePage() {
     <div className="space-y-6">
       <h1 className="text-2xl font-semibold">Értékbecslés</h1>
       <p className="text-muted-foreground text-sm">
-        A becsült érték automatikusan frissül a vételár, évjárat és km-óra állás
-        alapján.
+        A becsült érték a vételár, a vásárlási dátum vagy évjárat, valamint a
+        km-óra állás alapján frissül.
       </p>
 
       {scooters.length === 0 ? (

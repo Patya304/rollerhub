@@ -107,18 +107,24 @@ export function ScooterActions({ scooter }: { scooter: Scooter }) {
   async function handleEstimate() {
     setBusy(true);
     setEstimateMsg("");
-    const res = await fetch(`/api/scooters/${scooter.id}/estimate`, {
-      method: "POST",
-    });
-    const data = await res.json().catch(() => ({}));
-    if (!res.ok) {
+    try {
+      const res = await fetch(`/api/scooters/${scooter.id}/estimate`, {
+        method: "POST",
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        setEstimate(null);
+        setEstimateMsg(data.error ?? "Hiba a becslésnél.");
+      } else {
+        setEstimate(data.estimatedValue);
+        router.refresh();
+      }
+    } catch {
       setEstimate(null);
-      setEstimateMsg(data.error ?? "Hiba a becslésnél.");
-    } else {
-      setEstimate(data.estimatedValue);
-      router.refresh();
+      setEstimateMsg("Hálózati hiba a becslésnél.");
+    } finally {
+      setBusy(false);
     }
-    setBusy(false);
   }
 
   if (editing) {
