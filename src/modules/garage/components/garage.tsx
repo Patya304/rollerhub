@@ -16,6 +16,7 @@ type Scooter = {
   year: number | null;
   currentMileage: number;
   purchasePrice: number | null;
+  purchaseDate: string | null;
   batteryCapacity: number | null;
   topSpeed: number | null;
   rangeKm: number | null;
@@ -33,6 +34,7 @@ export function Garage() {
   const [year, setYear] = useState("");
   const [mileage, setMileage] = useState("");
   const [price, setPrice] = useState("");
+  const [purchaseDate, setPurchaseDate] = useState("");
   const [battery, setBattery] = useState("");
   const [topSpeed, setTopSpeed] = useState("");
   const [rangeKm, setRangeKm] = useState("");
@@ -63,6 +65,7 @@ export function Garage() {
         year: year || undefined,
         currentMileage: mileage || undefined,
         purchasePrice: price || undefined,
+        purchaseDate: purchaseDate || undefined,
         batteryCapacity: battery || undefined,
         topSpeed: topSpeed || undefined,
         rangeKm: rangeKm || undefined,
@@ -81,6 +84,7 @@ export function Garage() {
     setYear("");
     setMileage("");
     setPrice("");
+    setPurchaseDate("");
     setBattery("");
     setTopSpeed("");
     setRangeKm("");
@@ -151,6 +155,15 @@ export function Garage() {
 
         {showMore && (
           <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+            <div className="space-y-1">
+              <Label htmlFor="purchaseDate">Vásárlás dátuma</Label>
+              <Input
+                id="purchaseDate"
+                type="date"
+                value={purchaseDate}
+                onChange={(e) => setPurchaseDate(e.target.value)}
+              />
+            </div>
             <div className="space-y-1">
               <Label htmlFor="color">Szín</Label>
               <Input
@@ -226,6 +239,7 @@ export function Garage() {
                       purchasePrice: s.purchasePrice,
                       year: s.year,
                       currentMileage: s.currentMileage,
+                      purchaseDate: s.purchaseDate,
                     })
                   : null;
               return (

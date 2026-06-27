@@ -19,6 +19,7 @@ export async function estimateScooterValue(userId: string, scooterId: string) {
     purchasePrice: scooter.purchasePrice,
     year: scooter.year,
     currentMileage: scooter.currentMileage,
+    purchaseDate: scooter.purchaseDate,
   });
 
   // Dedup: ha az utolsó becslés ugyanaz az érték és algoritmus-verzió,

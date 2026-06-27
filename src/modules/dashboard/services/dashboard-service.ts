@@ -20,6 +20,7 @@ export async function getDashboardData(userId: string) {
         purchasePrice: s.purchasePrice,
         year: s.year,
         currentMileage: s.currentMileage,
+        purchaseDate: s.purchaseDate,
       });
     }
   }

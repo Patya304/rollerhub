@@ -51,6 +51,12 @@ export default async function ScooterDetailsPage({
           : "–",
     },
     {
+      label: "Vásárlás dátuma",
+      value: scooter.purchaseDate
+        ? new Date(scooter.purchaseDate).toLocaleDateString("hu-HU")
+        : "–",
+    },
+    {
       label: "Akku kapacitás",
       value:
         scooter.batteryCapacity != null ? `${scooter.batteryCapacity} Wh` : "–",
@@ -103,6 +109,9 @@ export default async function ScooterDetailsPage({
               year: scooter.year,
               currentMileage: scooter.currentMileage,
               purchasePrice: scooter.purchasePrice,
+              purchaseDate: scooter.purchaseDate
+                ? scooter.purchaseDate.toISOString().slice(0, 10)
+                : null,
               batteryCapacity: scooter.batteryCapacity,
               topSpeed: scooter.topSpeed,
               rangeKm: scooter.rangeKm,

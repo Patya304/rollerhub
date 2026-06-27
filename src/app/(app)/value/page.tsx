@@ -17,6 +17,7 @@ export default async function ValuePage() {
             purchasePrice: s.purchasePrice,
             year: s.year,
             currentMileage: s.currentMileage,
+            purchaseDate: s.purchaseDate,
           })
         : null;
     const depreciation =

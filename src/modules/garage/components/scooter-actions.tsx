@@ -15,6 +15,7 @@ type Scooter = {
   year: number | null;
   currentMileage: number;
   purchasePrice: number | null;
+  purchaseDate: string | null;
   batteryCapacity: number | null;
   topSpeed: number | null;
   rangeKm: number | null;
@@ -32,6 +33,7 @@ export function ScooterActions({ scooter }: { scooter: Scooter }) {
   const [year, setYear] = useState(scooter.year?.toString() ?? "");
   const [mileage, setMileage] = useState(scooter.currentMileage.toString());
   const [price, setPrice] = useState(scooter.purchasePrice?.toString() ?? "");
+  const [purchaseDate, setPurchaseDate] = useState(scooter.purchaseDate ?? "");
   const [battery, setBattery] = useState(
     scooter.batteryCapacity?.toString() ?? "",
   );
@@ -59,6 +61,7 @@ export function ScooterActions({ scooter }: { scooter: Scooter }) {
           year: year || null,
           currentMileage: mileage || 0,
           purchasePrice: price || null,
+          purchaseDate: purchaseDate || null,
           batteryCapacity: battery || null,
           topSpeed: topSpeed || null,
           rangeKm: rangeKm || null,
@@ -152,6 +155,14 @@ export function ScooterActions({ scooter }: { scooter: Scooter }) {
               type="number"
               value={price}
               onChange={(e) => setPrice(e.target.value)}
+            />
+          </div>
+          <div className="space-y-1 sm:col-span-2">
+            <Label>Vásárlás dátuma</Label>
+            <Input
+              type="date"
+              value={purchaseDate}
+              onChange={(e) => setPurchaseDate(e.target.value)}
             />
           </div>
           <div className="space-y-1">

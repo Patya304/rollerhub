@@ -25,6 +25,12 @@ const optUrl = z.preprocess(
   z.string().trim().url("Érvénytelen URL.").optional(),
 );
 
+// Vásárlás dátuma — create: üres/hiányzó -> kimarad
+const optDate = z.preprocess(
+  (v) => (v === "" || v == null ? undefined : v),
+  z.string().trim().min(1).pipe(z.coerce.date()).optional(),
+);
+
 export const createScooterSchema = z.object({
   brand: z.string().trim().min(1, "A márka kötelező."),
   model: z.string().trim().min(1, "A modell kötelező."),
@@ -33,6 +39,7 @@ export const createScooterSchema = z.object({
   year: optYear,
   currentMileage: optInt,
   purchasePrice: optInt,
+  purchaseDate: optDate,
   batteryCapacity: optInt,
   topSpeed: optInt,
   rangeKm: optInt,
@@ -63,6 +70,10 @@ const updUrl = z.preprocess(
   (v) => (v === "" ? null : v),
   z.string().trim().url("Érvénytelen URL.").nullable().optional(),
 );
+const updDate = z.preprocess(
+  (v) => (v === "" ? null : v),
+  z.string().trim().min(1).pipe(z.coerce.date()).nullable().optional(),
+);
 
 export const updateScooterSchema = z.object({
   brand: z.string().trim().min(1, "A márka nem lehet üres.").optional(),
@@ -75,6 +86,7 @@ export const updateScooterSchema = z.object({
     z.coerce.number().int().min(0, "Nem lehet negatív.").optional(),
   ),
   purchasePrice: updInt,
+  purchaseDate: updDate,
   batteryCapacity: updInt,
   topSpeed: updInt,
   rangeKm: updInt,

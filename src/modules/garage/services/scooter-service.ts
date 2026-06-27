@@ -28,6 +28,7 @@ export async function createScooter(
     year?: number;
     currentMileage?: number;
     purchasePrice?: number;
+    purchaseDate?: Date;
     batteryCapacity?: number;
     topSpeed?: number;
     rangeKm?: number;
@@ -45,6 +46,7 @@ export async function createScooter(
       year: data.year ?? null,
       currentMileage: data.currentMileage ?? 0,
       purchasePrice: data.purchasePrice ?? null,
+      purchaseDate: data.purchaseDate ?? null,
       batteryCapacity: data.batteryCapacity ?? null,
       topSpeed: data.topSpeed ?? null,
       rangeKm: data.rangeKm ?? null,
@@ -65,6 +67,7 @@ export async function updateScooter(
     year?: number | null;
     currentMileage?: number;
     purchasePrice?: number | null;
+    purchaseDate?: Date | null;
     batteryCapacity?: number | null;
     topSpeed?: number | null;
     rangeKm?: number | null;
