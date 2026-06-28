@@ -164,10 +164,6 @@ export function SettingsForm({ settings }: { settings: Settings }) {
               </button>
             ))}
           </div>
-          <p className="text-muted-foreground text-xs">
-            A téma mentésre kerül. A teljes felület átszínezése későbbi
-            frissítésben érkezik.
-          </p>
         </CardContent>
       </Card>
 
@@ -204,14 +200,16 @@ export function SettingsForm({ settings }: { settings: Settings }) {
         </CardHeader>
         <CardContent className="space-y-3 text-sm">
           <div className="flex items-center justify-between gap-2">
-            <span className="text-muted-foreground">Email</span>
-            <span>{settings.email}</span>
-          </div>
-          <div className="flex items-center justify-between gap-2">
             <span>Email megerősítés</span>
-            <span className="text-muted-foreground rounded-full border px-2 py-0.5 text-xs">
-              Hamarosan
-            </span>
+            {settings.emailVerified ? (
+              <span className="rounded-full border border-green-600 px-2 py-0.5 text-xs text-green-600">
+                Megerősítve
+              </span>
+            ) : (
+              <span className="rounded-full border border-amber-600 px-2 py-0.5 text-xs text-amber-600">
+                Nincs megerősítve
+              </span>
+            )}
           </div>
           <div className="flex items-center justify-between gap-2">
             <span>Jelszó módosítása</span>
@@ -228,13 +226,13 @@ export function SettingsForm({ settings }: { settings: Settings }) {
         </CardContent>
       </Card>
 
-      {error && <p className="text-sm text-red-500">{error}</p>}
-      {success && (
-        <p className="text-sm text-green-600">A beállítások elmentve.</p>
-      )}
-      <Button onClick={handleSave} disabled={busy}>
-        Mentés
-      </Button>
+      <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-4">
+        <Button onClick={handleSave} disabled={busy}>
+          {busy ? "Mentés..." : "Mentés"}
+        </Button>
+        {error && <p className="text-sm text-red-500">{error}</p>}
+        {success && <p className="text-sm text-green-600">Elmentve.</p>}
+      </div>
     </div>
   );
 }
