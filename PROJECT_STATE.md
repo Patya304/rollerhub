@@ -78,6 +78,7 @@ Launch előkészítés: körülbelül 65–70%
 - Értékbecslés közös util alapján
 - ValueEstimate dedup szabály
 - Settings adatmodell alap
+- Theme engine aktív (`data-theme` wrapper alapján)
 
 ## Fontos modellek
 
@@ -134,28 +135,24 @@ Theme opciók:
 - `black-orange`
 - `black-blue`
 
-Fontos jelenlegi korlát:
-
-A theme jelenleg menthető, de a tényleges teljes app theme engine még külön ellenőrizendő / fejlesztendő.
+A theme menthető és ténylegesen alkalmazódik az app felületén: a `data-theme` wrapper alapján a sidebar, a kártyák, a gombok és a háttér is a kiválasztott témát kapja.
 
 ## Jelenlegi fókusz
 
 Aktuális fő irány:
 
-1. Settings theme tényleges alkalmazása
-2. Settings polish
-3. saját domaines email
-4. email verification
-5. password reset
-6. PWA polish
-7. soft launch teszt
-8. később AI-segített roller katalógus
+1. Settings polish
+2. saját domaines email
+3. email verification
+4. password reset
+5. PWA polish
+6. soft launch teszt
+7. később AI-segített roller katalógus
 
 ## Fontos közeljövőbeli feladatok
 
 ### Rövid táv
 
-- Theme tényleges alkalmazása az app layoutban
 - Username input finomítás
 - Beállítások “Fiók / Biztonság” blokk
 - Saját email cím kiválasztása
