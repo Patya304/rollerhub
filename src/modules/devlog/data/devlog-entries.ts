@@ -203,4 +203,14 @@ export const devlogEntries: DevlogEntry[] = [
     content:
       "A RollerHub első nyilvános verziója felkerült az internetre, így már nem csak fejlesztői környezetben, hanem éles weboldalként is használható: regisztrálhatsz, felviheted a rollereidet, és kipróbálhatod a szervizkönyvet, az értékbecslést és a menetnaplót.",
   },
+  {
+    id: "settings-page",
+    date: "2026-06-28",
+    title: "Beállítások oldal — profil, téma, nyelv",
+    type: "feature",
+    summary:
+      "Testreszabhatod a profilodat, és kiválaszthatod a kedvenc megjelenésedet.",
+    content:
+      "Elérhető a megújult Beállítások oldal: beállíthatsz felhasználónevet és megjelenített nevet, megadhatsz profilképet, választhatsz a RollerHub témái közül, és kiválaszthatod a kívánt nyelvet. A témák és a nyelvi felület teljes körű alkalmazása a következő frissítésekben érkezik.",
+  },
 ];
