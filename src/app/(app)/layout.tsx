@@ -7,6 +7,7 @@ import {
   SidebarTrigger,
 } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/app-sidebar";
+import { getUserSettings } from "@/modules/settings/services/settings-service";
 
 export default async function AppLayout({
   children,
@@ -18,16 +19,21 @@ export default async function AppLayout({
     redirect("/sign-in");
   }
 
+  const user = await getUserSettings(session.user.id);
+  const theme = user?.theme ?? "black-white";
+
   return (
-    <SidebarProvider>
-      <AppSidebar />
-      <SidebarInset>
-        <header className="flex items-center gap-2 border-b p-3">
-          <SidebarTrigger />
-          <span className="font-medium">RollerHub</span>
-        </header>
-        <div className="p-4">{children}</div>
-      </SidebarInset>
-    </SidebarProvider>
+    <div data-theme={theme} className="contents">
+      <SidebarProvider>
+        <AppSidebar />
+        <SidebarInset>
+          <header className="flex items-center gap-2 border-b p-3">
+            <SidebarTrigger />
+            <span className="font-medium">RollerHub</span>
+          </header>
+          <div className="p-4">{children}</div>
+        </SidebarInset>
+      </SidebarProvider>
+    </div>
   );
 }

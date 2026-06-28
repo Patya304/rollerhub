@@ -110,7 +110,7 @@ export function SettingsForm({ settings }: { settings: Settings }) {
             <Input
               id="username"
               value={username}
-              onChange={(e) => setUsername(e.target.value)}
+              onChange={(e) => setUsername(e.target.value.toLowerCase())}
               placeholder="pl. ruprider"
             />
             <p className="text-muted-foreground text-xs">
