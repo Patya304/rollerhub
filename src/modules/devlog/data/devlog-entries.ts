@@ -204,6 +204,16 @@ export const devlogEntries: DevlogEntry[] = [
       "A RollerHub első nyilvános verziója felkerült az internetre, így már nem csak fejlesztői környezetben, hanem éles weboldalként is használható: regisztrálhatsz, felviheted a rollereidet, és kipróbálhatod a szervizkönyvet, az értékbecslést és a menetnaplót.",
   },
   {
+    id: "theme-engine",
+    date: "2026-06-28",
+    title: "Választható megjelenés — RollerHub témák",
+    type: "feature",
+    summary:
+      "A kiválasztott téma mostantól tényleg átszínezi a bejelentkezett felületet.",
+    content:
+      "A Beállításokban választott téma (Fekete / fehér, Fekete / narancssárga, Fekete / kék) mostantól ténylegesen megjelenik az alkalmazás kinézetén — háttér, gombok, kiemelések és az oldalsáv is a választott stílust követi.",
+  },
+  {
     id: "settings-page",
     date: "2026-06-28",
     title: "Beállítások oldal — profil, téma, nyelv",

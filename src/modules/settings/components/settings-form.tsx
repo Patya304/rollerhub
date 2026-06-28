@@ -198,6 +198,36 @@ export function SettingsForm({ settings }: { settings: Settings }) {
         </CardContent>
       </Card>
 
+      <Card>
+        <CardHeader>
+          <CardTitle>Fiók és biztonság</CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-3 text-sm">
+          <div className="flex items-center justify-between gap-2">
+            <span className="text-muted-foreground">Email</span>
+            <span>{settings.email}</span>
+          </div>
+          <div className="flex items-center justify-between gap-2">
+            <span>Email megerősítés</span>
+            <span className="text-muted-foreground rounded-full border px-2 py-0.5 text-xs">
+              Hamarosan
+            </span>
+          </div>
+          <div className="flex items-center justify-between gap-2">
+            <span>Jelszó módosítása</span>
+            <span className="text-muted-foreground rounded-full border px-2 py-0.5 text-xs">
+              Hamarosan
+            </span>
+          </div>
+          <div className="flex items-center justify-between gap-2">
+            <span className="text-red-500">Fiók törlése</span>
+            <span className="text-muted-foreground rounded-full border px-2 py-0.5 text-xs">
+              Hamarosan
+            </span>
+          </div>
+        </CardContent>
+      </Card>
+
       {error && <p className="text-sm text-red-500">{error}</p>}
       {success && (
         <p className="text-sm text-green-600">A beállítások elmentve.</p>
