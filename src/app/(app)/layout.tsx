@@ -23,7 +23,10 @@ export default async function AppLayout({
   const theme = user?.theme ?? "black-white";
 
   return (
-    <div data-theme={theme} className="contents">
+    <div
+      data-theme={theme}
+      className="bg-background text-foreground min-h-screen"
+    >
       <SidebarProvider>
         <AppSidebar />
         <SidebarInset>
