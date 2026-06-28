@@ -133,21 +133,21 @@ A User modell tartalmazza:
 - `preferredLanguage`
 - `theme`
 
-A Settings oldalon cél:
+A Settings oldal kezeli:
 
-- profil adatok
-- felhasználónév
-- profilkép URL
-- téma választás
+- profil alapadatok (name, username, profilkép URL)
 - nyelvi preferencia
+- theme választás
 
-Jelenlegi témák:
+Támogatott témák:
 
 - `black-white`
 - `black-orange`
 - `black-blue`
 
-Fontos: a theme mentése már létezik, de a teljes theme engine / tényleges alkalmazás még külön fejlesztési feladat lehet.
+A theme engine aktív: a kiválasztott theme a bejelentkezett app felületén ténylegesen alkalmazódik. Az `(app)/layout.tsx` `data-theme` wrappere alapján a sidebar, kártyák, gombok és háttér mind a kiválasztott témát kapják.
+
+Email verification és password reset még nem épül ki — előfeltétele a saját domaines email és Resend setup, amelyek még parkolóban vannak.
 
 ## Devlog szabály
 
@@ -212,9 +212,7 @@ A RollerHub V1 stabil alapja már működik.
 
 Következő irányok:
 
-- Settings theme tényleges alkalmazása
-- Beállítások polish
-- saját email cím
+- saját domaines email + Resend setup
 - email verification
 - password reset
 - PWA polish
