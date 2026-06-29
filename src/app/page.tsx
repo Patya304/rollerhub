@@ -116,6 +116,10 @@ export default function Home() {
         <p className="flex flex-wrap items-center justify-center gap-x-2 gap-y-1">
           <span>RollerHub · {new Date().getFullYear()}</span>
           <span>·</span>
+          <Link href="/pricing" className="underline">
+            Árak
+          </Link>
+          <span>·</span>
           <Link href="/devlog" className="underline">
             Fejlesztési napló
           </Link>
