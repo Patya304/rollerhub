@@ -11,6 +11,7 @@ import {
 } from "@/modules/services/service-types";
 import { ServiceLog } from "@/modules/services/components/service-log";
 import { ValueHistory } from "@/modules/value/components/value-history";
+import { SaleReport } from "@/modules/garage/components/sale-report";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 export default async function ScooterDetailsPage({
@@ -184,6 +185,19 @@ export default async function ScooterDetailsPage({
           <ServiceLog scooterId={scooter.id} />
         </CardContent>
       </Card>
+
+      <SaleReport
+        brand={scooter.brand}
+        model={scooter.model}
+        year={scooter.year}
+        currentMileage={scooter.currentMileage}
+        purchasePrice={scooter.purchasePrice}
+        lastEstimatedValue={lastEstimate?.estimatedValue ?? null}
+        serviceCount={scooter._count.services}
+        lastServiceType={lastService ? (lastService.type as ServiceType) : null}
+        lastServiceDate={lastService ? lastService.performedAt : null}
+        rideCount={scooter._count.rides}
+      />
 
       <Card>
         <CardHeader>
