@@ -137,24 +137,32 @@ Theme opciók:
 
 A theme menthető és ténylegesen alkalmazódik az app felületén: a `data-theme` wrapper alapján a sidebar, a kártyák, a gombok és a háttér is a kiválasztott témát kapja.
 
+## Premium irány állapota
+
+Az első Premium / monetizációs validációs alap elkészült:
+
+- `/pricing` oldal — Free és Premium csomag bemutatása
+- Értékriport előnézet a roller adatlapon (ársáv, checklist, eladási tipp)
+- Dashboard Premium teaser card
+- `/sample-report` — publikus minta értékriport, bejelentkezés nélkül is megtekinthető
+
+Ez nem fizetős rendszer — a Premium funkciók előkészítése és piacvalidációja.
+
 ## Jelenlegi fókusz
 
 Aktuális fő irány:
 
-1. Settings polish
-2. saját domaines email
-3. email verification
-4. password reset
-5. PWA polish
-6. soft launch teszt
-7. később AI-segített roller katalógus
+1. saját domaines email + Resend setup
+2. email verification
+3. password reset
+4. PWA polish
+5. soft launch teszt
+6. később AI-segített roller katalógus
 
 ## Fontos közeljövőbeli feladatok
 
 ### Rövid táv
 
-- Username input finomítás
-- Beállítások “Fiók / Biztonság” blokk
 - Saját email cím kiválasztása
 - Resend előkészítése
 - Better Auth email verification
@@ -170,16 +178,16 @@ Aktuális fő irány:
 - tudásközpont források friss ellenőrzése
 - privacy/terms véglegesítés saját emaillel
 
-### Később
+### Később / Premium irány
 
+- PDF állapotlap generálás (Premium)
+- Szerviz emlékeztetők (Premium)
+- Export / adatmentés (Premium)
 - AI-segített roller katalógus
 - seedelt roller katalógus
-- verified/unverified katalógus elemek
 - profilkép feltöltés
 - teljes többnyelvű felület
 - dokumentumtár
-- PDF állapotlap eladáshoz
-- szerviz emlékeztetők
 - akku állapot becslés
 
 ## Halasztott funkciók

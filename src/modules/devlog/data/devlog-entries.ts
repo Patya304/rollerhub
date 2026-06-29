@@ -223,4 +223,14 @@ export const devlogEntries: DevlogEntry[] = [
     content:
       "Elérhető a megújult Beállítások oldal: beállíthatsz felhasználónevet és megjelenített nevet, megadhatsz profilképet, választhatsz a RollerHub témái közül, és kiválaszthatod a kívánt nyelvet. A témák és a nyelvi felület teljes körű alkalmazása a következő frissítésekben érkezik.",
   },
+  {
+    id: "premium-direction",
+    date: "2026-06-29",
+    title: "Premium irány és minta értékriport",
+    type: "feature",
+    summary:
+      "Elkészült a RollerHub első Premium iránya: árak oldal, értékriport előnézet és publikus minta riport.",
+    content:
+      "Megjelent az árak oldal, ahol bemutatásra kerül a Free és a hamarosan érkező Premium csomag. A roller adatlapján új szekció mutatja az értékriport előnézetet: ajánlott hirdetési ársávot, állapotlap checklistet és eladási tippet. Elkészült egy publikus minta oldal is, ahol bejelentkezés nélkül is látható, mire számíthat a felhasználó. Ez még nem fizetős rendszer — a Premium funkciók előkészítése és validációja zajlik.",
+  },
 ];
