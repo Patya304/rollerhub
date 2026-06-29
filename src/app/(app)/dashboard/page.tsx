@@ -70,6 +70,21 @@ export default async function OverviewPage() {
         ))}
       </div>
 
+      <Card>
+        <CardContent className="flex flex-col gap-3 pt-6 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <p className="font-medium">Premium hamarosan</p>
+            <p className="text-muted-foreground mt-0.5 text-sm">
+              Részletes értékriport, eladási állapotlap és export funkciók
+              érkeznek.
+            </p>
+          </div>
+          <Button asChild size="sm" variant="outline" className="shrink-0">
+            <Link href="/pricing">Megnézem a csomagokat</Link>
+          </Button>
+        </CardContent>
+      </Card>
+
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
         <Card>
           <CardHeader>

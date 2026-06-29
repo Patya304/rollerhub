@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   SERVICE_TYPE_LABELS,
@@ -106,12 +107,20 @@ export function SaleReport({
             rendezett formában. Vevők számára meggyőzőbb, te pedig többet kapsz
             a rollerért.
           </p>
-          <button
-            disabled
-            className="text-muted-foreground cursor-not-allowed rounded-md border px-4 py-2 text-sm opacity-50"
-          >
-            Állapotlap generálása — hamarosan
-          </button>
+          <div className="flex flex-wrap items-center gap-3">
+            <button
+              disabled
+              className="text-muted-foreground cursor-not-allowed rounded-md border px-4 py-2 text-sm opacity-50"
+            >
+              Állapotlap generálása — hamarosan
+            </button>
+            <Link
+              href="/pricing"
+              className="text-sm underline underline-offset-4"
+            >
+              Megnézem a Premium csomagot
+            </Link>
+          </div>
         </div>
       </CardContent>
     </Card>
