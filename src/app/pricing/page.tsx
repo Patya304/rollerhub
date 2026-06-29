@@ -113,6 +113,10 @@ export default function PricingPage() {
         </div>
 
         <p className="text-muted-foreground mt-10 text-center text-sm">
+          <Link href="/sample-report" className="underline">
+            Minta értékriport megtekintése
+          </Link>
+          {" · "}
           Kérdésed van?{" "}
           <Link href="/devlog" className="underline">
             Kövesd a fejlesztési naplót
