@@ -16,7 +16,12 @@ type SaleReportProps = {
   lastServiceType: ServiceType | null;
   lastServiceDate: Date | null;
   rideCount: number;
+  photoUrl: string | null;
 };
+
+function roundToThousand(n: number): number {
+  return Math.round(n / 1000) * 1000;
+}
 
 export function SaleReport({
   brand,
@@ -29,11 +34,54 @@ export function SaleReport({
   lastServiceType,
   lastServiceDate,
   rideCount,
+  photoUrl,
 }: SaleReportProps) {
   const valueRetention =
     purchasePrice && lastEstimatedValue
       ? Math.round((lastEstimatedValue / purchasePrice) * 100)
       : null;
+
+  const priceLow = lastEstimatedValue
+    ? roundToThousand(lastEstimatedValue * 0.9)
+    : null;
+  const priceHigh = lastEstimatedValue
+    ? roundToThousand(lastEstimatedValue * 1.1)
+    : null;
+
+  const checklist = [
+    {
+      label: "Vételár megadva",
+      ok: purchasePrice != null,
+    },
+    {
+      label: "Futásteljesítmény megadva",
+      ok: true,
+    },
+    {
+      label: "Becsült érték elérhető",
+      ok: lastEstimatedValue != null,
+    },
+    {
+      label: "Fotó hozzáadva",
+      ok: !!photoUrl,
+    },
+    {
+      label: "Legalább 1 szerviz rögzítve",
+      ok: serviceCount > 0,
+    },
+    {
+      label: "Legalább 1 menet rögzítve",
+      ok: rideCount > 0,
+    },
+  ];
+
+  const tip = !photoUrl
+    ? "Adj hozzá fotót — hirdetésnél ez az egyik legfontosabb bizalmi elem."
+    : serviceCount === 0
+      ? "Rögzíts legalább egy szervizt, hogy hitelesebb legyen az állapotlap."
+      : lastEstimatedValue == null
+        ? "Futtass értékbecslést a roller adatlapján, hogy az ársáv is megjelenjen."
+        : "Az állapotlapod jó alap egy eladási PDF-hez — ez Premium funkcióként érkezik.";
 
   const rows: { label: string; value: string }[] = [
     {
@@ -90,7 +138,7 @@ export function SaleReport({
           Add el profibban a rolleredet egy rendezett állapotlappal.
         </p>
       </CardHeader>
-      <CardContent className="space-y-4">
+      <CardContent className="space-y-5">
         <dl className="grid grid-cols-1 gap-x-6 gap-y-2 text-sm sm:grid-cols-2">
           {rows.map((r) => (
             <div key={r.label} className="flex justify-between gap-4">
@@ -99,6 +147,41 @@ export function SaleReport({
             </div>
           ))}
         </dl>
+
+        {priceLow != null && priceHigh != null && (
+          <div className="rounded-lg border p-3">
+            <p className="text-muted-foreground text-xs">
+              Ajánlott hirdetési ársáv
+            </p>
+            <p className="mt-1 text-base font-semibold">
+              kb. {priceLow.toLocaleString("hu-HU")} –{" "}
+              {priceHigh.toLocaleString("hu-HU")} Ft
+            </p>
+          </div>
+        )}
+
+        <div className="space-y-2">
+          <p className="text-muted-foreground text-xs font-medium tracking-wide uppercase">
+            Állapotlap teljessége
+          </p>
+          <ul className="space-y-1">
+            {checklist.map((item) => (
+              <li key={item.label} className="flex items-center gap-2 text-sm">
+                <span
+                  className={
+                    item.ok ? "text-green-600" : "text-muted-foreground"
+                  }
+                >
+                  {item.ok ? "✓" : "○"}
+                </span>
+                <span className={item.ok ? "" : "text-muted-foreground"}>
+                  {item.label}
+                </span>
+              </li>
+            ))}
+          </ul>
+          <p className="text-muted-foreground pt-1 text-xs italic">{tip}</p>
+        </div>
 
         <div className="space-y-3 border-t pt-4">
           <p className="text-muted-foreground text-xs">

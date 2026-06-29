@@ -197,6 +197,7 @@ export default async function ScooterDetailsPage({
         lastServiceType={lastService ? (lastService.type as ServiceType) : null}
         lastServiceDate={lastService ? lastService.performedAt : null}
         rideCount={scooter._count.rides}
+        photoUrl={scooter.photoUrl}
       />
 
       <Card>
