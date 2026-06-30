@@ -1,7 +1,12 @@
 import { z } from "zod";
 
 export const LANGUAGES = ["hu", "en", "de"] as const;
-export const THEMES = ["black-white", "black-orange", "black-blue"] as const;
+export const THEMES = [
+  "default",
+  "black-white",
+  "black-orange",
+  "black-blue",
+] as const;
 
 export type Language = (typeof LANGUAGES)[number];
 export type Theme = (typeof THEMES)[number];

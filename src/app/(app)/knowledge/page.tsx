@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { AppPage, AppPageHeader } from "@/components/app-page";
 
 const topics = [
   {
@@ -25,11 +26,11 @@ const topics = [
 
 export default function KnowledgePage() {
   return (
-    <div className="space-y-4">
-      <h1 className="text-2xl font-semibold">Tudásközpont</h1>
-      <p className="text-muted-foreground text-sm">
-        Hasznos tudnivalók a rollerezésről Magyarországon.
-      </p>
+    <AppPage>
+      <AppPageHeader
+        title="Tudásközpont"
+        description="Hasznos tudnivalók a rollerezésről Magyarországon."
+      />
       <div className="grid gap-3 sm:grid-cols-2">
         {topics.map((t) => (
           <Link
@@ -38,10 +39,12 @@ export default function KnowledgePage() {
             className="hover:bg-accent rounded-lg border p-4 transition-colors"
           >
             <p className="font-medium">{t.title}</p>
-            <p className="text-muted-foreground text-sm">{t.description}</p>
+            <p className="text-muted-foreground mt-1 text-sm">
+              {t.description}
+            </p>
           </Link>
         ))}
       </div>
-    </div>
+    </AppPage>
   );
 }

@@ -199,9 +199,12 @@ export function RidesView({
         </div>
 
         {filtered.length === 0 ? (
-          <p className="text-muted-foreground text-sm">
-            Még nincs menet rögzítve.
-          </p>
+          <div className="rounded-lg border border-dashed p-8 text-center">
+            <p className="font-medium">Még nincs menet rögzítve.</p>
+            <p className="text-muted-foreground mt-1 text-sm">
+              Naplózz egy menetett: indulás, táv, sebesség.
+            </p>
+          </div>
         ) : (
           <ul className="space-y-2">
             {filtered.map((r) => (

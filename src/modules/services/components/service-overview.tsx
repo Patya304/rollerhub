@@ -57,9 +57,12 @@ export function ServiceOverview({
       </div>
 
       {filtered.length === 0 ? (
-        <p className="text-muted-foreground text-sm">
-          Nincs szerviz-bejegyzés.
-        </p>
+        <div className="rounded-lg border border-dashed p-8 text-center">
+          <p className="font-medium">Még nincs szerviz-bejegyzésed.</p>
+          <p className="text-muted-foreground mt-1 text-sm">
+            Rögzíts gumicserét, fékállítást vagy akkumulátor ellenőrzést.
+          </p>
+        </div>
       ) : (
         <ul className="space-y-2">
           {filtered.map((s) => (

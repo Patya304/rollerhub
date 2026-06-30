@@ -4,6 +4,7 @@ import { auth } from "@/lib/auth";
 import { getScootersByUser } from "@/modules/garage/services/scooter-service";
 import { getRidesByUser } from "@/modules/rides/services/ride-service";
 import { RidesView } from "@/modules/rides/components/rides-view";
+import { AppPage, AppPageHeader } from "@/components/app-page";
 
 export default async function RidesPage() {
   const session = await auth.api.getSession({ headers: await headers() });
@@ -31,12 +32,12 @@ export default async function RidesPage() {
   }));
 
   return (
-    <div className="space-y-6">
-      <h1 className="text-2xl font-semibold">Menetek</h1>
-      <p className="text-muted-foreground text-sm">
-        Rögzítsd a menetidet, és kövesd a megtett távot rollerenként.
-      </p>
+    <AppPage>
+      <AppPageHeader
+        title="Menetek"
+        description="Rögzítsd a menetidet, és kövesd a megtett távot rollerenként."
+      />
       <RidesView scooters={scooterOptions} rides={items} />
-    </div>
+    </AppPage>
   );
 }

@@ -9,6 +9,7 @@ import {
 } from "@/modules/services/service-types";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { AppPage, AppPageHeader, AppEmptyState } from "@/components/app-page";
 
 function formatFt(n: number) {
   return `${n.toLocaleString("hu-HU")} Ft`;
@@ -23,19 +24,21 @@ export default async function OverviewPage() {
 
   if (stats.scooterCount === 0) {
     return (
-      <div className="space-y-4">
-        <h1 className="text-2xl font-semibold">Áttekintés</h1>
-        <div className="rounded-lg border border-dashed p-8 text-center">
-          <p className="font-medium">Még nincs rollered</p>
-          <p className="text-muted-foreground mt-1 text-sm">
-            Add hozzá az első rollered, és itt megjelennek az összesítők: érték,
-            szervizköltség, megtett táv.
-          </p>
-          <Button asChild className="mt-4">
-            <Link href="/garage">Új roller hozzáadása</Link>
-          </Button>
-        </div>
-      </div>
+      <AppPage>
+        <AppPageHeader
+          title="Áttekintés"
+          description="Az összes rollered összesített adatai egy helyen."
+        />
+        <AppEmptyState
+          title="Még nincs rollered"
+          description="Add hozzá az első rollered, és itt megjelennek az összesítők: érték, szervizköltség, megtett táv."
+          action={
+            <Button asChild>
+              <Link href="/garage">Új roller hozzáadása</Link>
+            </Button>
+          }
+        />
+      </AppPage>
     );
   }
 
@@ -54,13 +57,16 @@ export default async function OverviewPage() {
   ];
 
   return (
-    <div className="space-y-6">
-      <div className="flex flex-wrap items-center justify-between gap-3">
-        <h1 className="text-2xl font-semibold">Áttekintés</h1>
-        <Button asChild size="sm" variant="outline">
-          <Link href="/garage">Új roller hozzáadása</Link>
-        </Button>
-      </div>
+    <AppPage>
+      <AppPageHeader
+        title="Áttekintés"
+        description="Az összes rollered összesített adatai egy helyen."
+        action={
+          <Button asChild size="sm" variant="outline">
+            <Link href="/garage">Új roller hozzáadása</Link>
+          </Button>
+        }
+      />
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
         {cards.map((c) => (
           <div key={c.label} className="rounded-lg border p-3">
@@ -177,6 +183,6 @@ export default async function OverviewPage() {
           </CardContent>
         </Card>
       </div>
-    </div>
+    </AppPage>
   );
 }

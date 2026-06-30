@@ -20,7 +20,7 @@ export default async function AppLayout({
   }
 
   const user = await getUserSettings(session.user.id);
-  const theme = user?.theme ?? "black-white";
+  const theme = user?.theme ?? "default";
 
   return (
     <div
@@ -34,7 +34,7 @@ export default async function AppLayout({
             <SidebarTrigger />
             <span className="font-medium">RollerHub</span>
           </header>
-          <div className="p-4">{children}</div>
+          <div className="p-4 sm:p-6">{children}</div>
         </SidebarInset>
       </SidebarProvider>
     </div>

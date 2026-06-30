@@ -19,6 +19,7 @@ const LANGUAGE_LABELS: Record<Language, string> = {
 };
 
 const THEME_OPTIONS: { value: Theme; label: string; hint: string }[] = [
+  { value: "default", label: "Alap", hint: "Shadcn default" },
   { value: "black-white", label: "Fekete / fehér", hint: "Letisztult" },
   { value: "black-orange", label: "Fekete / narancssárga", hint: "Sport" },
   { value: "black-blue", label: "Fekete / kék", hint: "Tech" },
@@ -147,7 +148,7 @@ export function SettingsForm({ settings }: { settings: Settings }) {
           <CardTitle>Megjelenés</CardTitle>
         </CardHeader>
         <CardContent className="space-y-3">
-          <div className="grid grid-cols-1 gap-2 sm:grid-cols-3">
+          <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-4">
             {THEME_OPTIONS.map((t) => (
               <button
                 key={t.value}

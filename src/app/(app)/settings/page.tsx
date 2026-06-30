@@ -7,6 +7,7 @@ import {
   type Language,
   type Theme,
 } from "@/modules/settings/schemas/settings-schema";
+import { AppPage, AppPageHeader } from "@/components/app-page";
 
 export default async function SettingsPage() {
   const session = await auth.api.getSession({ headers: await headers() });
@@ -16,8 +17,11 @@ export default async function SettingsPage() {
   if (!user) redirect("/sign-in");
 
   return (
-    <div className="space-y-6">
-      <h1 className="text-2xl font-semibold">Beállítások</h1>
+    <AppPage>
+      <AppPageHeader
+        title="Beállítások"
+        description="Profil, megjelenés és fiókbeállítások."
+      />
       <SettingsForm
         settings={{
           name: user.name,
@@ -29,6 +33,6 @@ export default async function SettingsPage() {
           theme: user.theme as Theme,
         }}
       />
-    </div>
+    </AppPage>
   );
 }

@@ -5,6 +5,7 @@ import { getScootersByUser } from "@/modules/garage/services/scooter-service";
 import { getServicesByUser } from "@/modules/services/services/service-log-service";
 import { ServiceOverview } from "@/modules/services/components/service-overview";
 import { type ServiceType } from "@/modules/services/service-types";
+import { AppPage, AppPageHeader } from "@/components/app-page";
 
 export default async function ServicePage() {
   const session = await auth.api.getSession({ headers: await headers() });
@@ -32,12 +33,12 @@ export default async function ServicePage() {
   }));
 
   return (
-    <div className="space-y-6">
-      <h1 className="text-2xl font-semibold">Szerviz</h1>
-      <p className="text-muted-foreground text-sm">
-        Az összes rollered szerviztörténete egy helyen.
-      </p>
+    <AppPage>
+      <AppPageHeader
+        title="Szerviz"
+        description="Az összes rollered szerviztörténete egy helyen."
+      />
       <ServiceOverview scooters={scooterOptions} services={items} />
-    </div>
+    </AppPage>
   );
 }
