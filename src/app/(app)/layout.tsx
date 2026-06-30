@@ -30,9 +30,11 @@ export default async function AppLayout({
       <SidebarProvider>
         <AppSidebar />
         <SidebarInset>
-          <header className="flex items-center gap-2 border-b p-3">
-            <SidebarTrigger />
-            <span className="font-medium">RollerHub</span>
+          <header className="border-border/50 flex h-12 items-center gap-2 border-b px-4">
+            <SidebarTrigger className="text-muted-foreground hover:text-foreground" />
+            <span className="text-muted-foreground text-xs font-medium tracking-widest uppercase">
+              RollerHub
+            </span>
           </header>
           <div className="p-4 sm:p-6">{children}</div>
         </SidebarInset>

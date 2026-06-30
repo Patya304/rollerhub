@@ -1,25 +1,38 @@
-import Link from "next/link";
-import { AppPage, AppPageHeader } from "@/components/app-page";
+import {
+  AppPage,
+  AppPageHeader,
+  AppPanelList,
+  AppListItem,
+} from "@/components/app-page";
 
 const topics = [
   {
+    marker: "01",
+    eyebrow: "Közlekedési szabályok",
     title: "KRESZ",
-    description: "Közlekedési szabályok rollerrel.",
+    description: "Rollerrel az úton — mi szabad, mi nem, hol közlekedhetsz.",
     href: "/knowledge/kresz",
   },
   {
+    marker: "02",
+    eyebrow: "Felelősségvállalás",
     title: "Biztosítás",
-    description: "Kötelező és ajánlott biztosítások.",
+    description:
+      "Kötelező és ajánlott biztosítási formák elektromos rollerekhez.",
     href: "/knowledge/biztositas",
   },
   {
+    marker: "03",
+    eyebrow: "Okmányok",
     title: "Jogosítvány",
-    description: "Mikor kell jogosítvány a rollerhez?",
+    description: "Mikor kell jogosítvány? Milyen kategória vonatkozik rád?",
     href: "/knowledge/jogositvany",
   },
   {
+    marker: "04",
+    eyebrow: "Szabályozás",
     title: "Roller szabályok",
-    description: "Hol és hogyan közlekedhetsz.",
+    description: "Aktuális szabályok, zónák, sebességhatárok Magyarországon.",
     href: "/knowledge/szabalyok",
   },
 ];
@@ -28,23 +41,23 @@ export default function KnowledgePage() {
   return (
     <AppPage>
       <AppPageHeader
+        eyebrow="05 · Tudástár"
         title="Tudásközpont"
-        description="Hasznos tudnivalók a rollerezésről Magyarországon."
+        description="Fontos tudnivalók a rollerezésről Magyarországon."
       />
-      <div className="grid gap-3 sm:grid-cols-2">
+
+      <AppPanelList label="Témakörök">
         {topics.map((t) => (
-          <Link
+          <AppListItem
             key={t.href}
             href={t.href}
-            className="hover:bg-accent rounded-lg border p-4 transition-colors"
-          >
-            <p className="font-medium">{t.title}</p>
-            <p className="text-muted-foreground mt-1 text-sm">
-              {t.description}
-            </p>
-          </Link>
+            marker={t.marker}
+            eyebrow={t.eyebrow}
+            title={t.title}
+            description={t.description}
+          />
         ))}
-      </div>
+      </AppPanelList>
     </AppPage>
   );
 }

@@ -72,7 +72,7 @@ export function ScooterActions({ scooter }: { scooter: Scooter }) {
       if (!res.ok) {
         const data = await res.json().catch(() => ({}));
         setError(data.error ?? "Hiba a mentéskor.");
-        return; // a szerkesztő nyitva marad
+        return;
       }
       setEditing(false);
       router.refresh();
@@ -107,20 +107,19 @@ export function ScooterActions({ scooter }: { scooter: Scooter }) {
   async function handleEstimate() {
     setBusy(true);
     setEstimateMsg("");
+    setEstimate(null);
     try {
       const res = await fetch(`/api/scooters/${scooter.id}/estimate`, {
         method: "POST",
       });
       const data = await res.json().catch(() => ({}));
       if (!res.ok) {
-        setEstimate(null);
         setEstimateMsg(data.error ?? "Hiba a becslésnél.");
       } else {
         setEstimate(data.estimatedValue);
         router.refresh();
       }
     } catch {
-      setEstimate(null);
       setEstimateMsg("Hálózati hiba a becslésnél.");
     } finally {
       setBusy(false);
@@ -129,17 +128,17 @@ export function ScooterActions({ scooter }: { scooter: Scooter }) {
 
   if (editing) {
     return (
-      <div className="space-y-3">
+      <div className="space-y-4">
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-          <div className="space-y-1">
+          <div className="space-y-1.5">
             <Label>Márka</Label>
             <Input value={brand} onChange={(e) => setBrand(e.target.value)} />
           </div>
-          <div className="space-y-1">
+          <div className="space-y-1.5">
             <Label>Modell</Label>
             <Input value={model} onChange={(e) => setModel(e.target.value)} />
           </div>
-          <div className="space-y-1">
+          <div className="space-y-1.5">
             <Label>Évjárat</Label>
             <Input
               type="number"
@@ -147,7 +146,7 @@ export function ScooterActions({ scooter }: { scooter: Scooter }) {
               onChange={(e) => setYear(e.target.value)}
             />
           </div>
-          <div className="space-y-1">
+          <div className="space-y-1.5">
             <Label>Km óra állás</Label>
             <Input
               type="number"
@@ -155,7 +154,7 @@ export function ScooterActions({ scooter }: { scooter: Scooter }) {
               onChange={(e) => setMileage(e.target.value)}
             />
           </div>
-          <div className="space-y-1 sm:col-span-2">
+          <div className="space-y-1.5 sm:col-span-2">
             <Label>Vételár (Ft)</Label>
             <Input
               type="number"
@@ -163,7 +162,7 @@ export function ScooterActions({ scooter }: { scooter: Scooter }) {
               onChange={(e) => setPrice(e.target.value)}
             />
           </div>
-          <div className="space-y-1 sm:col-span-2">
+          <div className="space-y-1.5 sm:col-span-2">
             <Label>Vásárlás dátuma</Label>
             <Input
               type="date"
@@ -171,18 +170,18 @@ export function ScooterActions({ scooter }: { scooter: Scooter }) {
               onChange={(e) => setPurchaseDate(e.target.value)}
             />
           </div>
-          <div className="space-y-1">
+          <div className="space-y-1.5">
             <Label>Szín</Label>
             <Input value={color} onChange={(e) => setColor(e.target.value)} />
           </div>
-          <div className="space-y-1">
+          <div className="space-y-1.5">
             <Label>Alvázszám</Label>
             <Input
               value={serialNumber}
               onChange={(e) => setSerialNumber(e.target.value)}
             />
           </div>
-          <div className="space-y-1">
+          <div className="space-y-1.5">
             <Label>Akku (Wh)</Label>
             <Input
               type="number"
@@ -190,7 +189,7 @@ export function ScooterActions({ scooter }: { scooter: Scooter }) {
               onChange={(e) => setBattery(e.target.value)}
             />
           </div>
-          <div className="space-y-1">
+          <div className="space-y-1.5">
             <Label>Végsebesség (km/h)</Label>
             <Input
               type="number"
@@ -198,7 +197,7 @@ export function ScooterActions({ scooter }: { scooter: Scooter }) {
               onChange={(e) => setTopSpeed(e.target.value)}
             />
           </div>
-          <div className="space-y-1">
+          <div className="space-y-1.5">
             <Label>Hatótáv (km)</Label>
             <Input
               type="number"
@@ -206,14 +205,14 @@ export function ScooterActions({ scooter }: { scooter: Scooter }) {
               onChange={(e) => setRangeKm(e.target.value)}
             />
           </div>
-          <div className="space-y-1 sm:col-span-2">
+          <div className="space-y-1.5 sm:col-span-2">
             <Label>Fénykép URL</Label>
             <Input
               value={photoUrl}
               onChange={(e) => setPhotoUrl(e.target.value)}
             />
           </div>
-          <div className="space-y-1 sm:col-span-2">
+          <div className="space-y-1.5 sm:col-span-2">
             <Label>Megjegyzés</Label>
             <Input value={notes} onChange={(e) => setNotes(e.target.value)} />
           </div>
@@ -221,7 +220,7 @@ export function ScooterActions({ scooter }: { scooter: Scooter }) {
         {error && <p className="text-sm text-red-500">{error}</p>}
         <div className="flex gap-2">
           <Button size="sm" onClick={handleSave} disabled={busy}>
-            Mentés
+            {busy ? "Mentés..." : "Mentés"}
           </Button>
           <Button
             size="sm"
@@ -237,10 +236,10 @@ export function ScooterActions({ scooter }: { scooter: Scooter }) {
   }
 
   return (
-    <div className="space-y-2">
+    <div className="space-y-3">
       <div className="flex flex-wrap gap-2">
         <Button size="sm" onClick={handleEstimate} disabled={busy}>
-          Becsült érték
+          {busy ? "Számítás..." : "Értékbecslés futtatása"}
         </Button>
         <Button
           size="sm"
@@ -248,7 +247,7 @@ export function ScooterActions({ scooter }: { scooter: Scooter }) {
           onClick={() => setEditing(true)}
           disabled={busy}
         >
-          Szerkesztés
+          Adatok szerkesztése
         </Button>
         <Button
           size="sm"
@@ -256,13 +255,18 @@ export function ScooterActions({ scooter }: { scooter: Scooter }) {
           onClick={handleDelete}
           disabled={busy}
         >
-          Törlés
+          Roller törlése
         </Button>
       </div>
       {estimate !== null && (
-        <p className="text-sm font-medium text-green-600">
-          Becsült érték: {estimate.toLocaleString("hu-HU")} Ft
-        </p>
+        <div className="bg-muted/40 rounded-lg px-4 py-3">
+          <p className="text-muted-foreground text-xs font-medium tracking-widest uppercase">
+            Friss becsült érték
+          </p>
+          <p className="mt-1 font-mono text-lg font-bold tabular-nums">
+            {estimate.toLocaleString("hu-HU")} Ft
+          </p>
+        </div>
       )}
       {estimateMsg && <p className="text-sm text-red-500">{estimateMsg}</p>}
       {error && <p className="text-sm text-red-500">{error}</p>}

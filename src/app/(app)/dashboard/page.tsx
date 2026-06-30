@@ -3,17 +3,14 @@ import { headers } from "next/headers";
 import Link from "next/link";
 import { auth } from "@/lib/auth";
 import { getDashboardData } from "@/modules/dashboard/services/dashboard-service";
-import {
-  SERVICE_TYPE_LABELS,
-  type ServiceType,
-} from "@/modules/services/service-types";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { AppPage, AppPageHeader, AppEmptyState } from "@/components/app-page";
-
-function formatFt(n: number) {
-  return `${n.toLocaleString("hu-HU")} Ft`;
-}
+import {
+  AppPage,
+  AppPageHeader,
+  AppEmptyState,
+  AppPanelList,
+  AppListItem,
+} from "@/components/app-page";
 
 export default async function OverviewPage() {
   const session = await auth.api.getSession({ headers: await headers() });
@@ -26,15 +23,17 @@ export default async function OverviewPage() {
     return (
       <AppPage>
         <AppPageHeader
-          title="Áttekintés"
-          description="Az összes rollered összesített adatai egy helyen."
+          eyebrow="01 · Műszerfal"
+          title="Digitális garázs"
+          description="Kövesd nyomon rollereid értékét, szervizeit és meneteit."
         />
         <AppEmptyState
-          title="Még nincs rollered"
-          description="Add hozzá az első rollered, és itt megjelennek az összesítők: érték, szervizköltség, megtett táv."
+          icon="🛴"
+          title="A garázs üres"
+          description="Add hozzá az első rolleredet — ezután ide gyűlik össze az összes adat."
           action={
             <Button asChild>
-              <Link href="/garage">Új roller hozzáadása</Link>
+              <Link href="/garage">Roller hozzáadása</Link>
             </Button>
           }
         />
@@ -42,146 +41,123 @@ export default async function OverviewPage() {
     );
   }
 
-  const cards = [
-    { label: "Rollerek", value: String(stats.scooterCount) },
-    {
-      label: "Összes km",
-      value: `${stats.totalKm.toLocaleString("hu-HU")} km`,
-    },
-    { label: "Becsült összérték", value: formatFt(stats.totalValue) },
-    { label: "Összes vételár", value: formatFt(stats.totalPurchase) },
-    { label: "Értékvesztés", value: formatFt(stats.totalDepreciation) },
-    { label: "Szervizek", value: String(stats.serviceCount) },
-    { label: "Szervizköltség", value: formatFt(stats.totalServiceCost) },
-    { label: "Menetek", value: String(stats.rideCount) },
-  ];
-
   return (
     <AppPage>
-      <AppPageHeader
-        title="Áttekintés"
-        description="Az összes rollered összesített adatai egy helyen."
-        action={
-          <Button asChild size="sm" variant="outline">
-            <Link href="/garage">Új roller hozzáadása</Link>
-          </Button>
-        }
-      />
-      <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-        {cards.map((c) => (
-          <div key={c.label} className="rounded-lg border p-3">
-            <p className="text-muted-foreground text-xs">{c.label}</p>
-            <p className="mt-1 text-lg font-semibold">{c.value}</p>
-          </div>
-        ))}
-      </div>
+      <AppPageHeader eyebrow="01 · Műszerfal" title="Digitális garázs" />
 
-      <Card>
-        <CardContent className="flex flex-col gap-3 pt-6 sm:flex-row sm:items-center sm:justify-between">
-          <div>
-            <p className="font-medium">Premium hamarosan</p>
-            <p className="text-muted-foreground mt-0.5 text-sm">
-              Részletes értékriport, eladási állapotlap és export funkciók
-              érkeznek.
+      {/* Hero statisztika panel */}
+      <div className="bg-card overflow-hidden rounded-xl border">
+        <div className="border-border/50 border-b px-5 py-3">
+          <p className="text-muted-foreground text-xs font-semibold tracking-[0.15em] uppercase">
+            Garázs összesítő
+          </p>
+        </div>
+        <div className="divide-border/30 grid grid-cols-2 divide-x divide-y">
+          <div className="px-5 py-4">
+            <p className="text-muted-foreground text-xs tracking-widest uppercase">
+              Rollerek
+            </p>
+            <p className="mt-1.5 font-mono text-2xl leading-none font-bold tabular-nums">
+              {stats.scooterCount}
             </p>
           </div>
-          <Button asChild size="sm" variant="outline" className="shrink-0">
-            <Link href="/pricing">Megnézem a csomagokat</Link>
-          </Button>
-        </CardContent>
-      </Card>
+          <div className="px-5 py-4">
+            <p className="text-muted-foreground text-xs tracking-widest uppercase">
+              Összes km
+            </p>
+            <p className="mt-1.5 font-mono text-2xl leading-none font-bold tabular-nums">
+              {stats.totalKm.toLocaleString("hu-HU")}
+              <span className="text-muted-foreground ml-1 text-sm font-normal">
+                km
+              </span>
+            </p>
+          </div>
+          <div className="px-5 py-4">
+            <p className="text-muted-foreground text-xs tracking-widest uppercase">
+              Becsült érték
+            </p>
+            <p className="mt-1.5 font-mono text-2xl leading-none font-bold tabular-nums">
+              {stats.totalValue > 0
+                ? `~${stats.totalValue.toLocaleString("hu-HU")}`
+                : "–"}
+              {stats.totalValue > 0 && (
+                <span className="text-muted-foreground ml-1 text-sm font-normal">
+                  Ft
+                </span>
+              )}
+            </p>
+          </div>
+          <div className="px-5 py-4">
+            <p className="text-muted-foreground text-xs tracking-widest uppercase">
+              Szervizek
+            </p>
+            <p className="mt-1.5 font-mono text-2xl leading-none font-bold tabular-nums">
+              {stats.serviceCount}
+            </p>
+          </div>
+        </div>
+      </div>
 
-      <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
-        <Card>
-          <CardHeader>
-            <CardTitle>Legutóbbi rollerek</CardTitle>
-          </CardHeader>
-          <CardContent>
-            {data.recentScooters.length === 0 ? (
-              <p className="text-muted-foreground text-sm">–</p>
-            ) : (
-              <ul className="space-y-2 text-sm">
-                {data.recentScooters.map((s) => (
-                  <li key={s.id}>
-                    <Link href={`/garage/${s.id}`} className="hover:underline">
-                      <span className="font-medium">{s.name}</span>
-                    </Link>
-                    <span className="text-muted-foreground">
-                      {" · "}
-                      {[
-                        s.year ? `${s.year}` : null,
-                        `${s.currentMileage.toLocaleString("hu-HU")} km`,
-                      ]
-                        .filter(Boolean)
-                        .join(" · ")}
-                    </span>
-                  </li>
-                ))}
-              </ul>
-            )}
-          </CardContent>
-        </Card>
+      {/* Modulok navigáció */}
+      <AppPanelList label="Modulok">
+        <AppListItem
+          href="/garage"
+          icon="🛴"
+          title="Garázs"
+          description="Rollerjeid adatlapja és km-állása."
+          meta={`${stats.scooterCount} roller`}
+        />
+        <AppListItem
+          href="/service"
+          icon="🔧"
+          title="Szervizkönyv"
+          description="Karbantartások, javítások, ellenőrzések."
+          meta={
+            stats.serviceCount > 0
+              ? `${stats.serviceCount} bejegyzés · ${stats.totalServiceCost.toLocaleString("hu-HU")} Ft`
+              : undefined
+          }
+        />
+        <AppListItem
+          href="/rides"
+          icon="🛣️"
+          title="Menetnapló"
+          description="Kiszállások, megtett táv, sebesség."
+          meta={
+            stats.rideCount > 0
+              ? `${stats.rideCount} menet · ${stats.totalKm.toLocaleString("hu-HU")} km`
+              : undefined
+          }
+        />
+        <AppListItem
+          href="/value"
+          icon="📊"
+          title="Értékbecslés"
+          description="Roller aktuális piaci értékének becslése."
+        />
+        <AppListItem
+          href="/knowledge"
+          icon="📖"
+          title="Tudásközpont"
+          description="KRESZ, biztosítás, jogosítvány, szabályok."
+        />
+      </AppPanelList>
 
-        <Card>
-          <CardHeader>
-            <CardTitle>Legutóbbi szervizek</CardTitle>
-          </CardHeader>
-          <CardContent>
-            {data.recentServices.length === 0 ? (
-              <p className="text-muted-foreground text-sm">
-                Még nincs szerviz.
-              </p>
-            ) : (
-              <ul className="space-y-2 text-sm">
-                {data.recentServices.map((s) => (
-                  <li key={s.id}>
-                    <span className="font-medium">
-                      {SERVICE_TYPE_LABELS[s.type as ServiceType]}
-                    </span>
-                    <span className="text-muted-foreground">
-                      {" · "}
-                      {s.scooterName}
-                      {" · "}
-                      {new Date(s.performedAt).toLocaleDateString("hu-HU")}
-                      {s.cost != null
-                        ? ` · ${s.cost.toLocaleString("hu-HU")} Ft`
-                        : ""}
-                    </span>
-                  </li>
-                ))}
-              </ul>
-            )}
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader>
-            <CardTitle>Legutóbbi értékbecslések</CardTitle>
-          </CardHeader>
-          <CardContent>
-            {data.recentEstimates.length === 0 ? (
-              <p className="text-muted-foreground text-sm">
-                Még nincs becslés.
-              </p>
-            ) : (
-              <ul className="space-y-2 text-sm">
-                {data.recentEstimates.map((e) => (
-                  <li key={e.id}>
-                    <span className="font-medium">
-                      {e.estimatedValue.toLocaleString("hu-HU")} Ft
-                    </span>
-                    <span className="text-muted-foreground">
-                      {" · "}
-                      {e.scooterName}
-                      {" · "}
-                      {new Date(e.createdAt).toLocaleDateString("hu-HU")}
-                    </span>
-                  </li>
-                ))}
-              </ul>
-            )}
-          </CardContent>
-        </Card>
+      {/* Premium callout */}
+      <div className="border-primary/20 bg-primary/5 rounded-xl border px-5 py-4">
+        <p className="text-primary text-xs font-semibold tracking-[0.15em] uppercase">
+          Premium · Hamarosan
+        </p>
+        <p className="mt-1 font-semibold">Értékriport és eladási állapotlap</p>
+        <p className="text-muted-foreground mt-0.5 text-sm">
+          Részletes eladási riport, dokumentált előzmények, PDF export.
+        </p>
+        <Link
+          href="/pricing"
+          className="text-primary mt-3 inline-block text-sm font-medium hover:underline"
+        >
+          Megnézem a csomagokat →
+        </Link>
       </div>
     </AppPage>
   );

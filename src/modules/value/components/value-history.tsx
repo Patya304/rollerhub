@@ -7,9 +7,13 @@ type Estimate = {
 export function ValueHistory({ history }: { history: Estimate[] }) {
   if (history.length === 0) {
     return (
-      <p className="text-muted-foreground mt-3 border-t pt-3 text-sm">
-        {"Még nincs becslés. Nyomd meg a „Becsült érték” gombot."}
-      </p>
+      <div className="rounded-xl border border-dashed px-6 py-10 text-center">
+        <p className="text-3xl">📈</p>
+        <p className="mt-3 font-semibold">Nincs értéktörténet</p>
+        <p className="text-muted-foreground mx-auto mt-1.5 max-w-xs text-sm leading-relaxed">
+          Futtass értékbecslést a roller adatlapján — minden futtatás ide kerül.
+        </p>
+      </div>
     );
   }
 
@@ -17,33 +21,60 @@ export function ValueHistory({ history }: { history: Estimate[] }) {
     history[history.length - 1].estimatedValue - history[0].estimatedValue;
 
   return (
-    <div className="mt-3 space-y-2 border-t pt-3">
-      <p className="text-sm font-medium">Értéktörténet</p>
-      <ul className="space-y-1">
-        {history.map((e) => (
-          <li key={e.id} className="flex items-center justify-between text-sm">
-            <span className="text-muted-foreground">
-              {new Date(e.createdAt).toLocaleDateString("hu-HU", {
-                year: "numeric",
-                month: "short",
-                day: "numeric",
-              })}
-            </span>
-            <span className="font-medium">
-              {e.estimatedValue.toLocaleString("hu-HU")} Ft
-            </span>
-          </li>
-        ))}
-      </ul>
+    <div className="space-y-4">
+      {/* Trend összegzés */}
       {history.length > 1 && (
-        <p className="text-muted-foreground text-sm">
-          Változás az első becslés óta:{" "}
-          <span className={diff < 0 ? "text-red-600" : "text-green-600"}>
+        <div className="bg-muted/40 flex items-center justify-between gap-3 rounded-lg px-4 py-3">
+          <p className="text-muted-foreground text-xs font-medium tracking-widest uppercase">
+            Változás az első becslés óta
+          </p>
+          <p
+            className={`font-mono text-sm font-bold tabular-nums ${
+              diff < 0 ? "text-red-500" : "text-green-500"
+            }`}
+          >
             {diff > 0 ? "+" : ""}
             {diff.toLocaleString("hu-HU")} Ft
-          </span>
-        </p>
+          </p>
+        </div>
       )}
+
+      {/* Sorok */}
+      <div className="divide-border/30 divide-y">
+        {history.map((e, idx) => {
+          const prev = idx < history.length - 1 ? history[idx + 1] : null;
+          const change = prev ? e.estimatedValue - prev.estimatedValue : null;
+          return (
+            <div
+              key={e.id}
+              className="flex items-center justify-between gap-3 py-3 text-sm"
+            >
+              <div className="min-w-0">
+                <p className="text-muted-foreground text-xs">
+                  {new Date(e.createdAt).toLocaleDateString("hu-HU", {
+                    year: "numeric",
+                    month: "short",
+                    day: "numeric",
+                  })}
+                </p>
+                {change != null && (
+                  <p
+                    className={`mt-0.5 font-mono text-xs tabular-nums ${
+                      change < 0 ? "text-red-500/80" : "text-green-500/80"
+                    }`}
+                  >
+                    {change > 0 ? "+" : ""}
+                    {change.toLocaleString("hu-HU")} Ft
+                  </p>
+                )}
+              </div>
+              <p className="font-mono font-semibold tabular-nums">
+                {e.estimatedValue.toLocaleString("hu-HU")} Ft
+              </p>
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 }

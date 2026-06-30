@@ -34,6 +34,7 @@ export function RidesView({
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
   const [filter, setFilter] = useState("all");
+  const [showForm, setShowForm] = useState(false);
 
   async function handleAdd() {
     setError("");
@@ -64,6 +65,7 @@ export function RidesView({
       setDistanceKm("");
       setAvgSpeed("");
       setMaxSpeed("");
+      setShowForm(false);
       router.refresh();
     } catch {
       setError("Hálózati hiba a mentéskor.");
@@ -96,17 +98,130 @@ export function RidesView({
   const totalKm = filtered.reduce((sum, r) => sum + (r.distanceKm ?? 0), 0);
 
   return (
-    <div className="space-y-6">
-      <div className="space-y-3 rounded-lg border p-4">
-        <h2 className="font-medium">Új menet rögzítése</h2>
-        {scooters.length === 0 ? (
-          <p className="text-muted-foreground text-sm">
-            Előbb vegyél fel egy rollert a Garázsban.
+    <div className="space-y-4">
+      {/* Empty state */}
+      {rides.length === 0 && (
+        <div className="rounded-xl border border-dashed px-8 py-14 text-center">
+          <p className="text-4xl">🛣️</p>
+          <p className="mt-4 font-semibold">Még nincs menet rögzítve</p>
+          <p className="text-muted-foreground mx-auto mt-1.5 max-w-xs text-sm leading-relaxed">
+            Naplózd az első kiszállásodat — indulás, megtett táv, sebesség.
           </p>
-        ) : (
-          <>
+          {scooters.length > 0 && (
+            <Button className="mt-6" onClick={() => setShowForm(true)}>
+              Első menet rögzítése
+            </Button>
+          )}
+          {scooters.length === 0 && (
+            <p className="text-muted-foreground mt-4 text-xs">
+              Előbb adj hozzá egy rollert a Garázsban.
+            </p>
+          )}
+        </div>
+      )}
+
+      {/* Filter + összesítő */}
+      {rides.length > 0 && (
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <select
+            value={filter}
+            onChange={(e) => setFilter(e.target.value)}
+            className="border-input bg-background h-9 rounded-lg border px-3 text-sm"
+          >
+            <option value="all">Összes roller</option>
+            {scooters.map((s) => (
+              <option key={s.id} value={s.id}>
+                {s.name}
+              </option>
+            ))}
+          </select>
+          <div className="flex items-center gap-2">
+            <span className="text-muted-foreground text-xs">
+              {filtered.length} menet
+            </span>
+            <span className="bg-muted/60 rounded-lg px-2.5 py-1 font-mono text-xs font-semibold tabular-nums">
+              {totalKm.toLocaleString("hu-HU")} km
+            </span>
+          </div>
+        </div>
+      )}
+
+      {/* Ride lista */}
+      {filtered.length > 0 && (
+        <div className="bg-card overflow-hidden rounded-xl border">
+          {filtered.map((r) => (
+            <div
+              key={r.id}
+              className="[&:not(:last-child)]:border-border/40 flex items-start justify-between gap-3 px-5 py-4 text-sm [&:not(:last-child)]:border-b"
+            >
+              <div className="min-w-0 flex-1">
+                <p className="font-semibold">{r.scooterName}</p>
+                <p className="text-muted-foreground mt-0.5 text-xs">
+                  {new Date(r.startAt).toLocaleString("hu-HU")}
+                  {r.endAt
+                    ? ` – ${new Date(r.endAt).toLocaleTimeString("hu-HU", { hour: "2-digit", minute: "2-digit" })}`
+                    : ""}
+                </p>
+                {(r.distanceKm != null ||
+                  r.avgSpeed != null ||
+                  r.maxSpeed != null) && (
+                  <div className="mt-2 flex flex-wrap gap-1.5">
+                    {r.distanceKm != null && (
+                      <span className="bg-muted/40 rounded px-2 py-0.5 font-mono text-xs tabular-nums">
+                        {r.distanceKm.toLocaleString("hu-HU")} km
+                      </span>
+                    )}
+                    {r.avgSpeed != null && (
+                      <span className="bg-muted/40 rounded px-2 py-0.5 font-mono text-xs tabular-nums">
+                        átl. {r.avgSpeed} km/h
+                      </span>
+                    )}
+                    {r.maxSpeed != null && (
+                      <span className="bg-muted/40 rounded px-2 py-0.5 font-mono text-xs tabular-nums">
+                        max {r.maxSpeed} km/h
+                      </span>
+                    )}
+                  </div>
+                )}
+              </div>
+              <Button
+                size="sm"
+                variant="ghost"
+                onClick={() => handleDelete(r.id)}
+                disabled={busy}
+                className="text-muted-foreground -mt-1 -mr-2 h-7 shrink-0 text-xs"
+              >
+                Törlés
+              </Button>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {filtered.length === 0 && rides.length > 0 && (
+        <p className="text-muted-foreground py-4 text-center text-sm">
+          Ehhez a rollerhez még nincs menet.
+        </p>
+      )}
+
+      {/* Add form — toggle */}
+      {rides.length > 0 && !showForm && scooters.length > 0 && (
+        <Button variant="outline" size="sm" onClick={() => setShowForm(true)}>
+          + Új menet rögzítése
+        </Button>
+      )}
+
+      {showForm && scooters.length > 0 && (
+        <div className="bg-card overflow-hidden rounded-xl border">
+          <div className="border-border/50 border-b px-5 py-3">
+            <p className="text-muted-foreground text-xs font-semibold tracking-[0.15em] uppercase">
+              Új menet
+            </p>
+            <p className="mt-0.5 font-semibold">Menet rögzítése</p>
+          </div>
+          <div className="space-y-4 px-5 py-4">
             <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-              <div className="space-y-1 sm:col-span-2">
+              <div className="space-y-1.5 sm:col-span-2">
                 <Label htmlFor="ride-scooter">Roller</Label>
                 <select
                   id="ride-scooter"
@@ -122,7 +237,7 @@ export function RidesView({
                   ))}
                 </select>
               </div>
-              <div className="space-y-1">
+              <div className="space-y-1.5">
                 <Label htmlFor="ride-start">Indulás</Label>
                 <Input
                   id="ride-start"
@@ -131,7 +246,7 @@ export function RidesView({
                   onChange={(e) => setStartAt(e.target.value)}
                 />
               </div>
-              <div className="space-y-1">
+              <div className="space-y-1.5">
                 <Label htmlFor="ride-end">Érkezés (opc.)</Label>
                 <Input
                   id="ride-end"
@@ -140,8 +255,8 @@ export function RidesView({
                   onChange={(e) => setEndAt(e.target.value)}
                 />
               </div>
-              <div className="space-y-1">
-                <Label htmlFor="ride-dist">Táv (km, opc.)</Label>
+              <div className="space-y-1.5">
+                <Label htmlFor="ride-dist">Táv (km)</Label>
                 <Input
                   id="ride-dist"
                   type="number"
@@ -149,8 +264,8 @@ export function RidesView({
                   onChange={(e) => setDistanceKm(e.target.value)}
                 />
               </div>
-              <div className="space-y-1">
-                <Label htmlFor="ride-avg">Átlagseb. (km/h, opc.)</Label>
+              <div className="space-y-1.5">
+                <Label htmlFor="ride-avg">Átlagseb. (km/h)</Label>
                 <Input
                   id="ride-avg"
                   type="number"
@@ -158,8 +273,8 @@ export function RidesView({
                   onChange={(e) => setAvgSpeed(e.target.value)}
                 />
               </div>
-              <div className="space-y-1 sm:col-span-2">
-                <Label htmlFor="ride-max">Max seb. (km/h, opc.)</Label>
+              <div className="space-y-1.5 sm:col-span-2">
+                <Label htmlFor="ride-max">Max seb. (km/h)</Label>
                 <Input
                   id="ride-max"
                   type="number"
@@ -169,78 +284,21 @@ export function RidesView({
               </div>
             </div>
             {error && <p className="text-sm text-red-500">{error}</p>}
-            <Button onClick={handleAdd} disabled={busy}>
-              Menet hozzáadása
-            </Button>
-          </>
-        )}
-      </div>
-
-      <div className="space-y-3">
-        <div className="flex flex-wrap items-center gap-3">
-          <select
-            value={filter}
-            onChange={(e) => setFilter(e.target.value)}
-            className="border-input bg-background h-9 rounded-md border px-3 text-sm"
-          >
-            <option value="all">Összes roller</option>
-            {scooters.map((s) => (
-              <option key={s.id} value={s.id}>
-                {s.name}
-              </option>
-            ))}
-          </select>
-          <p className="text-muted-foreground text-sm">
-            {filtered.length} menet · Összes táv:{" "}
-            <span className="font-medium">
-              {totalKm.toLocaleString("hu-HU")} km
-            </span>
-          </p>
-        </div>
-
-        {filtered.length === 0 ? (
-          <div className="rounded-lg border border-dashed p-8 text-center">
-            <p className="font-medium">Még nincs menet rögzítve.</p>
-            <p className="text-muted-foreground mt-1 text-sm">
-              Naplózz egy menetett: indulás, táv, sebesség.
-            </p>
+            <div className="flex gap-2">
+              <Button onClick={handleAdd} disabled={busy}>
+                {busy ? "Mentés..." : "Menet rögzítése"}
+              </Button>
+              <Button
+                variant="ghost"
+                onClick={() => setShowForm(false)}
+                disabled={busy}
+              >
+                Mégsem
+              </Button>
+            </div>
           </div>
-        ) : (
-          <ul className="space-y-2">
-            {filtered.map((r) => (
-              <li key={r.id} className="rounded-lg border p-3 text-sm">
-                <div className="flex flex-wrap items-center justify-between gap-2">
-                  <span className="font-medium">{r.scooterName}</span>
-                  <div className="flex items-center gap-2">
-                    <span className="text-muted-foreground">
-                      {new Date(r.startAt).toLocaleString("hu-HU")}
-                    </span>
-                    <Button
-                      size="sm"
-                      variant="ghost"
-                      onClick={() => handleDelete(r.id)}
-                      disabled={busy}
-                    >
-                      Törlés
-                    </Button>
-                  </div>
-                </div>
-                <p className="text-muted-foreground mt-1">
-                  {[
-                    r.distanceKm != null
-                      ? `${r.distanceKm.toLocaleString("hu-HU")} km`
-                      : null,
-                    r.avgSpeed != null ? `átlag ${r.avgSpeed} km/h` : null,
-                    r.maxSpeed != null ? `max ${r.maxSpeed} km/h` : null,
-                  ]
-                    .filter(Boolean)
-                    .join(" · ") || "Nincs részletadat"}
-                </p>
-              </li>
-            ))}
-          </ul>
-        )}
-      </div>
+        </div>
+      )}
     </div>
   );
 }

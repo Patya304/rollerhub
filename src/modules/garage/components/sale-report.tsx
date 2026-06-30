@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   SERVICE_TYPE_LABELS,
   type ServiceType,
@@ -49,39 +48,23 @@ export function SaleReport({
     : null;
 
   const checklist = [
-    {
-      label: "Vételár megadva",
-      ok: purchasePrice != null,
-    },
-    {
-      label: "Futásteljesítmény megadva",
-      ok: true,
-    },
-    {
-      label: "Becsült érték elérhető",
-      ok: lastEstimatedValue != null,
-    },
-    {
-      label: "Fotó hozzáadva",
-      ok: !!photoUrl,
-    },
-    {
-      label: "Legalább 1 szerviz rögzítve",
-      ok: serviceCount > 0,
-    },
-    {
-      label: "Legalább 1 menet rögzítve",
-      ok: rideCount > 0,
-    },
+    { label: "Vételár megadva", ok: purchasePrice != null },
+    { label: "Futásteljesítmény megadva", ok: true },
+    { label: "Becsült érték elérhető", ok: lastEstimatedValue != null },
+    { label: "Fotó hozzáadva", ok: !!photoUrl },
+    { label: "Legalább 1 szerviz rögzítve", ok: serviceCount > 0 },
+    { label: "Legalább 1 menet rögzítve", ok: rideCount > 0 },
   ];
+
+  const okCount = checklist.filter((c) => c.ok).length;
 
   const tip = !photoUrl
     ? "Adj hozzá fotót — hirdetésnél ez az egyik legfontosabb bizalmi elem."
     : serviceCount === 0
       ? "Rögzíts legalább egy szervizt, hogy hitelesebb legyen az állapotlap."
       : lastEstimatedValue == null
-        ? "Futtass értékbecslést a roller adatlapján, hogy az ársáv is megjelenjen."
-        : "Az állapotlapod jó alap egy eladási PDF-hez — ez Premium funkcióként érkezik.";
+        ? "Futtass értékbecslést, hogy az ajánlott ársáv is megjelenjen."
+        : "Az állapotlapod jó alap — a teljes PDF export Premium funkcióként érkezik.";
 
   const rows: { label: string; value: string }[] = [
     {
@@ -126,86 +109,118 @@ export function SaleReport({
   ];
 
   return (
-    <Card>
-      <CardHeader>
-        <div className="flex flex-wrap items-start justify-between gap-2">
-          <CardTitle>Értékriport előnézet</CardTitle>
-          <span className="rounded-full border px-2 py-0.5 text-xs">
-            Premium · Hamarosan
-          </span>
+    <div className="bg-card overflow-hidden rounded-xl border">
+      {/* Header */}
+      <div className="border-border/50 flex flex-wrap items-start justify-between gap-2 border-b px-5 py-4">
+        <div>
+          <p className="text-muted-foreground text-xs font-semibold tracking-[0.15em] uppercase">
+            Értékriport
+          </p>
+          <p className="mt-0.5 font-bold">Értékriport előnézet</p>
+          <p className="text-muted-foreground mt-0.5 text-sm">
+            Add el profibban a rolleredet egy rendezett állapotlappal.
+          </p>
         </div>
-        <p className="text-muted-foreground text-sm">
-          Add el profibban a rolleredet egy rendezett állapotlappal.
-        </p>
-      </CardHeader>
-      <CardContent className="space-y-5">
-        <dl className="grid grid-cols-1 gap-x-6 gap-y-2 text-sm sm:grid-cols-2">
+        <span className="border-primary/30 text-primary rounded-full border px-2.5 py-0.5 text-xs font-medium">
+          Premium · Hamarosan
+        </span>
+      </div>
+
+      <div className="space-y-5 px-5 py-5">
+        {/* Adatsorok */}
+        <dl className="divide-border/30 divide-y">
           {rows.map((r) => (
-            <div key={r.label} className="flex justify-between gap-4">
+            <div
+              key={r.label}
+              className="flex items-center justify-between gap-4 py-2 text-sm"
+            >
               <dt className="text-muted-foreground">{r.label}</dt>
-              <dd className="text-right font-medium">{r.value}</dd>
+              <dd className="font-mono font-semibold tabular-nums">
+                {r.value}
+              </dd>
             </div>
           ))}
         </dl>
 
+        {/* Ársáv callout */}
         {priceLow != null && priceHigh != null && (
-          <div className="rounded-lg border p-3">
-            <p className="text-muted-foreground text-xs">
+          <div className="border-primary/20 bg-primary/5 rounded-xl border px-5 py-4">
+            <p className="text-primary mb-1 text-xs font-semibold tracking-[0.15em] uppercase">
               Ajánlott hirdetési ársáv
             </p>
-            <p className="mt-1 text-base font-semibold">
-              kb. {priceLow.toLocaleString("hu-HU")} –{" "}
-              {priceHigh.toLocaleString("hu-HU")} Ft
+            <p className="font-mono text-2xl font-bold tracking-tight tabular-nums">
+              {priceLow.toLocaleString("hu-HU")}
+              <span className="text-muted-foreground mx-2 text-lg font-normal">
+                –
+              </span>
+              {priceHigh.toLocaleString("hu-HU")}
+              <span className="text-muted-foreground ml-1.5 text-base font-normal">
+                Ft
+              </span>
+            </p>
+            <p className="text-muted-foreground mt-1 text-xs">
+              A becsült piaci érték ±10%-a alapján
             </p>
           </div>
         )}
 
-        <div className="space-y-2">
-          <p className="text-muted-foreground text-xs font-medium tracking-wide uppercase">
-            Állapotlap teljessége
-          </p>
-          <ul className="space-y-1">
+        {/* Állapotlap teljessége */}
+        <div>
+          <div className="mb-3 flex items-center justify-between gap-2">
+            <p className="text-muted-foreground text-xs font-semibold tracking-[0.15em] uppercase">
+              Állapotlap teljessége
+            </p>
+            <span className="text-muted-foreground font-mono text-xs tabular-nums">
+              {okCount}/{checklist.length}
+            </span>
+          </div>
+          <div className="bg-card divide-border/30 divide-y overflow-hidden rounded-lg border">
             {checklist.map((item) => (
-              <li key={item.label} className="flex items-center gap-2 text-sm">
-                <span
-                  className={
-                    item.ok ? "text-green-600" : "text-muted-foreground"
-                  }
-                >
-                  {item.ok ? "✓" : "○"}
-                </span>
+              <div
+                key={item.label}
+                className="flex items-center justify-between gap-3 px-4 py-2.5 text-sm"
+              >
                 <span className={item.ok ? "" : "text-muted-foreground"}>
                   {item.label}
                 </span>
-              </li>
+                <span
+                  className={
+                    item.ok
+                      ? "rounded bg-green-500/10 px-2 py-0.5 text-xs font-medium text-green-600"
+                      : "bg-muted/60 text-muted-foreground rounded px-2 py-0.5 text-xs"
+                  }
+                >
+                  {item.ok ? "OK" : "Hiányzik"}
+                </span>
+              </div>
             ))}
-          </ul>
-          <p className="text-muted-foreground pt-1 text-xs italic">{tip}</p>
+          </div>
+          <p className="text-muted-foreground mt-2.5 text-xs italic">{tip}</p>
         </div>
 
-        <div className="space-y-3 border-t pt-4">
-          <p className="text-muted-foreground text-xs">
-            A Premium állapotlap összefoglalja a roller dokumentált előzményeit
-            — szervizek, futásteljesítmény, becsült érték — egy megosztható,
-            rendezett formában. Vevők számára meggyőzőbb, te pedig többet kapsz
-            a rollerért.
+        {/* Premium CTA */}
+        <div className="border-border/40 border-t pt-4">
+          <p className="text-muted-foreground text-xs leading-relaxed">
+            A Premium állapotlap összefoglalja a dokumentált előzményeket —
+            szervizek, futásteljesítmény, becsült érték — egy megosztható
+            formában.
           </p>
-          <div className="flex flex-wrap items-center gap-3">
+          <div className="mt-3 flex flex-wrap items-center gap-3">
             <button
               disabled
-              className="text-muted-foreground cursor-not-allowed rounded-md border px-4 py-2 text-sm opacity-50"
+              className="text-muted-foreground cursor-not-allowed rounded-lg border px-4 py-2 text-sm opacity-40"
             >
               Állapotlap generálása — hamarosan
             </button>
             <Link
               href="/pricing"
-              className="text-sm underline underline-offset-4"
+              className="text-primary text-sm font-medium hover:underline"
             >
-              Megnézem a Premium csomagot
+              Premium csomagok →
             </Link>
           </div>
         </div>
-      </CardContent>
-    </Card>
+      </div>
+    </div>
   );
 }

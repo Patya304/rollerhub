@@ -26,6 +26,7 @@ type Scooter = {
 export function Garage() {
   const [scooters, setScooters] = useState<Scooter[]>([]);
   const [loading, setLoading] = useState(true);
+  const [showForm, setShowForm] = useState(false);
   const [showMore, setShowMore] = useState(false);
   const [brand, setBrand] = useState("");
   const [model, setModel] = useState("");
@@ -93,6 +94,7 @@ export function Garage() {
       setRangeKm("");
       setPhotoUrl("");
       setShowMore(false);
+      setShowForm(false);
       await load();
     } catch {
       setError("Hálózati hiba a mentéskor.");
@@ -102,153 +104,25 @@ export function Garage() {
   }
 
   return (
-    <div className="space-y-8">
-      <div className="space-y-3 rounded-lg border p-4">
-        <h2 className="font-medium">Új roller hozzáadása</h2>
-
-        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-          <div className="space-y-1">
-            <Label htmlFor="brand">Márka</Label>
-            <Input
-              id="brand"
-              value={brand}
-              onChange={(e) => setBrand(e.target.value)}
-            />
-          </div>
-          <div className="space-y-1">
-            <Label htmlFor="model">Modell</Label>
-            <Input
-              id="model"
-              value={model}
-              onChange={(e) => setModel(e.target.value)}
-            />
-          </div>
-          <div className="space-y-1">
-            <Label htmlFor="year">Évjárat</Label>
-            <Input
-              id="year"
-              type="number"
-              value={year}
-              onChange={(e) => setYear(e.target.value)}
-            />
-          </div>
-          <div className="space-y-1">
-            <Label htmlFor="mileage">Km óra állás</Label>
-            <Input
-              id="mileage"
-              type="number"
-              value={mileage}
-              onChange={(e) => setMileage(e.target.value)}
-            />
-          </div>
-          <div className="space-y-1 sm:col-span-2">
-            <Label htmlFor="price">Vételár (Ft)</Label>
-            <Input
-              id="price"
-              type="number"
-              value={price}
-              onChange={(e) => setPrice(e.target.value)}
-            />
-          </div>
+    <div className="space-y-4">
+      {/* Roller lista — ELSŐ */}
+      {loading ? (
+        <p className="text-muted-foreground py-4 text-sm">Betöltés...</p>
+      ) : scooters.length === 0 ? (
+        <div className="rounded-xl border border-dashed px-8 py-14 text-center">
+          <p className="text-4xl">🛴</p>
+          <p className="mt-4 font-semibold">A garázs üres</p>
+          <p className="text-muted-foreground mx-auto mt-1.5 max-w-xs text-sm">
+            Add hozzá az első rolleredet az alábbi gombbal.
+          </p>
+          <Button className="mt-6" onClick={() => setShowForm(true)}>
+            Roller hozzáadása
+          </Button>
         </div>
-
-        <Button
-          type="button"
-          variant="outline"
-          size="sm"
-          onClick={() => setShowMore((v) => !v)}
-        >
-          {showMore ? "Kevesebb adat ▴" : "További adatok ▾"}
-        </Button>
-
-        {showMore && (
-          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-            <div className="space-y-1">
-              <Label htmlFor="purchaseDate">Vásárlás dátuma</Label>
-              <Input
-                id="purchaseDate"
-                type="date"
-                value={purchaseDate}
-                onChange={(e) => setPurchaseDate(e.target.value)}
-              />
-            </div>
-            <div className="space-y-1">
-              <Label htmlFor="color">Szín</Label>
-              <Input
-                id="color"
-                value={color}
-                onChange={(e) => setColor(e.target.value)}
-              />
-            </div>
-            <div className="space-y-1">
-              <Label htmlFor="serialNumber">Alvázszám</Label>
-              <Input
-                id="serialNumber"
-                value={serialNumber}
-                onChange={(e) => setSerialNumber(e.target.value)}
-              />
-            </div>
-            <div className="space-y-1">
-              <Label htmlFor="battery">Akku (Wh)</Label>
-              <Input
-                id="battery"
-                type="number"
-                value={battery}
-                onChange={(e) => setBattery(e.target.value)}
-              />
-            </div>
-            <div className="space-y-1">
-              <Label htmlFor="topSpeed">Végsebesség (km/h)</Label>
-              <Input
-                id="topSpeed"
-                type="number"
-                value={topSpeed}
-                onChange={(e) => setTopSpeed(e.target.value)}
-              />
-            </div>
-            <div className="space-y-1">
-              <Label htmlFor="rangeKm">Hatótáv (km)</Label>
-              <Input
-                id="rangeKm"
-                type="number"
-                value={rangeKm}
-                onChange={(e) => setRangeKm(e.target.value)}
-              />
-            </div>
-            <div className="space-y-1 sm:col-span-2">
-              <Label htmlFor="photoUrl">Fénykép URL</Label>
-              <Input
-                id="photoUrl"
-                value={photoUrl}
-                onChange={(e) => setPhotoUrl(e.target.value)}
-              />
-            </div>
-          </div>
-        )}
-
-        {error && <p className="text-sm text-red-500">{error}</p>}
-        <Button onClick={handleAdd} disabled={busy}>
-          Hozzáadás
-        </Button>
-      </div>
-
-      <div className="space-y-3">
-        <h2 className="font-medium">
-          A rollerjeid
-          {!loading && scooters.length > 0 ? ` (${scooters.length})` : ""}
-        </h2>
-        {loading ? (
-          <p className="text-muted-foreground text-sm">Betöltés...</p>
-        ) : scooters.length === 0 ? (
-          <div className="rounded-lg border border-dashed p-6 text-center">
-            <p className="text-muted-foreground text-sm">
-              Még nincs rollered. Töltsd ki a fenti űrlapot az első
-              hozzáadásához.
-            </p>
-          </div>
-        ) : (
-          <ul className="space-y-2">
-            {scooters.map((s) => {
+      ) : (
+        <div className="space-y-3">
+          <div className="bg-card divide-border/40 divide-y overflow-hidden rounded-xl border">
+            {scooters.map((s, idx) => {
               const est =
                 s.purchasePrice != null
                   ? calculateEstimate({
@@ -258,38 +132,217 @@ export function Garage() {
                       purchaseDate: s.purchaseDate,
                     })
                   : null;
+              const meta = [
+                s.year ? String(s.year) : null,
+                `${s.currentMileage.toLocaleString("hu-HU")} km`,
+                est != null ? `~${est.toLocaleString("hu-HU")} Ft` : null,
+              ]
+                .filter(Boolean)
+                .join(" · ");
               return (
-                <li key={s.id}>
-                  <Link
-                    href={`/garage/${s.id}`}
-                    className="hover:bg-muted/50 flex items-center justify-between gap-3 rounded-lg border p-3 transition-colors"
-                  >
-                    <div className="min-w-0">
-                      <p className="truncate font-medium">
-                        {s.brand} {s.model}
-                      </p>
-                      <p className="text-muted-foreground text-sm">
-                        {[
-                          s.year ? `${s.year}` : null,
-                          `${s.currentMileage.toLocaleString("hu-HU")} km`,
-                          est != null
-                            ? `~${est.toLocaleString("hu-HU")} Ft`
-                            : null,
-                        ]
-                          .filter(Boolean)
-                          .join(" · ")}
-                      </p>
-                    </div>
-                    <span className="text-muted-foreground shrink-0 text-sm">
-                      Megnyitás →
+                <Link
+                  key={s.id}
+                  href={`/garage/${s.id}`}
+                  className="hover:bg-muted/30 group flex items-center gap-4 px-5 py-4 transition-colors"
+                >
+                  {/* Marker vagy fotó */}
+                  {s.photoUrl ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img
+                      src={s.photoUrl}
+                      alt={`${s.brand} ${s.model}`}
+                      className="h-12 w-12 shrink-0 rounded-lg object-cover"
+                    />
+                  ) : (
+                    <span className="text-muted-foreground/50 flex w-8 shrink-0 items-start justify-center pt-0.5 font-mono text-xs font-semibold tabular-nums">
+                      {String(idx + 1).padStart(2, "0")}
                     </span>
-                  </Link>
-                </li>
+                  )}
+                  {/* Tartalom */}
+                  <div className="min-w-0 flex-1">
+                    <p className="font-semibold">
+                      {s.brand} {s.model}
+                    </p>
+                    <p className="text-muted-foreground mt-0.5 font-mono text-xs tabular-nums">
+                      {meta}
+                    </p>
+                  </div>
+                  {/* Nyíl */}
+                  <span className="text-muted-foreground group-hover:text-primary shrink-0 transition-colors">
+                    →
+                  </span>
+                </Link>
               );
             })}
-          </ul>
-        )}
-      </div>
+          </div>
+
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => setShowForm((v) => !v)}
+          >
+            {showForm ? "Mégsem" : "+ Új roller hozzáadása"}
+          </Button>
+        </div>
+      )}
+
+      {/* Add form — MÁSODLAGOS, toggle-olt */}
+      {showForm && scooters.length > 0 && (
+        <div className="bg-card overflow-hidden rounded-xl border">
+          <div className="border-border/50 border-b px-5 py-3">
+            <p className="text-muted-foreground text-xs font-semibold tracking-[0.15em] uppercase">
+              Új roller
+            </p>
+            <p className="mt-0.5 font-semibold">
+              Roller hozzáadása a garázshoz
+            </p>
+          </div>
+          <div className="space-y-4 px-5 py-4">
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+              <div className="space-y-1.5">
+                <Label htmlFor="brand">Márka</Label>
+                <Input
+                  id="brand"
+                  value={brand}
+                  onChange={(e) => setBrand(e.target.value)}
+                  placeholder="pl. Ninebot"
+                />
+              </div>
+              <div className="space-y-1.5">
+                <Label htmlFor="model">Modell</Label>
+                <Input
+                  id="model"
+                  value={model}
+                  onChange={(e) => setModel(e.target.value)}
+                  placeholder="pl. Max G2"
+                />
+              </div>
+              <div className="space-y-1.5">
+                <Label htmlFor="year">Évjárat</Label>
+                <Input
+                  id="year"
+                  type="number"
+                  value={year}
+                  onChange={(e) => setYear(e.target.value)}
+                  placeholder="pl. 2023"
+                />
+              </div>
+              <div className="space-y-1.5">
+                <Label htmlFor="mileage">Km óra állás</Label>
+                <Input
+                  id="mileage"
+                  type="number"
+                  value={mileage}
+                  onChange={(e) => setMileage(e.target.value)}
+                  placeholder="pl. 1500"
+                />
+              </div>
+              <div className="space-y-1.5 sm:col-span-2">
+                <Label htmlFor="price">Vételár (Ft)</Label>
+                <Input
+                  id="price"
+                  type="number"
+                  value={price}
+                  onChange={(e) => setPrice(e.target.value)}
+                  placeholder="pl. 250 000"
+                />
+              </div>
+            </div>
+
+            <Button
+              type="button"
+              variant="ghost"
+              size="sm"
+              onClick={() => setShowMore((v) => !v)}
+              className="text-muted-foreground text-xs"
+            >
+              {showMore
+                ? "▴ Kevesebb mező"
+                : "▾ Szín, alvázszám, műszaki adatok"}
+            </Button>
+
+            {showMore && (
+              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                <div className="space-y-1.5">
+                  <Label htmlFor="purchaseDate">Vásárlás dátuma</Label>
+                  <Input
+                    id="purchaseDate"
+                    type="date"
+                    value={purchaseDate}
+                    onChange={(e) => setPurchaseDate(e.target.value)}
+                  />
+                </div>
+                <div className="space-y-1.5">
+                  <Label htmlFor="color">Szín</Label>
+                  <Input
+                    id="color"
+                    value={color}
+                    onChange={(e) => setColor(e.target.value)}
+                  />
+                </div>
+                <div className="space-y-1.5">
+                  <Label htmlFor="serialNumber">Alvázszám</Label>
+                  <Input
+                    id="serialNumber"
+                    value={serialNumber}
+                    onChange={(e) => setSerialNumber(e.target.value)}
+                  />
+                </div>
+                <div className="space-y-1.5">
+                  <Label htmlFor="battery">Akku (Wh)</Label>
+                  <Input
+                    id="battery"
+                    type="number"
+                    value={battery}
+                    onChange={(e) => setBattery(e.target.value)}
+                  />
+                </div>
+                <div className="space-y-1.5">
+                  <Label htmlFor="topSpeed">Végsebesség (km/h)</Label>
+                  <Input
+                    id="topSpeed"
+                    type="number"
+                    value={topSpeed}
+                    onChange={(e) => setTopSpeed(e.target.value)}
+                  />
+                </div>
+                <div className="space-y-1.5">
+                  <Label htmlFor="rangeKm">Hatótáv (km)</Label>
+                  <Input
+                    id="rangeKm"
+                    type="number"
+                    value={rangeKm}
+                    onChange={(e) => setRangeKm(e.target.value)}
+                  />
+                </div>
+                <div className="space-y-1.5 sm:col-span-2">
+                  <Label htmlFor="photoUrl">Fénykép URL</Label>
+                  <Input
+                    id="photoUrl"
+                    value={photoUrl}
+                    onChange={(e) => setPhotoUrl(e.target.value)}
+                    placeholder="https://..."
+                  />
+                </div>
+              </div>
+            )}
+
+            {error && <p className="text-sm text-red-500">{error}</p>}
+            <div className="flex gap-2">
+              <Button onClick={handleAdd} disabled={busy}>
+                {busy ? "Mentés..." : "Hozzáadás a garázshoz"}
+              </Button>
+              <Button
+                variant="ghost"
+                onClick={() => setShowForm(false)}
+                disabled={busy}
+              >
+                Mégsem
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

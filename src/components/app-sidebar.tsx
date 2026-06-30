@@ -19,7 +19,6 @@ import {
   SidebarGroupContent,
   SidebarHeader,
   SidebarMenu,
-  SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import { SignOutButton } from "@/modules/auth/components/sign-out-button";
@@ -42,28 +41,51 @@ export function AppSidebar() {
 
   return (
     <Sidebar>
-      <SidebarHeader className="px-4 py-3 text-lg font-semibold">
-        🛴 RollerHub
+      <SidebarHeader className="border-border/50 border-b px-5 py-4">
+        <div className="flex items-center gap-2.5">
+          <span className="text-xl">🛴</span>
+          <div>
+            <p className="text-sm font-semibold tracking-tight">RollerHub</p>
+            <p className="text-muted-foreground text-xs tracking-widest uppercase">
+              Digitális garázs
+            </p>
+          </div>
+        </div>
       </SidebarHeader>
-      <SidebarContent>
+
+      <SidebarContent className="px-2 py-3">
         <SidebarGroup>
           <SidebarGroupContent>
-            <SidebarMenu>
-              {items.map((item) => (
-                <SidebarMenuItem key={item.url}>
-                  <SidebarMenuButton asChild isActive={isActive(item.url)}>
-                    <Link href={item.url}>
-                      <item.icon />
+            <SidebarMenu className="space-y-0.5">
+              {items.map((item) => {
+                const active = isActive(item.url);
+                return (
+                  <SidebarMenuItem key={item.url}>
+                    <Link
+                      href={item.url}
+                      className={`flex items-center gap-3 rounded-md px-3 py-2 text-sm transition-colors ${
+                        active
+                          ? "bg-sidebar-accent text-sidebar-accent-foreground font-medium"
+                          : "text-muted-foreground hover:bg-sidebar-accent/50 hover:text-foreground"
+                      }`}
+                    >
+                      <item.icon
+                        className={`h-4 w-4 shrink-0 ${active ? "text-primary" : ""}`}
+                      />
                       <span>{item.title}</span>
+                      {active && (
+                        <span className="bg-primary ml-auto h-1.5 w-1.5 rounded-full" />
+                      )}
                     </Link>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
+                  </SidebarMenuItem>
+                );
+              })}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
-      <SidebarFooter className="p-3">
+
+      <SidebarFooter className="border-border/50 border-t p-3">
         <SignOutButton />
       </SidebarFooter>
     </Sidebar>
