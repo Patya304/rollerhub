@@ -130,28 +130,28 @@ export default async function ScooterDetailsPage({
         </div>
 
         {/* Stat badge sor */}
-        <div className="border-border/50 grid grid-cols-3 gap-2 border-t px-5 py-4">
-          <div className="bg-muted/40 rounded-lg px-3 py-2.5">
+        <div className="border-border/50 divide-border/30 grid grid-cols-3 divide-x border-t">
+          <div className="px-4 py-3">
             <p className="text-muted-foreground text-xs tracking-widest uppercase">
               Km
             </p>
-            <p className="mt-1 font-mono text-base font-bold tabular-nums">
+            <p className="mt-1 font-mono text-base leading-tight font-bold tabular-nums">
               {scooter.currentMileage.toLocaleString("hu-HU")}
             </p>
           </div>
-          <div className="bg-muted/40 rounded-lg px-3 py-2.5">
+          <div className="px-4 py-3">
             <p className="text-muted-foreground text-xs tracking-widest uppercase">
               Szerviz
             </p>
-            <p className="mt-1 font-mono text-base font-bold tabular-nums">
+            <p className="mt-1 font-mono text-base leading-tight font-bold tabular-nums">
               {scooter._count.services}
             </p>
           </div>
-          <div className="bg-muted/40 rounded-lg px-3 py-2.5">
+          <div className="px-4 py-3">
             <p className="text-muted-foreground text-xs tracking-widest uppercase">
               Menetek
             </p>
-            <p className="mt-1 font-mono text-base font-bold tabular-nums">
+            <p className="mt-1 font-mono text-base leading-tight font-bold tabular-nums">
               {scooter._count.rides}
             </p>
           </div>

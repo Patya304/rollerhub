@@ -5,7 +5,6 @@ import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   LANGUAGES,
   type Language,
@@ -21,7 +20,7 @@ const LANGUAGE_LABELS: Record<Language, string> = {
 const THEME_OPTIONS: { value: Theme; label: string; hint: string }[] = [
   { value: "default", label: "Alap", hint: "Shadcn default" },
   { value: "black-white", label: "Fekete / fehér", hint: "Letisztult" },
-  { value: "black-orange", label: "Fekete / narancssárga", hint: "Sport" },
+  { value: "black-orange", label: "Fekete / narancs", hint: "Sport" },
   { value: "black-blue", label: "Fekete / kék", hint: "Tech" },
 ];
 
@@ -79,13 +78,16 @@ export function SettingsForm({ settings }: { settings: Settings }) {
   }
 
   return (
-    <div className="space-y-6">
-      <Card>
-        <CardHeader>
-          <CardTitle>Profil</CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="space-y-1">
+    <div className="space-y-4">
+      {/* Profil szekció */}
+      <div className="bg-card overflow-hidden rounded-xl border">
+        <div className="border-border/50 border-b px-5 py-3">
+          <p className="text-muted-foreground text-xs font-semibold tracking-[0.15em] uppercase">
+            Profil
+          </p>
+        </div>
+        <div className="space-y-4 px-5 py-5">
+          <div className="space-y-1.5">
             <Label htmlFor="image">Profilkép URL</Label>
             <Input
               id="image"
@@ -93,20 +95,20 @@ export function SettingsForm({ settings }: { settings: Settings }) {
               onChange={(e) => setImage(e.target.value)}
               placeholder="https://..."
             />
-            {image ? (
+            {image && (
               // eslint-disable-next-line @next/next/no-img-element
               <img
                 src={image}
                 alt="Profilkép előnézet"
                 className="mt-2 h-16 w-16 rounded-full border object-cover"
               />
-            ) : null}
+            )}
             <p className="text-muted-foreground text-xs">
-              Egyelőre URL-lel. A fájlfeltöltés későbbi frissítésben érkezik.
+              Egyelőre URL-lel. Fájlfeltöltés hamarosan.
             </p>
           </div>
 
-          <div className="space-y-1">
+          <div className="space-y-1.5">
             <Label htmlFor="username">Felhasználónév</Label>
             <Input
               id="username"
@@ -115,12 +117,11 @@ export function SettingsForm({ settings }: { settings: Settings }) {
               placeholder="pl. ruprider"
             />
             <p className="text-muted-foreground text-xs">
-              3–24 karakter, csak kisbetű, szám, kötőjel és aláhúzás. Később
-              mások számára is látható lehet.
+              3–24 karakter, csak kisbetű, szám, kötőjel és aláhúzás.
             </p>
           </div>
 
-          <div className="space-y-1">
+          <div className="space-y-1.5">
             <Label htmlFor="name">Megjelenített név</Label>
             <Input
               id="name"
@@ -140,15 +141,18 @@ export function SettingsForm({ settings }: { settings: Settings }) {
               )}
             </p>
           </div>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
 
-      <Card>
-        <CardHeader>
-          <CardTitle>Megjelenés</CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-3">
-          <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-4">
+      {/* Megjelenés szekció */}
+      <div className="bg-card overflow-hidden rounded-xl border">
+        <div className="border-border/50 border-b px-5 py-3">
+          <p className="text-muted-foreground text-xs font-semibold tracking-[0.15em] uppercase">
+            Megjelenés
+          </p>
+        </div>
+        <div className="px-5 py-5">
+          <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
             {THEME_OPTIONS.map((t) => (
               <button
                 key={t.value}
@@ -156,25 +160,28 @@ export function SettingsForm({ settings }: { settings: Settings }) {
                 onClick={() => setTheme(t.value)}
                 className={`rounded-lg border p-3 text-left transition-colors ${
                   theme === t.value
-                    ? "border-foreground ring-foreground ring-1"
+                    ? "border-primary ring-primary ring-1"
                     : "hover:bg-muted/50"
                 }`}
               >
-                <span className="block text-sm font-medium">{t.label}</span>
+                <span className="block text-sm font-semibold">{t.label}</span>
                 <span className="text-muted-foreground text-xs">{t.hint}</span>
               </button>
             ))}
           </div>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
 
-      <Card>
-        <CardHeader>
-          <CardTitle>Nyelv</CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-2">
-          <div className="space-y-1">
-            <Label htmlFor="language">Nyelv</Label>
+      {/* Nyelv szekció */}
+      <div className="bg-card overflow-hidden rounded-xl border">
+        <div className="border-border/50 border-b px-5 py-3">
+          <p className="text-muted-foreground text-xs font-semibold tracking-[0.15em] uppercase">
+            Nyelv
+          </p>
+        </div>
+        <div className="space-y-2 px-5 py-5">
+          <div className="space-y-1.5">
+            <Label htmlFor="language">Megjelenítési nyelv</Label>
             <select
               id="language"
               value={language}
@@ -189,18 +196,21 @@ export function SettingsForm({ settings }: { settings: Settings }) {
             </select>
           </div>
           <p className="text-muted-foreground text-xs">
-            A többnyelvű felület későbbi frissítésben érkezik. Egyelőre csak a
-            beállítást tároljuk.
+            A többnyelvű felület hamarosan — egyelőre csak a beállítást
+            tároljuk.
           </p>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
 
-      <Card>
-        <CardHeader>
-          <CardTitle>Fiók és biztonság</CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-3 text-sm">
-          <div className="flex items-center justify-between gap-2">
+      {/* Fiók szekció */}
+      <div className="bg-card overflow-hidden rounded-xl border">
+        <div className="border-border/50 border-b px-5 py-3">
+          <p className="text-muted-foreground text-xs font-semibold tracking-[0.15em] uppercase">
+            Fiók és biztonság
+          </p>
+        </div>
+        <div className="divide-border/30 divide-y px-5 text-sm">
+          <div className="flex items-center justify-between gap-2 py-3">
             <span>Email megerősítés</span>
             {settings.emailVerified ? (
               <span className="rounded-full border border-green-600 px-2 py-0.5 text-xs text-green-600">
@@ -212,24 +222,25 @@ export function SettingsForm({ settings }: { settings: Settings }) {
               </span>
             )}
           </div>
-          <div className="flex items-center justify-between gap-2">
+          <div className="flex items-center justify-between gap-2 py-3">
             <span>Jelszó módosítása</span>
             <span className="text-muted-foreground rounded-full border px-2 py-0.5 text-xs">
               Hamarosan
             </span>
           </div>
-          <div className="flex items-center justify-between gap-2">
+          <div className="flex items-center justify-between gap-2 py-3">
             <span className="text-red-500">Fiók törlése</span>
             <span className="text-muted-foreground rounded-full border px-2 py-0.5 text-xs">
               Hamarosan
             </span>
           </div>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
 
+      {/* Mentés */}
       <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-4">
         <Button onClick={handleSave} disabled={busy}>
-          {busy ? "Mentés..." : "Mentés"}
+          {busy ? "Mentés..." : "Beállítások mentése"}
         </Button>
         {error && <p className="text-sm text-red-500">{error}</p>}
         {success && <p className="text-sm text-green-600">Elmentve.</p>}

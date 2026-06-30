@@ -1,8 +1,10 @@
 import { redirect } from "next/navigation";
 import { headers } from "next/headers";
+import Link from "next/link";
 import { auth } from "@/lib/auth";
 import { getScootersByUser } from "@/modules/garage/services/scooter-service";
 import { calculateEstimate } from "@/modules/value/utils/calculate-estimate";
+import { AppPage, AppPageHeader, AppEmptyState } from "@/components/app-page";
 
 export default async function ValuePage() {
   const session = await auth.api.getSession({ headers: await headers() });
@@ -24,7 +26,11 @@ export default async function ValuePage() {
       s.purchasePrice != null && estimate != null
         ? s.purchasePrice - estimate
         : null;
-    return { scooter: s, estimate, depreciation };
+    const retention =
+      s.purchasePrice != null && estimate != null
+        ? Math.round((estimate / s.purchasePrice) * 100)
+        : null;
+    return { scooter: s, estimate, depreciation, retention };
   });
 
   const totalPurchase = rows.reduce(
@@ -34,65 +40,121 @@ export default async function ValuePage() {
   const totalValue = rows.reduce((sum, r) => sum + (r.estimate ?? 0), 0);
 
   return (
-    <div className="space-y-6">
-      <h1 className="text-2xl font-semibold">Értékbecslés</h1>
-      <p className="text-muted-foreground text-sm">
-        A becsült érték a vételár, a vásárlási dátum vagy évjárat, valamint a
-        km-óra állás alapján frissül.
-      </p>
+    <AppPage>
+      <AppPageHeader
+        eyebrow="05 · Értékbecslés"
+        title="Értékbecslés"
+        description="Becsült piaci értékek vételár, évjárat és km-állás alapján."
+      />
 
       {scooters.length === 0 ? (
-        <p className="text-muted-foreground text-sm">
-          Még nincs rollered. Vegyél fel egyet a Garázsban.
-        </p>
+        <AppEmptyState
+          icon="📊"
+          title="Nincs roller az értékbecsléshez"
+          description="Adj hozzá egy rollert a Garázsban, add meg a vételárat — az érték automatikusan kiszámolódik."
+          action={
+            <Link
+              href="/garage"
+              className="text-primary text-sm font-medium hover:underline"
+            >
+              Garázs megnyitása →
+            </Link>
+          }
+        />
       ) : (
         <>
-          <ul className="space-y-2">
-            {rows.map(({ scooter, estimate, depreciation }) => (
-              <li key={scooter.id} className="rounded-lg border p-4">
-                <p className="font-medium">
-                  {scooter.brand} {scooter.model}
-                </p>
-                {estimate == null ? (
-                  <p className="text-muted-foreground mt-1 text-sm">
-                    Adj meg vételárat a Garázsban a becsléshez.
-                  </p>
-                ) : (
-                  <div className="mt-1 text-sm">
-                    <p>
-                      Vételár: {scooter.purchasePrice!.toLocaleString("hu-HU")}{" "}
-                      Ft
-                    </p>
-                    <p className="font-medium text-green-600">
-                      Becsült érték most: {estimate.toLocaleString("hu-HU")} Ft
-                    </p>
-                    <p className="text-muted-foreground">
-                      Értékvesztés: {depreciation!.toLocaleString("hu-HU")} Ft (
-                      {Math.round(
-                        (depreciation! / scooter.purchasePrice!) * 100,
-                      )}
-                      %)
-                    </p>
-                  </div>
-                )}
-              </li>
-            ))}
-          </ul>
-
-          {totalPurchase > 0 && (
-            <div className="rounded-lg border p-4">
-              <p className="font-medium">Összesen</p>
-              <p className="text-muted-foreground text-sm">
-                Vételárak: {totalPurchase.toLocaleString("hu-HU")} Ft ·
-                Jelenlegi becsült érték:{" "}
-                <span className="font-medium text-green-600">
-                  {totalValue.toLocaleString("hu-HU")} Ft
-                </span>
+          {/* Roller értékek */}
+          <div className="bg-card overflow-hidden rounded-xl border">
+            <div className="border-border/50 border-b px-5 py-3">
+              <p className="text-muted-foreground text-xs font-semibold tracking-[0.15em] uppercase">
+                Rollerek becsült értéke
               </p>
             </div>
+            <div className="divide-border/30 divide-y">
+              {rows.map(({ scooter, estimate, depreciation, retention }) => (
+                <Link
+                  key={scooter.id}
+                  href={`/garage/${scooter.id}`}
+                  className="hover:bg-muted/30 group flex items-start justify-between gap-4 px-5 py-4 transition-colors"
+                >
+                  <div className="min-w-0 flex-1">
+                    <p className="font-semibold">
+                      {scooter.brand} {scooter.model}
+                    </p>
+                    {scooter.year && (
+                      <p className="text-muted-foreground mt-0.5 font-mono text-xs tabular-nums">
+                        {scooter.year} ·{" "}
+                        {scooter.currentMileage.toLocaleString("hu-HU")} km
+                      </p>
+                    )}
+                    {estimate == null && (
+                      <p className="text-muted-foreground mt-1 text-xs">
+                        Adj meg vételárat a roller adatlapján.
+                      </p>
+                    )}
+                  </div>
+                  {estimate != null ? (
+                    <div className="shrink-0 text-right">
+                      <p className="font-mono font-bold tabular-nums">
+                        ~{estimate.toLocaleString("hu-HU")} Ft
+                      </p>
+                      <p className="text-muted-foreground mt-0.5 font-mono text-xs tabular-nums">
+                        {retention}% · −{depreciation!.toLocaleString("hu-HU")}{" "}
+                        Ft
+                      </p>
+                    </div>
+                  ) : (
+                    <span className="text-muted-foreground/30 shrink-0 text-sm">
+                      →
+                    </span>
+                  )}
+                </Link>
+              ))}
+            </div>
+          </div>
+
+          {/* Összesítő */}
+          {totalPurchase > 0 && (
+            <div className="bg-card overflow-hidden rounded-xl border">
+              <div className="border-border/50 border-b px-5 py-3">
+                <p className="text-muted-foreground text-xs font-semibold tracking-[0.15em] uppercase">
+                  Garázs összesítő
+                </p>
+              </div>
+              <div className="divide-border/30 grid grid-cols-2 divide-x">
+                <div className="px-5 py-4">
+                  <p className="text-muted-foreground text-xs tracking-widest uppercase">
+                    Összes vételár
+                  </p>
+                  <p className="mt-1.5 font-mono text-xl leading-none font-bold tabular-nums">
+                    {totalPurchase.toLocaleString("hu-HU")}
+                    <span className="text-muted-foreground ml-1 text-xs font-normal">
+                      Ft
+                    </span>
+                  </p>
+                </div>
+                <div className="px-5 py-4">
+                  <p className="text-muted-foreground text-xs tracking-widest uppercase">
+                    Becsült jelenlegi érték
+                  </p>
+                  <p className="mt-1.5 font-mono text-xl leading-none font-bold tabular-nums">
+                    ~{totalValue.toLocaleString("hu-HU")}
+                    <span className="text-muted-foreground ml-1 text-xs font-normal">
+                      Ft
+                    </span>
+                  </p>
+                </div>
+              </div>
+            </div>
           )}
+
+          <p className="text-muted-foreground px-1 text-xs">
+            Az értékbecslés orientációs jellegű — vételár, km-állás és évjárat
+            alapján számolódik. A tényleges piaci árra a roller adatlapján
+            futtathatsz részletes becslést.
+          </p>
         </>
       )}
-    </div>
+    </AppPage>
   );
 }

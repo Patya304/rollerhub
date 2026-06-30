@@ -61,10 +61,6 @@ export function AppEmptyState({
   );
 }
 
-/**
- * Nagy, nyomható app-sor.
- * Önállóan is használható, de legjobban AppPanelList-en belül.
- */
 export function AppListItem({
   href,
   marker,
@@ -86,11 +82,12 @@ export function AppListItem({
 }) {
   const inner = (
     <>
-      {/* Bal oldal: marker vagy ikon */}
       {(marker || icon) && (
-        <span className="flex w-8 shrink-0 items-start justify-center pt-0.5">
+        <span className="flex w-9 shrink-0 items-start justify-center pt-0.5">
           {icon ? (
-            <span className="text-xl leading-none">{icon}</span>
+            <span className="bg-muted flex h-8 w-8 items-center justify-center rounded-lg text-base leading-none">
+              {icon}
+            </span>
           ) : (
             <span className="text-muted-foreground/50 font-mono text-xs font-semibold tabular-nums">
               {marker}
@@ -99,7 +96,6 @@ export function AppListItem({
         </span>
       )}
 
-      {/* Közép: eyebrow + title + description */}
       <div className="min-w-0 flex-1">
         {eyebrow && (
           <p className="text-muted-foreground mb-0.5 text-xs font-medium tracking-widest uppercase">
@@ -123,7 +119,6 @@ export function AppListItem({
         )}
       </div>
 
-      {/* Jobb oldal: nyíl */}
       <span
         className={`shrink-0 text-sm transition-colors ${
           disabled
@@ -136,7 +131,7 @@ export function AppListItem({
     </>
   );
 
-  const cls = `group flex items-center gap-4 px-5 py-4 transition-colors ${
+  const cls = `group flex items-center gap-3 px-5 py-4 transition-colors ${
     disabled ? "cursor-default opacity-60" : "hover:bg-muted/30 cursor-pointer"
   }`;
 
@@ -151,10 +146,6 @@ export function AppListItem({
   return <div className={cls}>{inner}</div>;
 }
 
-/**
- * Több AppListItem egy közös panelben, elválasztó borderrel.
- * Appos menülistás megjelenés.
- */
 export function AppPanelList({
   children,
   label,
@@ -176,7 +167,6 @@ export function AppPanelList({
   );
 }
 
-/** Kis adatcella panel — 2-4 oszlopos stat gridhez */
 export function StatCell({
   label,
   value,
@@ -203,7 +193,6 @@ export function StatCell({
   );
 }
 
-/** Panel szekció — border-b headerrel, szabad tartalommal */
 export function AppSection({
   label,
   children,
@@ -227,45 +216,5 @@ export function AppSection({
       </div>
       <div className="px-5 py-4">{children}</div>
     </div>
-  );
-}
-
-/** Nagy, önálló kattintható kártya ikonnal (dashboard nav-elem) */
-export function AppCard({
-  href,
-  icon,
-  title,
-  description,
-  badge,
-}: {
-  href: string;
-  icon: string;
-  title: string;
-  description: string;
-  badge?: string;
-}) {
-  return (
-    <a
-      href={href}
-      className="bg-card hover:border-primary/50 group flex items-center gap-4 rounded-xl border px-5 py-4 transition-colors"
-    >
-      <span className="bg-muted flex h-11 w-11 shrink-0 items-center justify-center rounded-lg text-xl">
-        {icon}
-      </span>
-      <div className="min-w-0 flex-1">
-        <div className="flex items-center gap-2">
-          <p className="font-semibold">{title}</p>
-          {badge && (
-            <span className="text-primary border-primary/30 rounded-full border px-1.5 py-0.5 text-xs">
-              {badge}
-            </span>
-          )}
-        </div>
-        <p className="text-muted-foreground mt-0.5 text-sm">{description}</p>
-      </div>
-      <span className="text-muted-foreground group-hover:text-primary shrink-0 transition-colors">
-        →
-      </span>
-    </a>
   );
 }

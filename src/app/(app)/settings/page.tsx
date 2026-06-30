@@ -19,6 +19,7 @@ export default async function SettingsPage() {
   return (
     <AppPage>
       <AppPageHeader
+        eyebrow="07 · Beállítások"
         title="Beállítások"
         description="Profil, megjelenés és fiókbeállítások."
       />
