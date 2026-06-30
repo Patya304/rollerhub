@@ -197,6 +197,9 @@ export function ServiceLog({ scooterId }: { scooterId: string }) {
               value={cost}
               onChange={(e) => setCost(e.target.value)}
             />
+            <p className="text-muted-foreground text-xs">
+              Segít követni, mennyit költöttél a rollerre.
+            </p>
           </div>
           <div className="space-y-1.5 sm:col-span-2">
             <Label htmlFor={`notes-${scooterId}`}>Megjegyzés (opc.)</Label>

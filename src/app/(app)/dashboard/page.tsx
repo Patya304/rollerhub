@@ -12,6 +12,46 @@ import {
   AppListItem,
 } from "@/components/app-page";
 
+function getNextStep(stats: {
+  scooterCount: number;
+  serviceCount: number;
+  rideCount: number;
+  totalValue: number;
+}): { label: string; description: string; href: string; eyebrow: string } {
+  if (stats.serviceCount === 0) {
+    return {
+      eyebrow: "Következő lépés",
+      label: "Rögzíts egy első szervizt",
+      description: "A szervizkönyv növeli a roller dokumentált értékét.",
+      href: "/garage",
+    };
+  }
+  if (stats.rideCount === 0) {
+    return {
+      eyebrow: "Következő lépés",
+      label: "Naplózz egy első menetet",
+      description: "Kövesd, mennyit és hogyan tekersz a rollereden.",
+      href: "/rides",
+    };
+  }
+  if (stats.totalValue === 0) {
+    return {
+      eyebrow: "Következő lépés",
+      label: "Futtass értékbecslést",
+      description:
+        "Adj meg vételárat a roller adatlapján, hogy kiszámoljuk az aktuális értéket.",
+      href: "/value",
+    };
+  }
+  return {
+    eyebrow: "Garázs állapota",
+    label: "Minden rendben van",
+    description:
+      "Roller, szerviz, menet és értékbecslés is dokumentálva. Jó munka.",
+    href: "/garage",
+  };
+}
+
 export default async function OverviewPage() {
   const session = await auth.api.getSession({ headers: await headers() });
   if (!session) redirect("/sign-in");
@@ -40,6 +80,8 @@ export default async function OverviewPage() {
       </AppPage>
     );
   }
+
+  const nextStep = getNextStep(stats);
 
   return (
     <AppPage>
@@ -98,6 +140,22 @@ export default async function OverviewPage() {
         </div>
       </div>
 
+      {/* Következő lépés */}
+      <Link
+        href={nextStep.href}
+        className="border-primary/20 bg-primary/5 hover:border-primary/40 group block rounded-xl border px-5 py-4 transition-colors"
+      >
+        <p className="text-primary text-xs font-semibold tracking-[0.15em] uppercase">
+          {nextStep.eyebrow}
+        </p>
+        <p className="mt-1 font-semibold group-hover:underline">
+          {nextStep.label}
+        </p>
+        <p className="text-muted-foreground mt-0.5 text-sm">
+          {nextStep.description}
+        </p>
+      </Link>
+
       {/* Modulok navigáció */}
       <AppPanelList label="Modulok">
         <AppListItem
@@ -115,7 +173,7 @@ export default async function OverviewPage() {
           meta={
             stats.serviceCount > 0
               ? `${stats.serviceCount} bejegyzés · ${stats.totalServiceCost.toLocaleString("hu-HU")} Ft`
-              : undefined
+              : "Még nincs bejegyzés"
           }
         />
         <AppListItem
@@ -126,7 +184,7 @@ export default async function OverviewPage() {
           meta={
             stats.rideCount > 0
               ? `${stats.rideCount} menet · ${stats.totalKm.toLocaleString("hu-HU")} km`
-              : undefined
+              : "Még nincs menet"
           }
         />
         <AppListItem
@@ -134,6 +192,11 @@ export default async function OverviewPage() {
           icon="📊"
           title="Értékbecslés"
           description="Roller aktuális piaci értékének becslése."
+          meta={
+            stats.totalValue > 0
+              ? `~${stats.totalValue.toLocaleString("hu-HU")} Ft`
+              : undefined
+          }
         />
         <AppListItem
           href="/knowledge"
@@ -144,7 +207,7 @@ export default async function OverviewPage() {
       </AppPanelList>
 
       {/* Premium callout */}
-      <div className="border-primary/20 bg-primary/5 rounded-xl border px-5 py-4">
+      <div className="border-primary/20 rounded-xl border px-5 py-4">
         <p className="text-primary text-xs font-semibold tracking-[0.15em] uppercase">
           Premium · Hamarosan
         </p>

@@ -39,8 +39,8 @@ export function ServiceOverview({
         <p className="text-4xl">🔧</p>
         <p className="mt-4 font-semibold">Még nincs szerviz-bejegyzés</p>
         <p className="text-muted-foreground mx-auto mt-1.5 max-w-xs text-sm leading-relaxed">
-          Rögzíts gumicserét, fékállítást, akkuellenőrzést — a roller
-          adatlapján, a Szervizkönyvben.
+          Nyisd meg a rollert a Garázsban, görgess a Szervizkönyvhöz, és
+          rögzítsd az első bejegyzést.
         </p>
       </div>
     );

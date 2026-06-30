@@ -17,10 +17,20 @@ const LANGUAGE_LABELS: Record<Language, string> = {
   de: "Német",
 };
 
-const THEME_OPTIONS: { value: Theme; label: string; hint: string }[] = [
+const THEME_OPTIONS: {
+  value: Theme;
+  label: string;
+  hint: string;
+  recommended?: boolean;
+}[] = [
   { value: "default", label: "Alap", hint: "Shadcn default" },
   { value: "black-white", label: "Fekete / fehér", hint: "Letisztult" },
-  { value: "black-orange", label: "Fekete / narancs", hint: "Sport" },
+  {
+    value: "black-orange",
+    label: "Fekete / narancs",
+    hint: "Sport",
+    recommended: true,
+  },
   { value: "black-blue", label: "Fekete / kék", hint: "Tech" },
 ];
 
@@ -158,14 +168,21 @@ export function SettingsForm({ settings }: { settings: Settings }) {
                 key={t.value}
                 type="button"
                 onClick={() => setTheme(t.value)}
-                className={`rounded-lg border p-3 text-left transition-colors ${
+                className={`relative rounded-lg border p-3 text-left transition-colors ${
                   theme === t.value
-                    ? "border-primary ring-primary ring-1"
+                    ? "border-primary bg-primary/5 ring-primary ring-1"
                     : "hover:bg-muted/50"
                 }`}
               >
+                {t.recommended && (
+                  <span className="text-primary absolute top-2 right-2 text-xs font-semibold">
+                    ★
+                  </span>
+                )}
                 <span className="block text-sm font-semibold">{t.label}</span>
-                <span className="text-muted-foreground text-xs">{t.hint}</span>
+                <span className="text-muted-foreground text-xs">
+                  {t.recommended ? `${t.hint} · ajánlott` : t.hint}
+                </span>
               </button>
             ))}
           </div>

@@ -7,7 +7,7 @@ export default function GaragePage() {
       <AppPageHeader
         eyebrow="02 · Garázs"
         title="A garázsod"
-        description="Rollerjeid adatlapja, értékük és szerviztörténetük."
+        description="Rollereid adatlapja, becsült értékük és szerviztörténetük."
       />
       <Garage />
     </AppPage>

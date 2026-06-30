@@ -207,7 +207,7 @@ export function AppSection({
   return (
     <div
       id={id}
-      className={`bg-card overflow-hidden rounded-xl border ${className ?? ""}`}
+      className={`bg-card scroll-mt-20 overflow-hidden rounded-xl border ${className ?? ""}`}
     >
       <div className="border-border/50 border-b px-5 py-3">
         <p className="text-muted-foreground text-xs font-semibold tracking-[0.15em] uppercase">

@@ -113,7 +113,8 @@ export function Garage() {
           <p className="text-4xl">🛴</p>
           <p className="mt-4 font-semibold">A garázs üres</p>
           <p className="text-muted-foreground mx-auto mt-1.5 max-w-xs text-sm">
-            Add hozzá az első rolleredet az alábbi gombbal.
+            Add hozzá az első rolleredet — ezután itt lesz minden adatod,
+            szervized és értéked.
           </p>
           <Button className="mt-6" onClick={() => setShowForm(true)}>
             Roller hozzáadása
@@ -236,6 +237,9 @@ export function Garage() {
                   onChange={(e) => setMileage(e.target.value)}
                   placeholder="pl. 1500"
                 />
+                <p className="text-muted-foreground text-xs">
+                  A szervizek és az értékbecslés ettől lesz pontosabb.
+                </p>
               </div>
               <div className="space-y-1.5 sm:col-span-2">
                 <Label htmlFor="price">Vételár (Ft)</Label>
@@ -246,6 +250,9 @@ export function Garage() {
                   onChange={(e) => setPrice(e.target.value)}
                   placeholder="pl. 250 000"
                 />
+                <p className="text-muted-foreground text-xs">
+                  Ebből számoljuk az értékvesztést és a becsült piaci árat.
+                </p>
               </div>
             </div>
 
