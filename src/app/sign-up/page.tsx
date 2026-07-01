@@ -29,7 +29,18 @@ export default function SignUpPage() {
   return (
     <main className="flex min-h-screen items-center justify-center p-4">
       <div className="w-full max-w-sm space-y-4">
-        <h1 className="text-2xl font-semibold">Regisztráció</h1>
+        <div>
+          <Link
+            href="/"
+            className="text-muted-foreground mb-6 inline-block text-sm hover:underline"
+          >
+            ← RollerHub
+          </Link>
+          <h1 className="text-2xl font-semibold">Regisztráció</h1>
+          <p className="text-muted-foreground mt-1 text-sm">
+            Hozd létre a RollerHub garázsodat. Ingyenes, azonnal elérhető.
+          </p>
+        </div>
         <div className="space-y-2">
           <Label htmlFor="name">Név</Label>
           <Input

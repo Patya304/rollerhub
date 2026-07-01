@@ -191,20 +191,22 @@ Fontos environment változók Vercelen:
   - `RESEND_API_KEY`
   - `EMAIL_FROM`
 
-## Jelenlegi fókusz
+## Jelenlegi állapot
 
-A RollerHub V1 magja már működik.
+A RollerHub V1 magja él és elérhető: https://rollerhub.vercel.app
 
-Aktuális fókusz:
+Elkészült:
 
-- Settings theme tényleges alkalmazása
-- Beállítások oldal polish
-- Saját domaines email
-- Email verification
-- Password reset
+- Digitális garázs designnyelv (dark témák, APK-inspirált UI)
+- Onboarding empty state-ek új usereknek
+- Premium validációs alap: `/pricing`, `/sample-report`, értékriport előnézet
+
+Következő lépések:
+
+- Soft launch első külső tesztelőkkel
+- Saját domaines email + Resend
+- Email verification és password reset
 - PWA polish
-- Soft launch előkészítés
-- Később AI-segített roller katalógus
 
 ## Halasztott funkciók
 

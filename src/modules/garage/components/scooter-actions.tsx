@@ -236,28 +236,28 @@ export function ScooterActions({ scooter }: { scooter: Scooter }) {
   }
 
   return (
-    <div className="space-y-3">
-      <div className="flex flex-wrap gap-2">
-        <Button size="sm" onClick={handleEstimate} disabled={busy}>
-          {busy ? "Számítás..." : "Értékbecslés futtatása"}
-        </Button>
-        <Button
-          size="sm"
-          variant="outline"
-          onClick={() => setEditing(true)}
-          disabled={busy}
-        >
-          Adatok szerkesztése
-        </Button>
-        <Button
-          size="sm"
-          variant="outline"
-          onClick={handleDelete}
-          disabled={busy}
-        >
-          Roller törlése
-        </Button>
+    <div className="space-y-4">
+      {/* Elsődleges műveletek */}
+      <div>
+        <p className="text-muted-foreground mb-2.5 text-xs">
+          Futtass értékbecslést a vételár és km-állás alapján, vagy módosítsd a
+          roller adatait.
+        </p>
+        <div className="flex flex-wrap gap-2">
+          <Button size="sm" onClick={handleEstimate} disabled={busy}>
+            {busy ? "Számítás..." : "Értékbecslés futtatása"}
+          </Button>
+          <Button
+            size="sm"
+            variant="outline"
+            onClick={() => setEditing(true)}
+            disabled={busy}
+          >
+            Adatok szerkesztése
+          </Button>
+        </div>
       </div>
+
       {estimate !== null && (
         <div className="bg-muted/40 rounded-lg px-4 py-3">
           <p className="text-muted-foreground text-xs font-medium tracking-widest uppercase">
@@ -268,8 +268,20 @@ export function ScooterActions({ scooter }: { scooter: Scooter }) {
           </p>
         </div>
       )}
+
       {estimateMsg && <p className="text-sm text-red-500">{estimateMsg}</p>}
       {error && <p className="text-sm text-red-500">{error}</p>}
+
+      {/* Veszélyes zóna */}
+      <div className="border-border/40 border-t pt-3">
+        <button
+          onClick={handleDelete}
+          disabled={busy}
+          className="text-muted-foreground text-xs transition-colors hover:text-red-500 disabled:opacity-40"
+        >
+          Roller törlése
+        </button>
+      </div>
     </div>
   );
 }

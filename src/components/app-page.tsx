@@ -193,6 +193,26 @@ export function StatCell({
   );
 }
 
+export function FieldList({
+  fields,
+}: {
+  fields: { label: string; value: string }[];
+}) {
+  return (
+    <dl className="space-y-0">
+      {fields.map((f) => (
+        <div
+          key={f.label}
+          className="border-border/30 flex items-center justify-between gap-4 border-b py-2.5 text-sm last:border-b-0"
+        >
+          <dt className="text-muted-foreground">{f.label}</dt>
+          <dd className="font-mono font-semibold tabular-nums">{f.value}</dd>
+        </div>
+      ))}
+    </dl>
+  );
+}
+
 export function AppSection({
   label,
   children,

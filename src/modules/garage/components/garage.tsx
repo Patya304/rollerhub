@@ -109,13 +109,17 @@ export function Garage() {
       {loading ? (
         <p className="text-muted-foreground py-4 text-sm">Betöltés...</p>
       ) : scooters.length === 0 ? (
-        <div className="rounded-xl border border-dashed px-8 py-14 text-center">
+        <div className="rounded-xl border border-dashed px-8 py-10 text-center">
           <p className="text-4xl">🛴</p>
           <p className="mt-4 font-semibold">A garázs üres</p>
-          <p className="text-muted-foreground mx-auto mt-1.5 max-w-xs text-sm">
-            Add hozzá az első rolleredet — ezután itt lesz minden adatod,
-            szervized és értéked.
+          <p className="text-muted-foreground mx-auto mt-1.5 max-w-xs text-sm leading-relaxed">
+            Vedd fel az első rolleredet — utána automatikusan elérhetővé válik:
           </p>
+          <ul className="text-muted-foreground mx-auto mt-3 max-w-xs space-y-1 text-left text-sm">
+            <li>🔧 Szerviznapló — gumicsere, fékállítás, karbantartás</li>
+            <li>📊 Értékbecslés — becsült piaci ár, értékvesztés</li>
+            <li>📋 Eladási állapotlap — ha el akarod adni a rolleredet</li>
+          </ul>
           <Button className="mt-6" onClick={() => setShowForm(true)}>
             Roller hozzáadása
           </Button>

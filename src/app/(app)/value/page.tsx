@@ -89,7 +89,10 @@ export default async function ValuePage() {
                     )}
                     {estimate == null && (
                       <p className="text-muted-foreground mt-1 text-xs">
-                        Adj meg vételárat a roller adatlapján.
+                        {scooter.currentMileage === 0 &&
+                        scooter.purchasePrice == null
+                          ? "A becsléshez vételár és km-állás szükséges."
+                          : "Adj meg vételárat a roller adatlapján."}
                       </p>
                     )}
                   </div>

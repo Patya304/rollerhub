@@ -7,30 +7,35 @@ import { Button } from "@/components/ui/button";
 import {
   AppPage,
   AppPageHeader,
-  AppEmptyState,
   AppPanelList,
   AppListItem,
 } from "@/components/app-page";
 
-function getNextStep(stats: {
-  scooterCount: number;
-  serviceCount: number;
-  rideCount: number;
-  totalValue: number;
-}): { label: string; description: string; href: string; eyebrow: string } {
+function getNextStep(
+  stats: {
+    scooterCount: number;
+    serviceCount: number;
+    rideCount: number;
+    totalValue: number;
+  },
+  firstScooterId: string | undefined,
+): { label: string; description: string; href: string; eyebrow: string } {
+  const scooterHref = firstScooterId ? `/garage/${firstScooterId}` : "/garage";
+
   if (stats.serviceCount === 0) {
     return {
       eyebrow: "Következő lépés",
       label: "Rögzíts egy első szervizt",
-      description: "A szervizkönyv növeli a roller dokumentált értékét.",
-      href: "/garage",
+      description:
+        "Nyisd meg a roller adatlapját, és görgess a Szervizkönyvhöz.",
+      href: scooterHref,
     };
   }
   if (stats.rideCount === 0) {
     return {
       eyebrow: "Következő lépés",
       label: "Naplózz egy első menetet",
-      description: "Kövesd, mennyit és hogyan tekersz a rollereden.",
+      description: "Kövesd, mennyit és hogyan tekersz a rollereiden.",
       href: "/rides",
     };
   }
@@ -39,8 +44,8 @@ function getNextStep(stats: {
       eyebrow: "Következő lépés",
       label: "Futtass értékbecslést",
       description:
-        "Adj meg vételárat a roller adatlapján, hogy kiszámoljuk az aktuális értéket.",
-      href: "/value",
+        "Nyisd meg a roller adatlapját, adj meg vételárat, majd futtass becslést.",
+      href: scooterHref,
     };
   }
   return {
@@ -65,23 +70,54 @@ export default async function OverviewPage() {
         <AppPageHeader
           eyebrow="01 · Műszerfal"
           title="Digitális garázs"
-          description="Kövesd nyomon rollereid értékét, szervizeit és meneteit."
+          description="Üdvözöl a RollerHub — add hozzá az első rolleredet a kezdéshez."
         />
-        <AppEmptyState
-          icon="🛴"
-          title="A garázs üres"
-          description="Add hozzá az első rolleredet — ezután ide gyűlik össze az összes adat."
-          action={
-            <Button asChild>
-              <Link href="/garage">Roller hozzáadása</Link>
+
+        {/* Onboarding first step */}
+        <div className="bg-card overflow-hidden rounded-xl border">
+          <div className="border-border/50 border-b px-5 py-3">
+            <p className="text-muted-foreground text-xs font-semibold tracking-[0.15em] uppercase">
+              Első lépés
+            </p>
+          </div>
+          <div className="px-5 py-6">
+            <p className="text-2xl">🛴</p>
+            <p className="mt-3 text-lg font-semibold">
+              Hozd létre a garázsodat
+            </p>
+            <p className="text-muted-foreground mt-1 text-sm leading-relaxed">
+              Ezzel indul a szerviznapló, az értékbecslés és az eladási
+              állapotlap. 2 perc az egész.
+            </p>
+            <Button asChild className="mt-5">
+              <Link href="/garage">Első roller hozzáadása</Link>
             </Button>
-          }
-        />
+          </div>
+        </div>
+
+        {/* Mi vár rád */}
+        <AppPanelList label="Mi épül fel ezután">
+          <AppListItem
+            icon="🔧"
+            title="Szerviznapló"
+            description="Gumicsere, fékállítás, akkuellenőrzés — minden egy helyen."
+          />
+          <AppListItem
+            icon="📊"
+            title="Értékbecslés"
+            description="Becsült piaci érték vételár, km-állás és évjárat alapján."
+          />
+          <AppListItem
+            icon="📋"
+            title="Eladási állapotlap"
+            description="Dokumentált előzmények, ha el akarod adni a rolleredet."
+          />
+        </AppPanelList>
       </AppPage>
     );
   }
 
-  const nextStep = getNextStep(stats);
+  const nextStep = getNextStep(stats, data.recentScooters[0]?.id);
 
   return (
     <AppPage>

@@ -41,7 +41,7 @@ export default function SampleReportPage() {
       <section className="mx-auto w-full max-w-2xl px-6 py-12">
         <div className="mb-2 text-center">
           <span className="rounded-full border px-2 py-0.5 text-xs">
-            Minta · Demo adatok
+            Előnézet · Demo adatok · Nem valódi riport
           </span>
         </div>
         <h1 className="mt-3 text-center text-3xl font-bold tracking-tight sm:text-4xl">
@@ -49,6 +49,10 @@ export default function SampleReportPage() {
         </h1>
         <p className="text-muted-foreground mt-3 text-center text-lg">
           Így nézhet ki egy eladáshoz előkészített roller állapotlap.
+        </p>
+        <p className="text-muted-foreground mt-2 text-center text-sm">
+          Ez egy előnézet demo adatokkal — a valódi riport a saját rolleredhez
+          generálódik, a te szerviz- és menetadataid alapján.
         </p>
 
         <div className="mt-10 space-y-6 rounded-xl border p-6">

@@ -27,11 +27,11 @@ A termékpozicionálás:
 
 ## Jelenlegi készültség
 
-Belső MVP: körülbelül 95%
+Belső MVP: körülbelül 97%
 
-Publikus V1: körülbelül 80%
+Publikus V1: körülbelül 88%
 
-Launch előkészítés: körülbelül 65–70%
+Launch előkészítés: körülbelül 80%
 
 ## Kész fő modulok
 
@@ -148,15 +148,33 @@ Az első Premium / monetizációs validációs alap elkészült:
 
 Ez nem fizetős rendszer — a Premium funkciók előkészítése és piacvalidációja.
 
+## App UI állapota
+
+A bejelentkezett app megkapta a digitális garázs designt:
+
+- APK-inspirált uppercase labelek, font-mono értékek, divide-y panel listák
+- AppPage / AppPageHeader / AppPanelList / AppListItem / AppSection közös primitívek
+- Onboarding empty state-ek dashboard-on és garázsban
+- Témák ténylegesen alkalmazódnak (data-theme wrapper)
+
+## Premium validációs alap
+
+- `/pricing` oldal — Free és Premium csomag (Premium: Hamarosan)
+- `/sample-report` — publikus minta értékriport, bejelentkezés nélkül
+- Roller adatlapon értékriport előnézet (ársáv, checklist, tipp)
+- Dashboard Premium teaser
+
+Ez nem fizetős rendszer — a funkciók validációja és előkészítése zajlik.
+
 ## Jelenlegi fókusz
 
 Aktuális fő irány:
 
-1. saját domaines email + Resend setup
-2. email verification
-3. password reset
-4. PWA polish
-5. soft launch teszt
+1. soft launch — első külső felhasználói tesztek
+2. saját domaines email + Resend setup
+3. email verification
+4. password reset
+5. PWA polish
 6. később AI-segített roller katalógus
 
 ## Fontos közeljövőbeli feladatok

@@ -12,7 +12,12 @@ import {
 import { ServiceLog } from "@/modules/services/components/service-log";
 import { ValueHistory } from "@/modules/value/components/value-history";
 import { SaleReport } from "@/modules/garage/components/sale-report";
-import { AppSection, AppPanelList, AppListItem } from "@/components/app-page";
+import {
+  AppSection,
+  AppPanelList,
+  AppListItem,
+  FieldList,
+} from "@/components/app-page";
 
 export default async function ScooterDetailsPage({
   params,
@@ -237,36 +242,12 @@ export default async function ScooterDetailsPage({
 
       {/* Műszaki adatok */}
       <AppSection label="Műszaki adatok" id="muszaki">
-        <dl className="space-y-0">
-          {techFields.map((f) => (
-            <div
-              key={f.label}
-              className="border-border/30 flex items-center justify-between gap-4 border-b py-2.5 text-sm last:border-b-0"
-            >
-              <dt className="text-muted-foreground">{f.label}</dt>
-              <dd className="font-mono font-semibold tabular-nums">
-                {f.value}
-              </dd>
-            </div>
-          ))}
-        </dl>
+        <FieldList fields={techFields} />
       </AppSection>
 
       {/* Vásárlás és érték */}
       <AppSection label="Vásárlás és érték" id="ertek">
-        <dl className="space-y-0">
-          {valueFields.map((f) => (
-            <div
-              key={f.label}
-              className="border-border/30 flex items-center justify-between gap-4 border-b py-2.5 text-sm last:border-b-0"
-            >
-              <dt className="text-muted-foreground">{f.label}</dt>
-              <dd className="font-mono font-semibold tabular-nums">
-                {f.value}
-              </dd>
-            </div>
-          ))}
-        </dl>
+        <FieldList fields={valueFields} />
       </AppSection>
 
       {/* Szervizkönyv */}

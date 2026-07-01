@@ -97,7 +97,7 @@ export default function PricingPage() {
               </p>
             </div>
 
-            <ul className="mb-8 flex-1 space-y-3">
+            <ul className="mb-6 flex-1 space-y-3">
               {premiumFeatures.map((f) => (
                 <li key={f} className="flex items-start gap-2 text-sm">
                   <Check className="text-muted-foreground mt-0.5 h-4 w-4 shrink-0" />
@@ -106,23 +106,35 @@ export default function PricingPage() {
               ))}
             </ul>
 
+            <p className="text-muted-foreground mb-4 text-xs leading-relaxed">
+              A Premium funkciók fokozatosan érkeznek. Először az értékriportot
+              és az eladási állapotlapot validáljuk.
+            </p>
+
             <Button disabled variant="outline">
               Hamarosan elérhető
             </Button>
           </div>
         </div>
 
-        <p className="text-muted-foreground mt-10 text-center text-sm">
-          <Link href="/sample-report" className="underline">
-            Minta értékriport megtekintése
-          </Link>
-          {" · "}
-          Kérdésed van?{" "}
-          <Link href="/devlog" className="underline">
-            Kövesd a fejlesztési naplót
-          </Link>
-          .
-        </p>
+        <div className="mt-10 space-y-2 text-center">
+          <p className="text-muted-foreground text-sm">
+            Kíváncsi vagy, hogyan néz ki egy értékriport?{" "}
+            <Link
+              href="/sample-report"
+              className="text-foreground font-medium underline underline-offset-4"
+            >
+              Nézd meg a minta riportot →
+            </Link>
+          </p>
+          <p className="text-muted-foreground text-sm">
+            Kérdésed van?{" "}
+            <Link href="/devlog" className="underline underline-offset-4">
+              Kövesd a fejlesztési naplót
+            </Link>
+            .
+          </p>
+        </div>
       </section>
 
       <footer className="text-muted-foreground mt-auto border-t px-6 py-6 text-center text-sm">

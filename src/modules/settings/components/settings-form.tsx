@@ -227,27 +227,42 @@ export function SettingsForm({ settings }: { settings: Settings }) {
           </p>
         </div>
         <div className="divide-border/30 divide-y px-5 text-sm">
-          <div className="flex items-center justify-between gap-2 py-3">
-            <span>Email megerősítés</span>
+          <div className="flex items-start justify-between gap-2 py-3">
+            <div>
+              <span>Email</span>
+              <p className="text-muted-foreground mt-0.5 text-xs">
+                {settings.email}
+              </p>
+            </div>
             {settings.emailVerified ? (
-              <span className="rounded-full border border-green-600 px-2 py-0.5 text-xs text-green-600">
+              <span className="mt-0.5 shrink-0 rounded-full border border-green-600 px-2 py-0.5 text-xs text-green-600">
                 Megerősítve
               </span>
             ) : (
-              <span className="rounded-full border border-amber-600 px-2 py-0.5 text-xs text-amber-600">
+              <span className="text-muted-foreground mt-0.5 shrink-0 rounded-full border px-2 py-0.5 text-xs">
                 Nincs megerősítve
               </span>
             )}
           </div>
           <div className="flex items-center justify-between gap-2 py-3">
-            <span>Jelszó módosítása</span>
-            <span className="text-muted-foreground rounded-full border px-2 py-0.5 text-xs">
+            <div>
+              <span>Jelszó módosítása</span>
+              <p className="text-muted-foreground mt-0.5 text-xs">
+                Email-alapú jelszóvisszaállítás hamarosan.
+              </p>
+            </div>
+            <span className="text-muted-foreground shrink-0 rounded-full border px-2 py-0.5 text-xs">
               Hamarosan
             </span>
           </div>
           <div className="flex items-center justify-between gap-2 py-3">
-            <span className="text-red-500">Fiók törlése</span>
-            <span className="text-muted-foreground rounded-full border px-2 py-0.5 text-xs">
+            <div>
+              <span className="text-muted-foreground">Fiók törlése</span>
+              <p className="text-muted-foreground mt-0.5 text-xs">
+                Ez az opció hamarosan elérhető lesz.
+              </p>
+            </div>
+            <span className="text-muted-foreground shrink-0 rounded-full border px-2 py-0.5 text-xs">
               Hamarosan
             </span>
           </div>

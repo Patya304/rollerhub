@@ -28,7 +28,18 @@ export default function SignInPage() {
   return (
     <main className="flex min-h-screen items-center justify-center p-4">
       <div className="w-full max-w-sm space-y-4">
-        <h1 className="text-2xl font-semibold">Belépés</h1>
+        <div>
+          <Link
+            href="/"
+            className="text-muted-foreground mb-6 inline-block text-sm hover:underline"
+          >
+            ← RollerHub
+          </Link>
+          <h1 className="text-2xl font-semibold">Belépés</h1>
+          <p className="text-muted-foreground mt-1 text-sm">
+            Lépj be a digitális garázsodba.
+          </p>
+        </div>
         <div className="space-y-2">
           <Label htmlFor="email">Email</Label>
           <Input
