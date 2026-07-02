@@ -31,7 +31,7 @@ const features = [
   {
     icon: Route,
     title: "Menetnapló",
-    text: "Naplózd a menetidet: megtett táv, időtartam, átlag- és maximális sebesség.",
+    text: "Naplózd a menetidődet: megtett táv, időtartam, átlag- és maximális sebesség.",
   },
   {
     icon: BookOpen,
