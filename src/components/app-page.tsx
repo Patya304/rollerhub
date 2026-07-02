@@ -119,15 +119,11 @@ export function AppListItem({
         )}
       </div>
 
-      <span
-        className={`shrink-0 text-sm transition-colors ${
-          disabled
-            ? "text-muted-foreground/30"
-            : "text-muted-foreground group-hover:text-primary"
-        }`}
-      >
-        →
-      </span>
+      {!disabled && (
+        <span className="text-muted-foreground group-hover:text-primary shrink-0 text-sm transition-colors">
+          →
+        </span>
+      )}
     </>
   );
 

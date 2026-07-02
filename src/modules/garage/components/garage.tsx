@@ -1,11 +1,11 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { calculateEstimate } from "@/modules/value/utils/calculate-estimate";
+import { GarageVehicleListItem } from "@/components/garage-vehicle-list-item";
 
 type Scooter = {
   id: string;
@@ -145,38 +145,14 @@ export function Garage() {
                 .filter(Boolean)
                 .join(" · ");
               return (
-                <Link
+                <GarageVehicleListItem
                   key={s.id}
+                  marker={String(idx + 1).padStart(2, "0")}
+                  title={`${s.brand} ${s.model}`}
+                  meta={meta}
                   href={`/garage/${s.id}`}
-                  className="hover:bg-muted/30 group flex items-center gap-4 px-5 py-4 transition-colors"
-                >
-                  {/* Marker vagy fotó */}
-                  {s.photoUrl ? (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img
-                      src={s.photoUrl}
-                      alt={`${s.brand} ${s.model}`}
-                      className="h-12 w-12 shrink-0 rounded-lg object-cover"
-                    />
-                  ) : (
-                    <span className="text-muted-foreground/50 flex w-8 shrink-0 items-start justify-center pt-0.5 font-mono text-xs font-semibold tabular-nums">
-                      {String(idx + 1).padStart(2, "0")}
-                    </span>
-                  )}
-                  {/* Tartalom */}
-                  <div className="min-w-0 flex-1">
-                    <p className="font-semibold">
-                      {s.brand} {s.model}
-                    </p>
-                    <p className="text-muted-foreground mt-0.5 font-mono text-xs tabular-nums">
-                      {meta}
-                    </p>
-                  </div>
-                  {/* Nyíl */}
-                  <span className="text-muted-foreground group-hover:text-primary shrink-0 transition-colors">
-                    →
-                  </span>
-                </Link>
+                  photoUrl={s.photoUrl}
+                />
               );
             })}
           </div>

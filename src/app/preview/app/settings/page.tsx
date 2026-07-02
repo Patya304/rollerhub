@@ -1,4 +1,5 @@
 import { AppPage, AppPageHeader } from "@/components/app-page";
+import { SettingsThemeOptions } from "@/components/settings-theme-options";
 import { DEMO_USER, THEME_OPTIONS } from "@/modules/preview/demo-data";
 
 export default function PreviewSettingsPage() {
@@ -55,28 +56,11 @@ export default function PreviewSettingsPage() {
           </p>
         </div>
         <div className="px-5 py-5">
-          <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
-            {THEME_OPTIONS.map((t) => (
-              <div
-                key={t.value}
-                className={`relative rounded-lg border p-3 text-left ${
-                  t.value === activeTheme
-                    ? "border-primary bg-primary/5 ring-primary ring-1"
-                    : "opacity-60"
-                }`}
-              >
-                {t.recommended && (
-                  <span className="text-primary absolute top-2 right-2 text-xs font-semibold">
-                    ★
-                  </span>
-                )}
-                <span className="block text-sm font-semibold">{t.label}</span>
-                <span className="text-muted-foreground text-xs">
-                  {t.recommended ? `${t.hint} · ajánlott` : t.hint}
-                </span>
-              </div>
-            ))}
-          </div>
+          <SettingsThemeOptions
+            options={THEME_OPTIONS}
+            value={activeTheme}
+            disabled
+          />
           <p className="text-muted-foreground mt-3 text-xs">
             Demo módban a témát nem lehet váltani — az oldal mindig Fekete /
             narancs témával jelenik meg.

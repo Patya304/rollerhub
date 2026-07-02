@@ -10,6 +10,7 @@ import {
   AppPanelList,
   AppListItem,
 } from "@/components/app-page";
+import { DashboardSummaryPanel } from "@/components/dashboard-summary-panel";
 
 function getNextStep(
   stats: {
@@ -123,58 +124,12 @@ export default async function OverviewPage() {
     <AppPage>
       <AppPageHeader eyebrow="01 · Műszerfal" title="Digitális garázs" />
 
-      {/* Hero statisztika panel */}
-      <div className="bg-card overflow-hidden rounded-xl border">
-        <div className="border-border/50 border-b px-5 py-3">
-          <p className="text-muted-foreground text-xs font-semibold tracking-[0.15em] uppercase">
-            Garázs összesítő
-          </p>
-        </div>
-        <div className="divide-border/30 grid grid-cols-2 divide-x divide-y">
-          <div className="px-5 py-4">
-            <p className="text-muted-foreground text-xs tracking-widest uppercase">
-              Rollerek
-            </p>
-            <p className="mt-1.5 font-mono text-2xl leading-none font-bold tabular-nums">
-              {stats.scooterCount}
-            </p>
-          </div>
-          <div className="px-5 py-4">
-            <p className="text-muted-foreground text-xs tracking-widest uppercase">
-              Összes km
-            </p>
-            <p className="mt-1.5 font-mono text-2xl leading-none font-bold tabular-nums">
-              {stats.totalKm.toLocaleString("hu-HU")}
-              <span className="text-muted-foreground ml-1 text-sm font-normal">
-                km
-              </span>
-            </p>
-          </div>
-          <div className="px-5 py-4">
-            <p className="text-muted-foreground text-xs tracking-widest uppercase">
-              Becsült érték
-            </p>
-            <p className="mt-1.5 font-mono text-2xl leading-none font-bold tabular-nums">
-              {stats.totalValue > 0
-                ? `~${stats.totalValue.toLocaleString("hu-HU")}`
-                : "–"}
-              {stats.totalValue > 0 && (
-                <span className="text-muted-foreground ml-1 text-sm font-normal">
-                  Ft
-                </span>
-              )}
-            </p>
-          </div>
-          <div className="px-5 py-4">
-            <p className="text-muted-foreground text-xs tracking-widest uppercase">
-              Szervizek
-            </p>
-            <p className="mt-1.5 font-mono text-2xl leading-none font-bold tabular-nums">
-              {stats.serviceCount}
-            </p>
-          </div>
-        </div>
-      </div>
+      <DashboardSummaryPanel
+        scooterCount={stats.scooterCount}
+        totalMileage={stats.totalKm}
+        totalEstimatedValue={stats.totalValue}
+        serviceCount={stats.serviceCount}
+      />
 
       {/* Következő lépés */}
       <Link

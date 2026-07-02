@@ -45,7 +45,7 @@ export default function KnowledgePage() {
   return (
     <AppPage>
       <AppPageHeader
-        eyebrow="05 · Tudástár"
+        eyebrow="06 · Tudástár"
         title="Tudásközpont"
         description="Fontos tudnivalók a rollerezésről Magyarországon."
       />

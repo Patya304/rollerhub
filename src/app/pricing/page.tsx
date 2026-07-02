@@ -128,6 +128,15 @@ export default function PricingPage() {
             </Link>
           </p>
           <p className="text-muted-foreground text-sm">
+            Megnéznéd az appot bejelentkezés nélkül?{" "}
+            <Link
+              href="/preview/app"
+              className="text-foreground font-medium underline underline-offset-4"
+            >
+              Demo app megnyitása →
+            </Link>
+          </p>
+          <p className="text-muted-foreground text-sm">
             Kérdésed van?{" "}
             <Link href="/devlog" className="underline underline-offset-4">
               Kövesd a fejlesztési naplót

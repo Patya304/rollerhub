@@ -1,5 +1,5 @@
-import Link from "next/link";
 import { AppPage, AppPageHeader } from "@/components/app-page";
+import { GarageVehicleListItem } from "@/components/garage-vehicle-list-item";
 import { DEMO_SCOOTERS } from "@/modules/preview/demo-data";
 
 export default function PreviewGaragePage() {
@@ -12,39 +12,19 @@ export default function PreviewGaragePage() {
       />
 
       <div className="bg-card divide-border/40 divide-y overflow-hidden rounded-xl border">
-        {/* Ruptor — teljes adatlap elérhető */}
-        <Link
+        <GarageVehicleListItem
+          marker={DEMO_SCOOTERS[0].marker}
+          title={`${DEMO_SCOOTERS[0].brand} ${DEMO_SCOOTERS[0].model}`}
+          meta={`${DEMO_SCOOTERS[0].year} · ${DEMO_SCOOTERS[0].currentMileage.toLocaleString("hu-HU")} km · ~${DEMO_SCOOTERS[0].estimate.toLocaleString("hu-HU")} Ft`}
           href="/preview/app/garage/demo-ruptor"
-          className="hover:bg-muted/30 group flex items-center gap-4 px-5 py-4 transition-colors"
-        >
-          <span className="text-muted-foreground/50 flex w-8 shrink-0 items-start justify-center pt-0.5 font-mono text-xs font-semibold tabular-nums">
-            01
-          </span>
-          <div className="min-w-0 flex-1">
-            <p className="font-semibold">Ruptor R1 v2</p>
-            <p className="text-muted-foreground mt-0.5 font-mono text-xs tabular-nums">
-              2024 · 2 000 km · ~148 000 Ft
-            </p>
-          </div>
-          <span className="text-muted-foreground group-hover:text-primary shrink-0 transition-colors">
-            →
-          </span>
-        </Link>
-        {/* Ninebot — demo oldalon nincs dedikált adatlap */}
-        <div className="flex items-center gap-4 px-5 py-4 opacity-60">
-          <span className="text-muted-foreground/50 flex w-8 shrink-0 items-start justify-center pt-0.5 font-mono text-xs font-semibold tabular-nums">
-            02
-          </span>
-          <div className="min-w-0 flex-1">
-            <p className="font-semibold">Ninebot Max G2</p>
-            <p className="text-muted-foreground mt-0.5 font-mono text-xs tabular-nums">
-              2023 · 1 240 km · ~150 000 Ft
-            </p>
-          </div>
-          <span className="text-muted-foreground text-xs">
-            Demo — nincs adatlap
-          </span>
-        </div>
+        />
+        <GarageVehicleListItem
+          marker={DEMO_SCOOTERS[1].marker}
+          title={`${DEMO_SCOOTERS[1].brand} ${DEMO_SCOOTERS[1].model}`}
+          meta={`${DEMO_SCOOTERS[1].year} · ${DEMO_SCOOTERS[1].currentMileage.toLocaleString("hu-HU")} km · ~${DEMO_SCOOTERS[1].estimate.toLocaleString("hu-HU")} Ft`}
+          disabled
+          disabledLabel="Demo — nincs adatlap"
+        />
       </div>
 
       {/* Demo: új roller gomb */}

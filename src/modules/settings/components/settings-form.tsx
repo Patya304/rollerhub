@@ -10,6 +10,7 @@ import {
   type Language,
   type Theme,
 } from "@/modules/settings/schemas/settings-schema";
+import { SettingsThemeOptions } from "@/components/settings-theme-options";
 
 const LANGUAGE_LABELS: Record<Language, string> = {
   hu: "Magyar",
@@ -162,30 +163,11 @@ export function SettingsForm({ settings }: { settings: Settings }) {
           </p>
         </div>
         <div className="px-5 py-5">
-          <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
-            {THEME_OPTIONS.map((t) => (
-              <button
-                key={t.value}
-                type="button"
-                onClick={() => setTheme(t.value)}
-                className={`relative rounded-lg border p-3 text-left transition-colors ${
-                  theme === t.value
-                    ? "border-primary bg-primary/5 ring-primary ring-1"
-                    : "hover:bg-muted/50"
-                }`}
-              >
-                {t.recommended && (
-                  <span className="text-primary absolute top-2 right-2 text-xs font-semibold">
-                    ★
-                  </span>
-                )}
-                <span className="block text-sm font-semibold">{t.label}</span>
-                <span className="text-muted-foreground text-xs">
-                  {t.recommended ? `${t.hint} · ajánlott` : t.hint}
-                </span>
-              </button>
-            ))}
-          </div>
+          <SettingsThemeOptions
+            options={THEME_OPTIONS}
+            value={theme}
+            onChange={(v) => setTheme(v as Theme)}
+          />
         </div>
       </div>
 

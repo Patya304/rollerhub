@@ -71,6 +71,9 @@ Publikus:
 - `/devlog`
 - `/privacy`
 - `/terms`
+- `/pricing`
+- `/sample-report`
+- `/preview/app` — bejelentkezés nélkül nézhető demo app (lásd alább)
 
 Bejelentkezés után:
 
@@ -82,6 +85,34 @@ Bejelentkezés után:
 - `/value`
 - `/knowledge`
 - `/settings`
+
+## Preview app
+
+A `/preview/app` route-csoportban egy teljes demo alkalmazás fut.
+
+Célja:
+
+- Design audit és demo bemutatás bejelentkezés nélkül
+- Minden adat hardcoded mock (`src/modules/preview/demo-data.ts`)
+
+Fontos:
+
+- Nincs auth
+- Nincs Prisma hívás
+- Nincs API hívás
+- Nincs adat mentés vagy törlés
+- `data-theme="black-orange"` fix — nem vált dinamikusan
+
+Route-ok:
+
+- `/preview/app` — dashboard
+- `/preview/app/garage` — garázs lista
+- `/preview/app/garage/demo-ruptor` — teljes roller adatlap
+- `/preview/app/service` — szervizkönyv
+- `/preview/app/rides` — menetnapló
+- `/preview/app/value` — értékbecslés
+- `/preview/app/knowledge` — tudásközpont
+- `/preview/app/settings` — beállítások
 
 ## Adatmodell
 

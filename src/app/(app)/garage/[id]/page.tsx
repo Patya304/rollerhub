@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { headers } from "next/headers";
 import { auth } from "@/lib/auth";
@@ -18,6 +17,7 @@ import {
   AppListItem,
   FieldList,
 } from "@/components/app-page";
+import { VehicleHero } from "@/components/vehicle-hero";
 
 export default async function ScooterDetailsPage({
   params,
@@ -98,84 +98,18 @@ export default async function ScooterDetailsPage({
 
   return (
     <div className="mx-auto w-full max-w-2xl space-y-4">
-      <Link
-        href="/garage"
-        className="text-muted-foreground hover:text-foreground inline-flex items-center gap-1 text-sm transition-colors"
-      >
-        ← Garázs
-      </Link>
-
-      {/* Vehicle hero */}
-      <div className="bg-card overflow-hidden rounded-xl border">
-        {/* Top: foto + azonosítás */}
-        <div className="flex items-start gap-4 p-5 pb-4">
-          {scooter.photoUrl ? (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img
-              src={scooter.photoUrl}
-              alt={`${scooter.brand} ${scooter.model}`}
-              className="h-24 w-24 shrink-0 rounded-xl object-cover"
-            />
-          ) : (
-            <div className="bg-muted flex h-24 w-24 shrink-0 items-center justify-center rounded-xl text-4xl">
-              🛴
-            </div>
-          )}
-          <div className="min-w-0 flex-1 pt-1">
-            <p className="text-primary text-xs font-semibold tracking-[0.18em] uppercase">
-              {scooter.brand}
-            </p>
-            <h1 className="mt-0.5 text-2xl font-bold tracking-tight">
-              {scooter.model}
-            </h1>
-            {scooter.year && (
-              <p className="text-muted-foreground text-sm">{scooter.year}</p>
-            )}
-          </div>
-        </div>
-
-        {/* Stat badge sor */}
-        <div className="border-border/50 divide-border/30 grid grid-cols-3 divide-x border-t">
-          <div className="px-4 py-3">
-            <p className="text-muted-foreground text-xs tracking-widest uppercase">
-              Km
-            </p>
-            <p className="mt-1 font-mono text-base leading-tight font-bold tabular-nums">
-              {scooter.currentMileage.toLocaleString("hu-HU")}
-            </p>
-          </div>
-          <div className="px-4 py-3">
-            <p className="text-muted-foreground text-xs tracking-widest uppercase">
-              Szerviz
-            </p>
-            <p className="mt-1 font-mono text-base leading-tight font-bold tabular-nums">
-              {scooter._count.services}
-            </p>
-          </div>
-          <div className="px-4 py-3">
-            <p className="text-muted-foreground text-xs tracking-widest uppercase">
-              Menetek
-            </p>
-            <p className="mt-1 font-mono text-base leading-tight font-bold tabular-nums">
-              {scooter._count.rides}
-            </p>
-          </div>
-        </div>
-
-        {/* Érték badge, ha van */}
-        {lastEstimate && (
-          <div className="border-border/50 border-t px-5 py-3">
-            <div className="flex items-center justify-between gap-3">
-              <p className="text-muted-foreground text-xs">
-                Becsült piaci érték
-              </p>
-              <p className="border-primary/30 bg-primary/10 text-primary rounded-lg px-3 py-1 font-mono text-sm font-bold tabular-nums">
-                ~{lastEstimate.estimatedValue.toLocaleString("hu-HU")} Ft
-              </p>
-            </div>
-          </div>
-        )}
-      </div>
+      <VehicleHero
+        brand={scooter.brand}
+        model={scooter.model}
+        year={scooter.year}
+        currentMileage={scooter.currentMileage}
+        serviceCount={scooter._count.services}
+        rideCount={scooter._count.rides}
+        estimatedValue={lastEstimate?.estimatedValue ?? null}
+        photoUrl={scooter.photoUrl}
+        backHref="/garage"
+        backLabel="Garázs"
+      />
 
       {/* Jármű modulok — gyors navigáció az oldalon belüli szekciókhoz */}
       <AppPanelList label="Jármű adatlap">

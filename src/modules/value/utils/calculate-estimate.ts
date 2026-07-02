@@ -4,6 +4,8 @@ export function calculateEstimate(input: {
   currentMileage: number;
   purchaseDate?: Date | string | null;
 }): number {
+  if (input.purchasePrice <= 0) return 0;
+
   const now = new Date();
 
   // Kor meghatározása: ha van vásárlási dátum, abból (pontosabb);
