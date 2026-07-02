@@ -11,8 +11,8 @@ export default function PreviewKnowledgePage() {
     <AppPage>
       <AppPageHeader
         eyebrow="06 · Tudástár"
-        title="Tudásközpont"
-        description="Fontos tudnivalók a rollerezésről Magyarországon."
+        title="Tudástár"
+        description="Szabályok és hasznos infók rollereseknek."
       />
 
       <AppPanelList label="Témakörök">
@@ -31,8 +31,8 @@ export default function PreviewKnowledgePage() {
 
       <div className="space-y-1 px-1">
         <p className="text-muted-foreground text-xs">
-          A tudáscikkek hamarosan elérhetőek lesznek. Addig is ezeken az
-          oldalakon találsz hiteles információt:
+          A cikkek hamarosan érkeznek. Addig is ezeket az oldalakat érdemes
+          megnézni:
         </p>
         <ul className="text-muted-foreground space-y-0.5 text-xs">
           <li>
@@ -44,8 +44,8 @@ export default function PreviewKnowledgePage() {
               className="underline underline-offset-4"
             >
               kozut.hu
-            </a>{" "}
-            — Közúti közlekedési hatóság
+            </a>
+            : Közúti közlekedési hatóság
           </li>
           <li>
             →{" "}
@@ -56,8 +56,8 @@ export default function PreviewKnowledgePage() {
               className="underline underline-offset-4"
             >
               kav.hu
-            </a>{" "}
-            — Közlekedési Alkalmassági és Vizsgaközpont
+            </a>
+            : Közlekedési Alkalmassági és Vizsgaközpont
           </li>
         </ul>
       </div>

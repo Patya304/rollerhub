@@ -62,9 +62,9 @@ export default function TermsPage() {
         </section>
 
         <section className="space-y-2">
-          <h2 className="text-base font-medium">A tudásközpont tartalmáról</h2>
+          <h2 className="text-base font-medium">A Tudástár tartalmáról</h2>
           <p className="text-muted-foreground">
-            A tudásközpontban található információk (pl. közlekedési szabályok,
+            A Tudástárban található információk (pl. közlekedési szabályok,
             biztosítás, jogosítvány) tájékoztató jellegűek, és nem minősülnek
             jogi tanácsadásnak. A mindenkori hivatalos szabályozást mindig
             érdemes önállóan is ellenőrizned.

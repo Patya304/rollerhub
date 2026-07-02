@@ -9,7 +9,7 @@ export default function PreviewServicePage() {
       <AppPageHeader
         eyebrow="03 · Szerviz"
         title="Szervizkönyv"
-        description="Karbantartások, javítások és ellenőrzések naplója."
+        description="Javítások, cserék és ellenőrzések naplója."
       />
 
       {/* Filter sor — vizuális, nem működő */}
@@ -72,7 +72,7 @@ export default function PreviewServicePage() {
       </div>
 
       <p className="text-muted-foreground px-1 text-xs">
-        Demo mód — a szervizadatok statikusak, nem szerkeszthetők.
+        Demó mód: a szervizadatok statikusak, nem szerkeszthetők.
       </p>
     </AppPage>
   );

@@ -113,12 +113,12 @@ export function Garage() {
           <p className="text-4xl">🛴</p>
           <p className="mt-4 font-semibold">A garázs üres</p>
           <p className="text-muted-foreground mx-auto mt-1.5 max-w-xs text-sm leading-relaxed">
-            Vedd fel az első rolleredet — utána automatikusan elérhetővé válik:
+            Add hozzá az első rollered. Ezután használhatod:
           </p>
           <ul className="text-muted-foreground mx-auto mt-3 max-w-xs space-y-1 text-left text-sm">
-            <li>🔧 Szerviznapló — gumicsere, fékállítás, karbantartás</li>
-            <li>📊 Értékbecslés — becsült piaci ár, értékvesztés</li>
-            <li>📋 Eladási állapotlap — ha el akarod adni a rolleredet</li>
+            <li>🔧 Szervizkönyv: gumicsere, fékállítás, ellenőrzés</li>
+            <li>📊 Értékbecslés: becsült érték és értékvesztés</li>
+            <li>📋 Állapotlap: ha később eladnád</li>
           </ul>
           <Button className="mt-6" onClick={() => setShowForm(true)}>
             Roller hozzáadása
@@ -209,7 +209,7 @@ export function Garage() {
                 />
               </div>
               <div className="space-y-1.5">
-                <Label htmlFor="mileage">Km óra állás</Label>
+                <Label htmlFor="mileage">Km-állás</Label>
                 <Input
                   id="mileage"
                   type="number"

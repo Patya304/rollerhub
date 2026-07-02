@@ -82,7 +82,7 @@ export function ServiceLog({ scooterId }: { scooterId: string }) {
   }
 
   async function handleDelete(id: string) {
-    if (!confirm("Törlöd ezt a szerviz-bejegyzést?")) return;
+    if (!confirm("Törlöd ezt a szervizbejegyzést?")) return;
     setError("");
     setBusy(true);
     try {
@@ -111,8 +111,7 @@ export function ServiceLog({ scooterId }: { scooterId: string }) {
           <p className="text-2xl">🔧</p>
           <p className="mt-2.5 font-semibold">Nincs szerviz rögzítve</p>
           <p className="text-muted-foreground mx-auto mt-1 max-w-xs text-sm">
-            Add hozzá az első bejegyzést — gumicsere, fékállítás,
-            akkuellenőrzés.
+            Rögzítsd az első javítást vagy ellenőrzést.
           </p>
         </div>
       ) : (
@@ -181,7 +180,7 @@ export function ServiceLog({ scooterId }: { scooterId: string }) {
             />
           </div>
           <div className="space-y-1.5">
-            <Label htmlFor={`km-${scooterId}`}>Km-állás (opc.)</Label>
+            <Label htmlFor={`km-${scooterId}`}>Km-állás (opcionális)</Label>
             <Input
               id={`km-${scooterId}`}
               type="number"
@@ -190,7 +189,9 @@ export function ServiceLog({ scooterId }: { scooterId: string }) {
             />
           </div>
           <div className="space-y-1.5">
-            <Label htmlFor={`cost-${scooterId}`}>Költség Ft (opc.)</Label>
+            <Label htmlFor={`cost-${scooterId}`}>
+              Költség (Ft, opcionális)
+            </Label>
             <Input
               id={`cost-${scooterId}`}
               type="number"
@@ -202,7 +203,9 @@ export function ServiceLog({ scooterId }: { scooterId: string }) {
             </p>
           </div>
           <div className="space-y-1.5 sm:col-span-2">
-            <Label htmlFor={`notes-${scooterId}`}>Megjegyzés (opc.)</Label>
+            <Label htmlFor={`notes-${scooterId}`}>
+              Megjegyzés (opcionális)
+            </Label>
             <Input
               id={`notes-${scooterId}`}
               value={notes}

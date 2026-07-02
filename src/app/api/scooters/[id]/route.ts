@@ -14,12 +14,15 @@ export async function GET(
 ) {
   const session = await auth.api.getSession({ headers: await headers() });
   if (!session)
-    return NextResponse.json({ error: "unauthorized" }, { status: 401 });
+    return NextResponse.json(
+      { error: "Bejelentkezés szükséges." },
+      { status: 401 },
+    );
 
   const { id } = await params;
   const scooter = await getScooterDetails(session.user.id, id);
   if (!scooter)
-    return NextResponse.json({ error: "not found" }, { status: 404 });
+    return NextResponse.json({ error: "Nem található." }, { status: 404 });
   return NextResponse.json(scooter);
 }
 
@@ -29,7 +32,10 @@ export async function PATCH(
 ) {
   const session = await auth.api.getSession({ headers: await headers() });
   if (!session)
-    return NextResponse.json({ error: "unauthorized" }, { status: 401 });
+    return NextResponse.json(
+      { error: "Bejelentkezés szükséges." },
+      { status: 401 },
+    );
 
   const { id } = await params;
   const body = await req.json().catch(() => null);
@@ -47,7 +53,7 @@ export async function PATCH(
 
   const count = await updateScooter(session.user.id, id, parsed.data);
   if (count === 0) {
-    return NextResponse.json({ error: "not found" }, { status: 404 });
+    return NextResponse.json({ error: "Nem található." }, { status: 404 });
   }
   return NextResponse.json({ ok: true });
 }
@@ -58,12 +64,15 @@ export async function DELETE(
 ) {
   const session = await auth.api.getSession({ headers: await headers() });
   if (!session)
-    return NextResponse.json({ error: "unauthorized" }, { status: 401 });
+    return NextResponse.json(
+      { error: "Bejelentkezés szükséges." },
+      { status: 401 },
+    );
 
   const { id } = await params;
   const count = await deleteScooter(session.user.id, id);
   if (count === 0) {
-    return NextResponse.json({ error: "not found" }, { status: 404 });
+    return NextResponse.json({ error: "Nem található." }, { status: 404 });
   }
   return NextResponse.json({ ok: true });
 }

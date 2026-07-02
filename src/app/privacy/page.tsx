@@ -36,7 +36,7 @@ export default function PrivacyPage() {
           <p className="text-muted-foreground">
             Két fő adatkört kezelünk: a fiókod adatait (név, email-cím és a
             belépéshez szükséges hitelesítési adatok), valamint a tartalmat,
-            amit te viszel fel — rollereid adatai, szervizbejegyzések,
+            amit te viszel fel: rollereid adatai, szervizbejegyzések,
             menetadatok és értékbecslések. Csak azokat az adatokat kezeljük,
             amelyeket te adsz meg.
           </p>

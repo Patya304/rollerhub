@@ -11,7 +11,8 @@ export function ValueHistory({ history }: { history: Estimate[] }) {
         <p className="text-3xl">📈</p>
         <p className="mt-3 font-semibold">Nincs értéktörténet</p>
         <p className="text-muted-foreground mx-auto mt-1.5 max-w-xs text-sm leading-relaxed">
-          Futtass értékbecslést a roller adatlapján — minden futtatás ide kerül.
+          Indíts értékbecslést a roller adatlapján. A korábbi becslések itt
+          jelennek meg.
         </p>
       </div>
     );

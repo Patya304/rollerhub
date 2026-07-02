@@ -29,10 +29,10 @@ export default function PreviewDashboardPage() {
           Következő lépés
         </p>
         <p className="mt-1 font-semibold group-hover:underline">
-          Naplózz egy első menetet
+          Rögzítsd az első menetet
         </p>
         <p className="text-muted-foreground mt-0.5 text-sm">
-          Kövesd, mennyit és hogyan tekersz a rollereiden.
+          Menetek távval, idővel és sebességgel.
         </p>
       </Link>
 
@@ -42,34 +42,34 @@ export default function PreviewDashboardPage() {
           href="/preview/app/garage"
           icon="🛴"
           title="Garázs"
-          description="Rollerjeid adatlapja és km-állása."
+          description="Rollereid adatlapja és km-állása."
           meta={`${DEMO_STATS.scooterCount} roller`}
         />
         <AppListItem
           href="/preview/app/service"
           icon="🔧"
           title="Szervizkönyv"
-          description="Karbantartások, javítások, ellenőrzések."
+          description="Javítások, cserék és ellenőrzések."
           meta={`${DEMO_STATS.serviceCount} bejegyzés · ${DEMO_STATS.totalServiceCost.toLocaleString("hu-HU")} Ft`}
         />
         <AppListItem
           href="/preview/app/rides"
           icon="🛣️"
           title="Menetnapló"
-          description="Kiszállások, megtett táv, sebesség."
+          description="Táv, idő és sebesség."
           meta={`${DEMO_STATS.rideCount} menet · ${DEMO_STATS.totalKm.toLocaleString("hu-HU")} km`}
         />
         <AppListItem
           href="/preview/app/value"
           icon="📊"
           title="Értékbecslés"
-          description="Roller aktuális piaci értékének becslése."
+          description="Tájékoztató érték vételár és km-állás alapján."
           meta={`~${DEMO_STATS.totalValue.toLocaleString("hu-HU")} Ft`}
         />
         <AppListItem
           href="/preview/app/knowledge"
           icon="📖"
-          title="Tudásközpont"
+          title="Tudástár"
           description="KRESZ, biztosítás, jogosítvány, szabályok."
         />
       </AppPanelList>
@@ -81,13 +81,13 @@ export default function PreviewDashboardPage() {
         </p>
         <p className="mt-1 font-semibold">Értékriport és eladási állapotlap</p>
         <p className="text-muted-foreground mt-0.5 text-sm">
-          Részletes eladási riport, dokumentált előzmények, PDF export.
+          Részletes eladási riport szervizekkel, km-állással és PDF exporttal.
         </p>
         <Link
           href="/pricing"
           className="text-primary mt-3 inline-block text-sm font-medium hover:underline"
         >
-          Megnézem a csomagokat →
+          Csomagok megtekintése →
         </Link>
       </div>
     </AppPage>

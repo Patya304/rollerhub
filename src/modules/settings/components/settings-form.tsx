@@ -99,7 +99,7 @@ export function SettingsForm({ settings }: { settings: Settings }) {
         </div>
         <div className="space-y-4 px-5 py-5">
           <div className="space-y-1.5">
-            <Label htmlFor="image">Profilkép URL</Label>
+            <Label htmlFor="image">Profilkép link</Label>
             <Input
               id="image"
               value={image}
@@ -115,7 +115,7 @@ export function SettingsForm({ settings }: { settings: Settings }) {
               />
             )}
             <p className="text-muted-foreground text-xs">
-              Egyelőre URL-lel. Fájlfeltöltés hamarosan.
+              Most még csak képlink adható meg.
             </p>
           </div>
 
@@ -128,7 +128,7 @@ export function SettingsForm({ settings }: { settings: Settings }) {
               placeholder="pl. ruprider"
             />
             <p className="text-muted-foreground text-xs">
-              3–24 karakter, csak kisbetű, szám, kötőjel és aláhúzás.
+              3–24 karakter. Kisbetű, szám, kötőjel és aláhúzás használható.
             </p>
           </div>
 
@@ -195,7 +195,7 @@ export function SettingsForm({ settings }: { settings: Settings }) {
             </select>
           </div>
           <p className="text-muted-foreground text-xs">
-            A többnyelvű felület hamarosan — egyelőre csak a beállítást
+            A többnyelvű felület hamarosan érkezik, egyelőre csak a beállítást
             tároljuk.
           </p>
         </div>
@@ -230,7 +230,7 @@ export function SettingsForm({ settings }: { settings: Settings }) {
             <div>
               <span>Jelszó módosítása</span>
               <p className="text-muted-foreground mt-0.5 text-xs">
-                Email-alapú jelszóvisszaállítás hamarosan.
+                Jelszóvisszaállítás később.
               </p>
             </div>
             <span className="text-muted-foreground shrink-0 rounded-full border px-2 py-0.5 text-xs">
@@ -241,7 +241,7 @@ export function SettingsForm({ settings }: { settings: Settings }) {
             <div>
               <span className="text-muted-foreground">Fiók törlése</span>
               <p className="text-muted-foreground mt-0.5 text-xs">
-                Ez az opció hamarosan elérhető lesz.
+                Később lesz elérhető.
               </p>
             </div>
             <span className="text-muted-foreground shrink-0 rounded-full border px-2 py-0.5 text-xs">

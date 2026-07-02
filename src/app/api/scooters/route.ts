@@ -10,7 +10,10 @@ import { createScooterSchema } from "@/modules/garage/schemas/scooter-schema";
 export async function GET() {
   const session = await auth.api.getSession({ headers: await headers() });
   if (!session) {
-    return NextResponse.json({ error: "unauthorized" }, { status: 401 });
+    return NextResponse.json(
+      { error: "Bejelentkezés szükséges." },
+      { status: 401 },
+    );
   }
   const scooters = await getScootersByUser(session.user.id);
   return NextResponse.json(scooters);
@@ -19,7 +22,10 @@ export async function GET() {
 export async function POST(req: NextRequest) {
   const session = await auth.api.getSession({ headers: await headers() });
   if (!session) {
-    return NextResponse.json({ error: "unauthorized" }, { status: 401 });
+    return NextResponse.json(
+      { error: "Bejelentkezés szükséges." },
+      { status: 401 },
+    );
   }
 
   const body = await req.json().catch(() => null);

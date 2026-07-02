@@ -2,14 +2,12 @@ import { AppPage, AppPageHeader } from "@/components/app-page";
 import { DEMO_RIDES, DEMO_STATS } from "@/modules/preview/demo-data";
 
 export default function PreviewRidesPage() {
-  const totalKm = DEMO_RIDES.reduce((sum, r) => sum + (r.distanceKm ?? 0), 0);
-
   return (
     <AppPage>
       <AppPageHeader
         eyebrow="04 · Menetnapló"
         title="Menetek"
-        description="Kiszállások, megtett táv és sebesség rollerenként."
+        description="Menetek távval, idővel és sebességgel."
       />
 
       {/* Filter sor */}
@@ -75,7 +73,7 @@ export default function PreviewRidesPage() {
       </div>
 
       <p className="text-muted-foreground px-1 text-xs">
-        Demo mód — a menetadatok statikusak, valódi napló nem rögzíthető.
+        Demó mód: a menetadatok statikusak, valódi napló nem rögzíthető.
       </p>
     </AppPage>
   );

@@ -18,12 +18,12 @@ export default function PreviewSettingsPage() {
         </div>
         <div className="space-y-4 px-5 py-5">
           <div className="space-y-1.5">
-            <p className="text-sm font-medium">Profilkép URL</p>
+            <p className="text-sm font-medium">Profilkép link</p>
             <div className="border-input bg-background h-9 w-full cursor-not-allowed rounded-md border px-3 py-2 text-sm opacity-60">
               https://...
             </div>
             <p className="text-muted-foreground text-xs">
-              Demo módban nem szerkeszthető.
+              Demóban nem szerkeszthető.
             </p>
           </div>
           <div className="space-y-1.5">
@@ -62,7 +62,7 @@ export default function PreviewSettingsPage() {
             disabled
           />
           <p className="text-muted-foreground mt-3 text-xs">
-            Demo módban a témát nem lehet váltani — az oldal mindig Fekete /
+            Demó módban a témát nem lehet váltani. Az oldal mindig Fekete /
             narancs témával jelenik meg.
           </p>
         </div>
@@ -80,7 +80,7 @@ export default function PreviewSettingsPage() {
             {DEMO_USER.language}
           </div>
           <p className="text-muted-foreground mt-1.5 text-xs">
-            A többnyelvű felület hamarosan — egyelőre csak a beállítást
+            A többnyelvű felület hamarosan érkezik, egyelőre csak a beállítást
             tároljuk.
           </p>
         </div>
@@ -109,7 +109,7 @@ export default function PreviewSettingsPage() {
             <div>
               <span>Jelszó módosítása</span>
               <p className="text-muted-foreground mt-0.5 text-xs">
-                Email-alapú jelszóvisszaállítás hamarosan.
+                Jelszóvisszaállítás később.
               </p>
             </div>
             <span className="text-muted-foreground shrink-0 rounded-full border px-2 py-0.5 text-xs">
@@ -128,7 +128,7 @@ export default function PreviewSettingsPage() {
           Beállítások mentése
         </button>
         <p className="text-muted-foreground mt-1.5 text-xs">
-          Demo módban a beállítások nem menthetők.
+          Demóban nem lehet menteni.
         </p>
       </div>
     </AppPage>

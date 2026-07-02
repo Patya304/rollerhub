@@ -172,7 +172,7 @@ export const DEMO_SALE_CHECKLIST = [
 ];
 
 export const DEMO_USER = {
-  name: "Demo Felhasználó",
+  name: "Demó Felhasználó",
   username: "demo_rider",
   email: "demo@rollerhub.app",
   emailVerified: true,
@@ -185,26 +185,25 @@ export const KNOWLEDGE_TOPICS = [
     marker: "01",
     eyebrow: "Közlekedési szabályok",
     title: "KRESZ",
-    description: "Rollerrel az úton — mi szabad, mi nem, hol közlekedhetsz.",
+    description: "Alap közlekedési szabályok rollereseknek.",
   },
   {
     marker: "02",
     eyebrow: "Felelősségvállalás",
     title: "Biztosítás",
-    description:
-      "Kötelező és ajánlott biztosítási formák elektromos rollerekhez.",
+    description: "Biztosítási tudnivalók elektromos rollerekhez.",
   },
   {
     marker: "03",
     eyebrow: "Okmányok",
     title: "Jogosítvány",
-    description: "Mikor kell jogosítvány? Milyen kategória vonatkozik rád?",
+    description: "Jogosítvány és kategóriák rollereseknek.",
   },
   {
     marker: "04",
     eyebrow: "Szabályozás",
     title: "Roller szabályok",
-    description: "Aktuális szabályok, zónák, sebességhatárok Magyarországon.",
+    description: "Szabályok és korlátozások Magyarországon.",
   },
 ];
 

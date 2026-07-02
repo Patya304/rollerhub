@@ -6,7 +6,7 @@ export type ThemeOption = {
 };
 
 type SettingsThemeOptionsProps = {
-  options: ThemeOption[];
+  options: readonly ThemeOption[];
   value: string;
   onChange?: (value: string) => void;
   disabled?: boolean;

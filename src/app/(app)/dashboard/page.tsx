@@ -35,17 +35,17 @@ function getNextStep(
   if (stats.rideCount === 0) {
     return {
       eyebrow: "Következő lépés",
-      label: "Naplózz egy első menetet",
-      description: "Kövesd, mennyit és hogyan tekersz a rollereiden.",
+      label: "Rögzítsd az első menetet",
+      description: "Menetek távval, idővel és sebességgel.",
       href: "/rides",
     };
   }
   if (stats.totalValue === 0) {
     return {
       eyebrow: "Következő lépés",
-      label: "Futtass értékbecslést",
+      label: "Értékbecslés indítása",
       description:
-        "Nyisd meg a roller adatlapját, adj meg vételárat, majd futtass becslést.",
+        "Adj meg vételárat, majd indíts becslést a roller adatlapján.",
       href: scooterHref,
     };
   }
@@ -71,7 +71,7 @@ export default async function OverviewPage() {
         <AppPageHeader
           eyebrow="01 · Műszerfal"
           title="Digitális garázs"
-          description="Üdvözöl a RollerHub — add hozzá az első rolleredet a kezdéshez."
+          description="Add hozzá az első rolleredet a kezdéshez."
         />
 
         {/* Onboarding first step */}
@@ -101,7 +101,7 @@ export default async function OverviewPage() {
           <AppListItem
             icon="🔧"
             title="Szerviznapló"
-            description="Gumicsere, fékállítás, akkuellenőrzés — minden egy helyen."
+            description="Gumicsere, fékállítás, akkuellenőrzés."
           />
           <AppListItem
             icon="📊"
@@ -111,7 +111,7 @@ export default async function OverviewPage() {
           <AppListItem
             icon="📋"
             title="Eladási állapotlap"
-            description="Dokumentált előzmények, ha el akarod adni a rolleredet."
+            description="Szervizek, km-állás és becsült érték, ha eladnád."
           />
         </AppPanelList>
       </AppPage>
@@ -153,14 +153,14 @@ export default async function OverviewPage() {
           href="/garage"
           icon="🛴"
           title="Garázs"
-          description="Rollerjeid adatlapja és km-állása."
+          description="Rollereid adatlapja és km-állása."
           meta={`${stats.scooterCount} roller`}
         />
         <AppListItem
           href="/service"
           icon="🔧"
           title="Szervizkönyv"
-          description="Karbantartások, javítások, ellenőrzések."
+          description="Javítások, cserék és ellenőrzések."
           meta={
             stats.serviceCount > 0
               ? `${stats.serviceCount} bejegyzés · ${stats.totalServiceCost.toLocaleString("hu-HU")} Ft`
@@ -171,7 +171,7 @@ export default async function OverviewPage() {
           href="/rides"
           icon="🛣️"
           title="Menetnapló"
-          description="Kiszállások, megtett táv, sebesség."
+          description="Táv, idő és sebesség."
           meta={
             stats.rideCount > 0
               ? `${stats.rideCount} menet · ${stats.totalKm.toLocaleString("hu-HU")} km`
@@ -182,7 +182,7 @@ export default async function OverviewPage() {
           href="/value"
           icon="📊"
           title="Értékbecslés"
-          description="Roller aktuális piaci értékének becslése."
+          description="Tájékoztató érték vételár és km-állás alapján."
           meta={
             stats.totalValue > 0
               ? `~${stats.totalValue.toLocaleString("hu-HU")} Ft`
@@ -192,7 +192,7 @@ export default async function OverviewPage() {
         <AppListItem
           href="/knowledge"
           icon="📖"
-          title="Tudásközpont"
+          title="Tudástár"
           description="KRESZ, biztosítás, jogosítvány, szabályok."
         />
       </AppPanelList>
@@ -204,13 +204,13 @@ export default async function OverviewPage() {
         </p>
         <p className="mt-1 font-semibold">Értékriport és eladási állapotlap</p>
         <p className="text-muted-foreground mt-0.5 text-sm">
-          Részletes eladási riport, dokumentált előzmények, PDF export.
+          Értékriport szervizekkel, km-állással és exporttal.
         </p>
         <Link
           href="/pricing"
           className="text-primary mt-3 inline-block text-sm font-medium hover:underline"
         >
-          Megnézem a csomagokat →
+          Csomagok megtekintése →
         </Link>
       </div>
     </AppPage>

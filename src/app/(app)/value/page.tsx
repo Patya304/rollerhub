@@ -44,14 +44,14 @@ export default async function ValuePage() {
       <AppPageHeader
         eyebrow="05 · Értékbecslés"
         title="Értékbecslés"
-        description="Becsült piaci értékek vételár, évjárat és km-állás alapján."
+        description="Tájékoztató becslés vételár, évjárat és km-állás alapján."
       />
 
       {scooters.length === 0 ? (
         <AppEmptyState
           icon="📊"
           title="Nincs roller az értékbecsléshez"
-          description="Adj hozzá egy rollert a Garázsban, add meg a vételárat — az érték automatikusan kiszámolódik."
+          description="Adj hozzá egy rollert a Garázsban és add meg a vételárat. Ezután megjelenik a becsült érték."
           action={
             <Link
               href="/garage"
@@ -67,7 +67,7 @@ export default async function ValuePage() {
           <div className="bg-card overflow-hidden rounded-xl border">
             <div className="border-border/50 border-b px-5 py-3">
               <p className="text-muted-foreground text-xs font-semibold tracking-[0.15em] uppercase">
-                Rollerek becsült értéke
+                Becsült értékek
               </p>
             </div>
             <div className="divide-border/30 divide-y">
@@ -138,7 +138,7 @@ export default async function ValuePage() {
                 </div>
                 <div className="px-5 py-4">
                   <p className="text-muted-foreground text-xs tracking-widest uppercase">
-                    Becsült jelenlegi érték
+                    Becsült érték
                   </p>
                   <p className="mt-1.5 font-mono text-xl leading-none font-bold tabular-nums">
                     ~{totalValue.toLocaleString("hu-HU")}
@@ -152,9 +152,9 @@ export default async function ValuePage() {
           )}
 
           <p className="text-muted-foreground px-1 text-xs">
-            Az értékbecslés orientációs jellegű — vételár, km-állás és évjárat
-            alapján számolódik. A tényleges piaci árra a roller adatlapján
-            futtathatsz részletes becslést.
+            Az értékbecslés tájékoztató jellegű: vételár, km-állás és évjárat
+            alapján számolódik. Részletes becslést a roller adatlapján
+            indíthatsz.
           </p>
         </>
       )}

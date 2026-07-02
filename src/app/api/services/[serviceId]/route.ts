@@ -9,11 +9,14 @@ export async function DELETE(
 ) {
   const session = await auth.api.getSession({ headers: await headers() });
   if (!session)
-    return NextResponse.json({ error: "unauthorized" }, { status: 401 });
+    return NextResponse.json(
+      { error: "Bejelentkezés szükséges." },
+      { status: 401 },
+    );
 
   const { serviceId } = await params;
   const count = await deleteService(session.user.id, serviceId);
   if (count === 0)
-    return NextResponse.json({ error: "not found" }, { status: 404 });
+    return NextResponse.json({ error: "Nem található." }, { status: 404 });
   return NextResponse.json({ ok: true });
 }

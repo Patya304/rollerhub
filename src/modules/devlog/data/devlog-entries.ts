@@ -32,9 +32,9 @@ export const devlogEntries: DevlogEntry[] = [
     date: "2026-03-22",
     title: "Technológiai alapok kiválasztva",
     type: "planning",
-    summary: "Meghatározásra került a RollerHub technikai iránya.",
+    summary: "Kiválasztásra kerültek a RollerHub technikai alapjai.",
     content:
-      "A projekt Next.js, TypeScript, Tailwind, shadcn/ui, Prisma, Neon Postgres és Better Auth alapokra épül. A cél egy solo dev számára is fenntartható, moduláris monolit architektúra lett.",
+      "A projekt Next.js, TypeScript, Tailwind, shadcn/ui, Prisma, Neon Postgres és Better Auth alapokra épül. Solo dev számára is fenntartható, moduláris monolit architektúra.",
   },
   {
     id: "auth-db",
@@ -44,7 +44,7 @@ export const devlogEntries: DevlogEntry[] = [
     summary:
       "Elkészült a regisztráció, belépés és az alap adatbázis-kapcsolat.",
     content:
-      "A RollerHub megkapta a Better Auth alapú hitelesítést, valamint a Prisma és Neon Postgres alapú adatkezelést. Ezzel létrejött az alap a felhasználói fiókokhoz és a rolleradatok tárolásához.",
+      "Elkészült a Better Auth alapú hitelesítés és a Prisma + Neon Postgres adatkapcsolat. Ezzel adottak az alapok a felhasználói fiókokhoz és a rolleradatok tárolásához.",
   },
   {
     id: "garage-v1",
@@ -63,7 +63,7 @@ export const devlogEntries: DevlogEntry[] = [
     summary:
       "Elkészült a RollerHub védett alkalmazásfelülete oldalsó navigációval.",
     content:
-      "A RollerHub megkapta az alap app layoutot, amely bejelentkezés után egységes navigációt ad az Áttekintés, Garázs, Szerviz, Menetek, Értékbecslés, Tudásközpont és Beállítások oldalakhoz.",
+      "Elkészült a bejelentkezés utáni appfelület oldalsó navigációval. Az oldalsávból elérhető az Áttekintés, a Garázs, a Szerviz, a Menetnapló, az Értékbecslés, a Tudástár és a Beállítások.",
   },
   {
     id: "scooter-details",
@@ -97,7 +97,7 @@ export const devlogEntries: DevlogEntry[] = [
     date: "2026-05-18",
     title: "Értékbecslés első verziója elkészült",
     type: "feature",
-    summary: "A RollerHub már becsült aktuális értéket számol a rollerekhez.",
+    summary: "A rollerekhez már becsült aktuális értéket számol az app.",
     content:
       "Elkészült az első értékbecslő rendszer, amely a vételár, a roller kora és a kilométeróra-állás alapján becsült aktuális értéket számol.",
   },
@@ -145,7 +145,7 @@ export const devlogEntries: DevlogEntry[] = [
     type: "fix",
     summary: "Stabilabb lett az adatbevitel és a hibás adatok kezelése.",
     content:
-      "Bevezetésre került a szigorúbb adatvalidáció, amely segít kiszűrni a negatív kilométeróra-állást, hibás árakat, rossz dátumokat, érvénytelen URL-eket és egyéb téves adatokat.",
+      "Szigorúbb lett az adatellenőrzés. A rendszer jobban kezeli a negatív km-állást, hibás árakat, rossz dátumokat és érvénytelen URL-eket.",
   },
   {
     id: "purchase-date-estimate",
@@ -154,7 +154,7 @@ export const devlogEntries: DevlogEntry[] = [
     type: "improvement",
     summary: "Pontosabb lett az értékbecslés a vásárlási dátum használatával.",
     content:
-      "A RollerHub mostantól figyelembe tudja venni a vásárlás dátumát is. Ha ez meg van adva, az értékbecslés pontosabban tud számolni, mint pusztán az évjárat alapján.",
+      "Az értékbecslés mostantól figyelembe veszi a vásárlás dátumát is, nem csak az évjáratot. Ha a dátum meg van adva, a becslés pontosabb.",
   },
   {
     id: "v1-stabilization",
@@ -164,7 +164,7 @@ export const devlogEntries: DevlogEntry[] = [
     summary:
       "A RollerHub stabilabb hibakezelést és jobb adatfrissülést kapott.",
     content:
-      "Elkészült a V1 stabilizálási kör: javult a kliens oldali hibakezelés, erősebb lett a dátumvalidáció, több helyen frissülnek automatikusan az összesítők, és elkészült a belső teszt checklist.",
+      "Javult a kliens oldali hibakezelés, erősebb lett a dátumvalidáció, több helyen frissülnek automatikusan az összesítők. Elkészült a belső teszt checklist is.",
   },
   {
     id: "devlog-launch",
@@ -173,7 +173,7 @@ export const devlogEntries: DevlogEntry[] = [
     type: "feature",
     summary: "A RollerHub fejlesztése már nyilvánosan is követhető.",
     content:
-      "Elkészült a rejtett, de publikus fejlesztési napló oldal, ahol röviden követhetőek a fontosabb funkciók, javítások és mérföldkövek.",
+      "Elérhető a fejlesztési napló oldal. Röviden összefoglalva szerepelnek a fontosabb funkciók, javítások és mérföldkövek.",
   },
   {
     id: "september-launch-prep",
@@ -182,7 +182,7 @@ export const devlogEntries: DevlogEntry[] = [
     type: "planning",
     summary: "Elindult a RollerHub V1 publikus indulásának előkészítése.",
     content:
-      "A következő időszak fókusza a stabil V1 lezárása, a publikus landing oldal, a PWA előkészítés, az adatkezelési oldalak és a szeptemberi rolleres szabályváltozásokhoz kapcsolódó kommunikáció.",
+      "Fókuszban a stabil V1 lezárása, a PWA előkészítés, az adatkezelési oldalak és a szeptemberi rolleres szabályváltozásokra való felkészülés.",
   },
   {
     id: "pwa-install",
@@ -192,7 +192,7 @@ export const devlogEntries: DevlogEntry[] = [
     summary:
       "A RollerHub mostantól telepíthető a telefon kezdőképernyőjére, app-szerű élményként.",
     content:
-      "A RollerHub már hozzáadható a kezdőképernyőhöz, és saját ablakban, alkalmazásként indul — gyorsabb elérés, letisztultabb, böngésző nélküli használat.",
+      "Az app hozzáadható a telefon kezdőképernyőjéhez, és saját ablakban indul. Gyorsabb elérés, böngésző nélküli megjelenés.",
   },
   {
     id: "public-launch",
@@ -206,17 +206,17 @@ export const devlogEntries: DevlogEntry[] = [
   {
     id: "theme-engine",
     date: "2026-06-28",
-    title: "Választható megjelenés — RollerHub témák",
+    title: "Választható megjelenés: RollerHub témák",
     type: "feature",
     summary:
       "A kiválasztott téma mostantól tényleg átszínezi a bejelentkezett felületet.",
     content:
-      "A Beállításokban választott téma (Fekete / fehér, Fekete / narancssárga, Fekete / kék) mostantól ténylegesen megjelenik az alkalmazás kinézetén — háttér, gombok, kiemelések és az oldalsáv is a választott stílust követi.",
+      "A Beállításokban választott téma (Fekete / fehér, Fekete / narancssárga, Fekete / kék) mostantól ténylegesen megjelenik az alkalmazás kinézetén: háttér, gombok, kiemelések és az oldalsáv is a választott stílust követi.",
   },
   {
     id: "settings-page",
     date: "2026-06-28",
-    title: "Beállítások oldal — profil, téma, nyelv",
+    title: "Beállítások oldal: profil, téma, nyelv",
     type: "feature",
     summary:
       "Testreszabhatod a profilodat, és kiválaszthatod a kedvenc megjelenésedet.",
@@ -229,8 +229,8 @@ export const devlogEntries: DevlogEntry[] = [
     title: "Premium irány és minta értékriport",
     type: "feature",
     summary:
-      "Elkészült a RollerHub első Premium iránya: árak oldal, értékriport előnézet és publikus minta riport.",
+      "Elkészült az árak oldal, az értékriport előnézet és a publikus minta riport.",
     content:
-      "Megjelent az árak oldal, ahol bemutatásra kerül a Free és a hamarosan érkező Premium csomag. A roller adatlapján új szekció mutatja az értékriport előnézetet: ajánlott hirdetési ársávot, állapotlap checklistet és eladási tippet. Elkészült egy publikus minta oldal is, ahol bejelentkezés nélkül is látható, mire számíthat a felhasználó. Ez még nem fizetős rendszer — a Premium funkciók előkészítése és validációja zajlik.",
+      "Elérhető az árak oldal a Free és a hamarosan érkező Premium csomag bemutatásával. A roller adatlapján megjelent az értékriport előnézet: ajánlott hirdetési ársáv, állapotlap checklist. Elkészült egy publikus minta oldal is, bejelentkezés nélkül megtekinthető. Ez még nem fizetős rendszer, a Premium funkciók előkészítése zajlik.",
   },
 ];

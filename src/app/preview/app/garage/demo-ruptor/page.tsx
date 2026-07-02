@@ -14,11 +14,10 @@ import {
 
 const scooter = DEMO_SCOOTERS[0];
 const services = DEMO_SERVICES.filter((s) => s.scooterId === "demo-ruptor");
-const lastService = services[services.length - 1];
 
 const techFields = [
   {
-    label: "Km óra állás",
+    label: "Km-állás",
     value: `${scooter.currentMileage.toLocaleString("hu-HU")} km`,
   },
   { label: "Évjárat", value: String(scooter.year) },
@@ -74,7 +73,7 @@ export default function PreviewScooterDetailPage() {
           href="#ertek"
           icon="💰"
           title="Vásárlás és érték"
-          description="Vételár, becsült jelenlegi érték."
+          description="Vételár és becsült érték."
         />
         <AppListItem
           href="#szerviz"
@@ -86,14 +85,14 @@ export default function PreviewScooterDetailPage() {
           href="#ertekjelentes"
           icon="📋"
           title="Értékriport"
-          description="Eladási állapotlap előnézet."
+          description="Állapotlap előnézet."
           eyebrow="Premium"
         />
         <AppListItem
           href="#ertektortenet"
           icon="📈"
           title="Értéktörténet"
-          description="Becsült érték időbeli alakulása."
+          description="Korábbi becslések."
         />
       </AppPanelList>
 
@@ -101,15 +100,14 @@ export default function PreviewScooterDetailPage() {
       <AppSection label="Műveletek">
         <div className="space-y-4">
           <p className="text-muted-foreground text-xs">
-            Futtass értékbecslést a vételár és km-állás alapján, vagy módosítsd
-            a roller adatait.
+            Demóban ezek a műveletek nem elérhetők.
           </p>
           <div className="flex flex-wrap gap-2">
             <button
               disabled
               className="text-muted-foreground cursor-not-allowed rounded-lg border px-4 py-2 text-sm opacity-50"
             >
-              Értékbecslés futtatása
+              Értékbecslés indítása
             </button>
             <button
               disabled
@@ -119,7 +117,7 @@ export default function PreviewScooterDetailPage() {
             </button>
           </div>
           <p className="text-muted-foreground text-xs">
-            Demo módban a műveletek nem elérhetők.
+            Demóban a műveletek nem elérhetők.
           </p>
         </div>
       </AppSection>
@@ -162,7 +160,7 @@ export default function PreviewScooterDetailPage() {
         </div>
         <div className="border-border/40 mt-3 border-t pt-3">
           <p className="text-muted-foreground text-xs">
-            Demo módban nem adható hozzá szerviz.
+            Demóban nem adható hozzá szerviz.
           </p>
         </div>
       </AppSection>
@@ -179,7 +177,7 @@ export default function PreviewScooterDetailPage() {
             </p>
             <p className="mt-0.5 font-bold">Értékriport előnézet</p>
             <p className="text-muted-foreground mt-0.5 text-sm">
-              Add el profibban a rolleredet egy rendezett állapotlappal.
+              Állapotlap eladáshoz.
             </p>
           </div>
           <span className="border-primary/30 text-primary rounded-full border px-2.5 py-0.5 text-xs font-medium">
@@ -243,7 +241,7 @@ export default function PreviewScooterDetailPage() {
               disabled
               className="text-muted-foreground cursor-not-allowed rounded-lg border px-4 py-2 text-sm opacity-40"
             >
-              Állapotlap generálása — hamarosan
+              Állapotlap generálása (hamarosan)
             </button>
           </div>
         </div>

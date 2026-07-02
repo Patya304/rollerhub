@@ -14,11 +14,11 @@ const rows = [
   { label: "Roller", value: "Ruptor R1 v2 (2024)" },
   { label: "Futásteljesítmény", value: "2 000 km" },
   { label: "Vételár", value: "200 000 Ft" },
-  { label: "Becsült jelenlegi érték", value: "148 000 Ft" },
+  { label: "Becsült érték", value: "148 000 Ft" },
   { label: "Értékmegőrzés", value: "74%" },
-  { label: "Dokumentált szervizek", value: "2 alkalom" },
+  { label: "Rögzített szervizek", value: "2 alkalom" },
   { label: "Utolsó szerviz", value: "Fék ellenőrzés · 2025. 04. 12." },
-  { label: "Naplózott menetek", value: "12 menet" },
+  { label: "Menetek száma", value: "12 menet" },
 ];
 
 export default function SampleReportPage() {
@@ -41,18 +41,17 @@ export default function SampleReportPage() {
       <section className="mx-auto w-full max-w-2xl px-6 py-12">
         <div className="mb-2 text-center">
           <span className="rounded-full border px-2 py-0.5 text-xs">
-            Előnézet · Demo adatok · Nem valódi riport
+            Előnézet · Demó adatok · Nem valódi riport
           </span>
         </div>
         <h1 className="mt-3 text-center text-3xl font-bold tracking-tight sm:text-4xl">
           Minta értékriport
         </h1>
         <p className="text-muted-foreground mt-3 text-center text-lg">
-          Így nézhet ki egy eladáshoz előkészített roller állapotlap.
+          Minta állapotlap eladáshoz.
         </p>
         <p className="text-muted-foreground mt-2 text-center text-sm">
-          Ez egy előnézet demo adatokkal — a valódi riport a saját rolleredhez
-          generálódik, a te szerviz- és menetadataid alapján.
+          Ez egy demó. A valódi riport a saját rolleradataidból készül.
         </p>
 
         <div className="mt-10 space-y-6 rounded-xl border p-6">
@@ -60,7 +59,7 @@ export default function SampleReportPage() {
             <div>
               <h2 className="text-xl font-semibold">Értékriport előnézet</h2>
               <p className="text-muted-foreground text-sm">
-                Add el profibban a rolleredet egy rendezett állapotlappal.
+                Állapotlap eladáshoz.
               </p>
             </div>
             <span className="rounded-full border px-2 py-0.5 text-xs">
@@ -102,23 +101,21 @@ export default function SampleReportPage() {
               ))}
             </ul>
             <p className="text-muted-foreground pt-1 text-xs italic">
-              Az állapotlapod jó alap egy eladási PDF-hez — ez Premium
+              Az állapotlapod jó alap egy eladási PDF-hez. PDF export Premium
               funkcióként érkezik.
             </p>
           </div>
 
           <div className="space-y-3 border-t pt-4">
             <p className="text-muted-foreground text-xs">
-              A Premium állapotlap összefoglalja a roller dokumentált
-              előzményeit — szervizek, futásteljesítmény, becsült érték — egy
-              megosztható, rendezett formában. Vevők számára meggyőzőbb, te
-              pedig többet kapsz a rollerért.
+              A Premium állapotlap tartalmazza a szervizeket, a km-állást és a
+              becsült értéket. Átláthatóbb képet ad a roller állapotáról.
             </p>
             <button
               disabled
               className="text-muted-foreground cursor-not-allowed rounded-md border px-4 py-2 text-sm opacity-50"
             >
-              Állapotlap generálása — hamarosan
+              Állapotlap generálása (hamarosan)
             </button>
           </div>
         </div>

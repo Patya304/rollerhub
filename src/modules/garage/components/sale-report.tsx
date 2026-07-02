@@ -59,12 +59,12 @@ export function SaleReport({
   const okCount = checklist.filter((c) => c.ok).length;
 
   const tip = !photoUrl
-    ? "Adj hozzá fotót — hirdetésnél ez az egyik legfontosabb bizalmi elem."
+    ? "Adj hozzá fotót. Hirdetésnél ez az egyik legfontosabb elem."
     : serviceCount === 0
       ? "Rögzíts legalább egy szervizt, hogy hitelesebb legyen az állapotlap."
       : lastEstimatedValue == null
-        ? "Futtass értékbecslést, hogy az ajánlott ársáv is megjelenjen."
-        : "Az állapotlapod jó alap — a teljes PDF export Premium funkcióként érkezik.";
+        ? "Indíts értékbecslést az ajánlott ársávhoz."
+        : "Az állapotlap használható alap. A PDF export később érkezik.";
 
   const rows: { label: string; value: string }[] = [
     {
@@ -82,7 +82,7 @@ export function SaleReport({
         : "–",
     },
     {
-      label: "Becsült jelenlegi érték",
+      label: "Becsült érték",
       value: lastEstimatedValue
         ? `${lastEstimatedValue.toLocaleString("hu-HU")} Ft`
         : "–",
@@ -92,7 +92,7 @@ export function SaleReport({
       value: valueRetention != null ? `${valueRetention}%` : "–",
     },
     {
-      label: "Dokumentált szervizek",
+      label: "Rögzített szervizek",
       value: `${serviceCount} alkalom`,
     },
     {
@@ -103,7 +103,7 @@ export function SaleReport({
           : "–",
     },
     {
-      label: "Naplózott menetek",
+      label: "Menetek száma",
       value: `${rideCount} menet`,
     },
   ];
@@ -118,7 +118,7 @@ export function SaleReport({
           </p>
           <p className="mt-0.5 font-bold">Értékriport előnézet</p>
           <p className="text-muted-foreground mt-0.5 text-sm">
-            Add el profibban a rolleredet egy rendezett állapotlappal.
+            Állapotlap eladáshoz.
           </p>
         </div>
         <span className="border-primary/30 text-primary rounded-full border px-2.5 py-0.5 text-xs font-medium">
@@ -201,16 +201,15 @@ export function SaleReport({
         {/* Premium CTA */}
         <div className="border-border/40 border-t pt-4">
           <p className="text-muted-foreground text-xs leading-relaxed">
-            A Premium állapotlap összefoglalja a dokumentált előzményeket —
-            szervizek, futásteljesítmény, becsült érték — egy megosztható
-            formában.
+            Az állapotlap tartalmazza a szervizeket, a km-állást és a becsült
+            értéket. Átláthatóbb képet ad a roller állapotáról.
           </p>
           <div className="mt-3 flex flex-wrap items-center gap-3">
             <button
               disabled
               className="text-muted-foreground cursor-not-allowed rounded-lg border px-4 py-2 text-sm opacity-40"
             >
-              Állapotlap generálása — hamarosan
+              Állapotlap generálása (hamarosan)
             </button>
             <Link
               href="/pricing"

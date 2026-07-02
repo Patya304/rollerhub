@@ -147,7 +147,7 @@ export function ScooterActions({ scooter }: { scooter: Scooter }) {
             />
           </div>
           <div className="space-y-1.5">
-            <Label>Km óra állás</Label>
+            <Label>Km-állás</Label>
             <Input
               type="number"
               value={mileage}
@@ -240,12 +240,11 @@ export function ScooterActions({ scooter }: { scooter: Scooter }) {
       {/* Elsődleges műveletek */}
       <div>
         <p className="text-muted-foreground mb-2.5 text-xs">
-          Futtass értékbecslést a vételár és km-állás alapján, vagy módosítsd a
-          roller adatait.
+          Értékbecslés vételár és km-állás alapján, vagy adatok szerkesztése.
         </p>
         <div className="flex flex-wrap gap-2">
           <Button size="sm" onClick={handleEstimate} disabled={busy}>
-            {busy ? "Számítás..." : "Értékbecslés futtatása"}
+            {busy ? "Számítás..." : "Értékbecslés indítása"}
           </Button>
           <Button
             size="sm"

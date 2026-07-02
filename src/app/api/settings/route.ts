@@ -7,7 +7,10 @@ import { updateSettingsSchema } from "@/modules/settings/schemas/settings-schema
 export async function PATCH(req: NextRequest) {
   const session = await auth.api.getSession({ headers: await headers() });
   if (!session) {
-    return NextResponse.json({ error: "unauthorized" }, { status: 401 });
+    return NextResponse.json(
+      { error: "Bejelentkezés szükséges." },
+      { status: 401 },
+    );
   }
 
   const body = await req.json().catch(() => null);

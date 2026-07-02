@@ -4,7 +4,7 @@ export default function SzabalyokPage() {
   return (
     <div className="space-y-4 text-sm leading-relaxed">
       <Link href="/knowledge" className="text-muted-foreground hover:underline">
-        ← Vissza a Tudásközponthoz
+        ← Vissza a Tudástárhoz
       </Link>
       <h1 className="text-2xl font-semibold">Roller szabályok</h1>
 
@@ -41,7 +41,7 @@ export default function SzabalyokPage() {
           lakó-pihenő övezet);
         </li>
         <li>
-          alkoholra zéró tolerancia — a roller gépi meghajtású járműnek minősül,
+          alkoholra zéró tolerancia: a roller gépi meghajtású járműnek minősül,
           ittas vezetés büntetőeljárást vonhat maga után.
         </li>
       </ul>

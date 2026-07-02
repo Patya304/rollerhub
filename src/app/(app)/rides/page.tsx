@@ -36,7 +36,7 @@ export default async function RidesPage() {
       <AppPageHeader
         eyebrow="04 · Menetnapló"
         title="Menetek"
-        description="Kiszállások, megtett táv és sebesség rollerenként."
+        description="Menetek távval, idővel és sebességgel."
       />
       <RidesView scooters={scooterOptions} rides={items} />
     </AppPage>

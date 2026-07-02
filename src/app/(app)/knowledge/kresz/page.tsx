@@ -4,7 +4,7 @@ export default function KreszPage() {
   return (
     <div className="space-y-4 text-sm leading-relaxed">
       <Link href="/knowledge" className="text-muted-foreground hover:underline">
-        ← Vissza a Tudásközponthoz
+        ← Vissza a Tudástárhoz
       </Link>
       <h1 className="text-2xl font-semibold">KRESZ</h1>
 
@@ -37,8 +37,8 @@ export default function KreszPage() {
       </p>
       <p>
         Nagy teljesítményű rollerrel az úttesten (vagy kerékpársávban) kell
-        haladni — járdán, gyalog- és kerékpárúton nem. A megengedett legnagyobb
-        sebesség jellemzően 45 km/h.
+        haladni, járdán és kerékpárúton nem. A megengedett legnagyobb sebesség
+        jellemzően 45 km/h.
       </p>
 
       <p className="text-muted-foreground border-t pt-3 text-xs">

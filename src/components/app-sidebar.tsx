@@ -29,7 +29,7 @@ const items = [
   { title: "Szerviz", url: "/service", icon: Wrench },
   { title: "Menetek", url: "/rides", icon: Route },
   { title: "Értékbecslés", url: "/value", icon: TrendingUp },
-  { title: "Tudásközpont", url: "/knowledge", icon: BookOpen },
+  { title: "Tudástár", url: "/knowledge", icon: BookOpen },
   { title: "Beállítások", url: "/settings", icon: Settings },
 ];
 

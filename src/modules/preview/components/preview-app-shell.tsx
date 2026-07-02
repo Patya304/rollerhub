@@ -18,7 +18,7 @@ const NAV_ITEMS = [
   { title: "Szerviz", url: "/preview/app/service", icon: Wrench },
   { title: "Menetek", url: "/preview/app/rides", icon: Route },
   { title: "Értékbecslés", url: "/preview/app/value", icon: TrendingUp },
-  { title: "Tudásközpont", url: "/preview/app/knowledge", icon: BookOpen },
+  { title: "Tudástár", url: "/preview/app/knowledge", icon: BookOpen },
   { title: "Beállítások", url: "/preview/app/settings", icon: Settings },
 ];
 
@@ -84,7 +84,7 @@ export function PreviewAppShell({ children }: { children: React.ReactNode }) {
             </div>
             <div className="min-w-0">
               <p className="text-xs leading-tight font-medium">
-                Demo Felhasználó
+                Demó Felhasználó
               </p>
               <p className="text-muted-foreground truncate text-xs">
                 demo@rollerhub.app
@@ -108,7 +108,7 @@ export function PreviewAppShell({ children }: { children: React.ReactNode }) {
             </span>
           </div>
           <span className="bg-primary/10 text-primary rounded-full px-2.5 py-0.5 text-xs font-medium">
-            Demo mód · nincs valódi adat
+            Demó mód · nincs valódi adat
           </span>
         </header>
 

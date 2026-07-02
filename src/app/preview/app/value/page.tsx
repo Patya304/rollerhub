@@ -8,14 +8,14 @@ export default function PreviewValuePage() {
       <AppPageHeader
         eyebrow="05 · Értékbecslés"
         title="Értékbecslés"
-        description="Becsült piaci értékek vételár, évjárat és km-állás alapján."
+        description="Tájékoztató becslés vételár, évjárat és km-állás alapján."
       />
 
       {/* Roller értékek */}
       <div className="bg-card overflow-hidden rounded-xl border">
         <div className="border-border/50 border-b px-5 py-3">
           <p className="text-muted-foreground text-xs font-semibold tracking-[0.15em] uppercase">
-            Rollerek becsült értéke
+            Becsült értékek
           </p>
         </div>
         <div className="divide-border/30 divide-y">
@@ -82,7 +82,7 @@ export default function PreviewValuePage() {
           </div>
           <div className="px-5 py-4">
             <p className="text-muted-foreground text-xs tracking-widest uppercase">
-              Becsült jelenlegi érték
+              Becsült érték
             </p>
             <p className="mt-1.5 font-mono text-xl leading-none font-bold tabular-nums">
               ~{DEMO_STATS.totalValue.toLocaleString("hu-HU")}
@@ -95,8 +95,8 @@ export default function PreviewValuePage() {
       </div>
 
       <p className="text-muted-foreground px-1 text-xs">
-        Az értékbecslés orientációs jellegű — vételár, km-állás és évjárat
-        alapján számolódik. Demo mód — az adatok statikusak.
+        Az értékbecslés tájékoztató jellegű: vételár, km-állás és évjárat
+        alapján számolódik. Demó mód: az adatok statikusak.
       </p>
     </AppPage>
   );

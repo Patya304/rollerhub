@@ -37,7 +37,7 @@ export function ServiceOverview({
     return (
       <div className="rounded-xl border border-dashed px-8 py-14 text-center">
         <p className="text-4xl">🔧</p>
-        <p className="mt-4 font-semibold">Még nincs szerviz-bejegyzés</p>
+        <p className="mt-4 font-semibold">Még nincs szervizbejegyzés</p>
         <p className="text-muted-foreground mx-auto mt-1.5 max-w-xs text-sm leading-relaxed">
           Nyisd meg a rollert a Garázsban, görgess a Szervizkönyvhöz, és
           rögzítsd az első bejegyzést.
@@ -115,7 +115,7 @@ export function ServiceOverview({
         </div>
       ) : (
         <p className="text-muted-foreground py-4 text-center text-sm">
-          Ehhez a rollerhez még nincs szerviz-bejegyzés.
+          Ehhez a rollerhez még nincs szervizbejegyzés.
         </p>
       )}
     </div>

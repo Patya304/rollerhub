@@ -12,12 +12,15 @@ export async function GET(
 ) {
   const session = await auth.api.getSession({ headers: await headers() });
   if (!session) {
-    return NextResponse.json({ error: "unauthorized" }, { status: 401 });
+    return NextResponse.json(
+      { error: "Bejelentkezés szükséges." },
+      { status: 401 },
+    );
   }
   const { id } = await params;
   const history = await getValueHistory(session.user.id, id);
   if (history === null) {
-    return NextResponse.json({ error: "not found" }, { status: 404 });
+    return NextResponse.json({ error: "Nem található." }, { status: 404 });
   }
   return NextResponse.json(history);
 }
@@ -28,14 +31,17 @@ export async function POST(
 ) {
   const session = await auth.api.getSession({ headers: await headers() });
   if (!session) {
-    return NextResponse.json({ error: "unauthorized" }, { status: 401 });
+    return NextResponse.json(
+      { error: "Bejelentkezés szükséges." },
+      { status: 401 },
+    );
   }
 
   const { id } = await params;
   const result = await estimateScooterValue(session.user.id, id);
 
   if (result.status === "not_found") {
-    return NextResponse.json({ error: "not found" }, { status: 404 });
+    return NextResponse.json({ error: "Nem található." }, { status: 404 });
   }
   if (result.status === "no_price") {
     return NextResponse.json(

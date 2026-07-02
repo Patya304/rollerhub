@@ -16,32 +16,32 @@ const features = [
   {
     icon: Bike,
     title: "Digitális garázs",
-    text: "Tartsd egy helyen az összes rollered adatát: márka, modell, akku, futásteljesítmény.",
+    text: "Rollereid adatai, szervizei és becsült értékei.",
   },
   {
     icon: TrendingUp,
     title: "Értékbecslés",
-    text: "Lásd a rollered becsült aktuális értékét, és kövesd, hogyan változik az idővel.",
+    text: "Tájékoztató becslés vételár, évjárat és km-állás alapján.",
   },
   {
     icon: Wrench,
     title: "Szervizkönyv",
-    text: "Rögzítsd a gumicserét, féket, akkut és minden karbantartást — költségekkel együtt.",
+    text: "Rögzítsd a gumicserét, féket, akkut és minden karbantartást, költségekkel együtt.",
   },
   {
     icon: Route,
     title: "Menetnapló",
-    text: "Naplózd a menetidődet: megtett táv, időtartam, átlag- és maximális sebesség.",
+    text: "Menetek távval, idővel és sebességgel.",
   },
   {
     icon: BookOpen,
-    title: "Tudásközpont",
-    text: "Magyar e-roller szabályok, KRESZ, biztosítás és jogosítvány egy helyen.",
+    title: "Tudástár",
+    text: "Szabályok, biztosítás és jogosítvány.",
   },
   {
     icon: ShieldCheck,
     title: "Befektetésvédő",
-    text: "Dokumentált előzmények, amelyek eladáskor növelik a roller értékét és a bizalmat.",
+    text: "Átlátható előzmények, ha később eladnád a rollered.",
   },
 ];
 
@@ -76,8 +76,7 @@ export default function Home() {
           A rollered digitális otthona
         </h1>
         <p className="text-muted-foreground mt-4 max-w-xl text-lg">
-          Szerviznapló, értékbecslés, menetnapló és rolleres tudásközpont egy
-          helyen.
+          Szerviznapló, értékbecslés, menetnapló és Tudástár rollereseknek.
         </p>
         <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
           {loggedIn ? (
@@ -87,7 +86,7 @@ export default function Home() {
           ) : (
             <>
               <Button asChild size="lg">
-                <Link href="/sign-up">Kezdj bele ingyen</Link>
+                <Link href="/sign-up">Kezdés ingyen</Link>
               </Button>
               <Button asChild size="lg" variant="outline">
                 <Link href="/sign-in">Belépés</Link>

@@ -10,7 +10,7 @@ const topics = [
     marker: "01",
     eyebrow: "Közlekedési szabályok",
     title: "KRESZ",
-    description: "Rollerrel az úton — mi szabad, mi nem, hol közlekedhetsz.",
+    description: "Alap közlekedési szabályok rollereseknek.",
     href: "/knowledge/kresz",
     available: false,
   },
@@ -18,8 +18,7 @@ const topics = [
     marker: "02",
     eyebrow: "Felelősségvállalás",
     title: "Biztosítás",
-    description:
-      "Kötelező és ajánlott biztosítási formák elektromos rollerekhez.",
+    description: "Biztosítási tudnivalók elektromos rollerekhez.",
     href: "/knowledge/biztositas",
     available: false,
   },
@@ -27,7 +26,7 @@ const topics = [
     marker: "03",
     eyebrow: "Okmányok",
     title: "Jogosítvány",
-    description: "Mikor kell jogosítvány? Milyen kategória vonatkozik rád?",
+    description: "Jogosítvány és kategóriák rollereseknek.",
     href: "/knowledge/jogositvany",
     available: false,
   },
@@ -35,7 +34,7 @@ const topics = [
     marker: "04",
     eyebrow: "Szabályozás",
     title: "Roller szabályok",
-    description: "Aktuális szabályok, zónák, sebességhatárok Magyarországon.",
+    description: "Szabályok és korlátozások Magyarországon.",
     href: "/knowledge/szabalyok",
     available: false,
   },
@@ -46,8 +45,8 @@ export default function KnowledgePage() {
     <AppPage>
       <AppPageHeader
         eyebrow="06 · Tudástár"
-        title="Tudásközpont"
-        description="Fontos tudnivalók a rollerezésről Magyarországon."
+        title="Tudástár"
+        description="Szabályok és hasznos infók rollereseknek."
       />
 
       <AppPanelList label="Témakörök">
@@ -67,8 +66,8 @@ export default function KnowledgePage() {
 
       <div className="space-y-1 px-1">
         <p className="text-muted-foreground text-xs">
-          A tudáscikkek hamarosan elérhetőek lesznek. Addig is ezeken az
-          oldalakon találsz hiteles információt:
+          A cikkek hamarosan érkeznek. Addig is ezeket az oldalakat érdemes
+          megnézni:
         </p>
         <ul className="text-muted-foreground space-y-0.5 text-xs">
           <li>
@@ -80,8 +79,8 @@ export default function KnowledgePage() {
               className="underline underline-offset-4"
             >
               kozut.hu
-            </a>{" "}
-            — Közúti közlekedési hatóság
+            </a>
+            : Közúti közlekedési hatóság
           </li>
           <li>
             →{" "}
@@ -92,8 +91,8 @@ export default function KnowledgePage() {
               className="underline underline-offset-4"
             >
               kav.hu
-            </a>{" "}
-            — Közlekedési Alkalmassági és Vizsgaközpont
+            </a>
+            : Közlekedési Alkalmassági és Vizsgaközpont
           </li>
         </ul>
       </div>

@@ -4,13 +4,13 @@ export default function BiztositasPage() {
   return (
     <div className="space-y-4 text-sm leading-relaxed">
       <Link href="/knowledge" className="text-muted-foreground hover:underline">
-        ← Vissza a Tudásközponthoz
+        ← Vissza a Tudástárhoz
       </Link>
       <h1 className="text-2xl font-semibold">Biztosítás</h1>
 
       <p>
         A kötelező felelősségbiztosítás (KGFB) bizonyos elektromos rollerekre
-        már 2024. július 16. óta kötelező — ez független a 2026-os
+        már 2024. július 16. óta kötelező, ez független a 2026-os
         KRESZ-változástól.
       </p>
 
@@ -26,7 +26,7 @@ export default function BiztositasPage() {
 
       <h2 className="font-medium">Mennyibe kerül?</h2>
       <p>
-        A díjat nem központilag állapítják meg — biztosítónként eltér, a roller
+        A díjat nem központilag állapítják meg: biztosítónként eltér, a roller
         teljesítményétől, a tulajdonos életkorától és lakhelyétől függően. Az
         éves díj jellemzően kb. 8 000–15 000 Ft.
       </p>

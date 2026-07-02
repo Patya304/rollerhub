@@ -133,7 +133,7 @@ export function RidesView({
             />
           </div>
           <div className="space-y-1.5">
-            <Label htmlFor="ride-end">Érkezés (opc.)</Label>
+            <Label htmlFor="ride-end">Érkezés (opcionális)</Label>
             <Input
               id="ride-end"
               type="datetime-local"
@@ -193,7 +193,7 @@ export function RidesView({
           <p className="text-4xl">🛣️</p>
           <p className="mt-4 font-semibold">Még nincs menet rögzítve</p>
           <p className="text-muted-foreground mx-auto mt-1.5 max-w-xs text-sm leading-relaxed">
-            Naplózd az első kiszállásodat — indulás, megtett táv, sebesség.
+            Rögzítsd az első menetet távval, idővel és sebességgel.
           </p>
           {scooters.length > 0 ? (
             <Button className="mt-6" onClick={() => setShowForm(true)}>

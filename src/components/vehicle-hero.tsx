@@ -98,9 +98,7 @@ export function VehicleHero({
         {estimatedValue != null && (
           <div className="border-border/50 border-t px-5 py-3">
             <div className="flex items-center justify-between gap-3">
-              <p className="text-muted-foreground text-xs">
-                Becsült piaci érték
-              </p>
+              <p className="text-muted-foreground text-xs">Becsült érték</p>
               <p className="border-primary/30 bg-primary/10 text-primary rounded-lg px-3 py-1 font-mono text-sm font-bold tabular-nums">
                 ~{estimatedValue.toLocaleString("hu-HU")} Ft
               </p>

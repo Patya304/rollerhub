@@ -7,7 +7,7 @@ const freeFeatures = [
   "Szervizkönyv",
   "Menetnapló",
   "Értékbecslés és értéktörténet",
-  "Magyar tudásközpont",
+  "Magyar Tudástár",
   "Dashboard összesítők",
 ];
 
@@ -17,7 +17,7 @@ const premiumFeatures = [
   "Eladási állapotlap (PDF)",
   "Szerviz emlékeztetők",
   "Export / adatmentés",
-  "Minden Free funkció",
+  "Minden ingyenes funkció",
 ];
 
 export default function PricingPage() {
@@ -42,7 +42,7 @@ export default function PricingPage() {
           Egyszerű, átlátható árak
         </h1>
         <p className="text-muted-foreground mt-3 text-lg">
-          Kezdj bele ingyen. Bővülő funkciók érkeznek a Premium csomagba.
+          Kezdés ingyen. A Premium funkciók később érkeznek.
         </p>
       </section>
 
@@ -53,7 +53,7 @@ export default function PricingPage() {
             <div className="mb-6">
               <h2 className="text-xl font-semibold">Free</h2>
               <p className="text-muted-foreground mt-1 text-sm">
-                Mindörökre ingyenes
+                Ingyenes csomag
               </p>
               <p className="mt-4 text-4xl font-bold">
                 0 Ft
@@ -73,7 +73,7 @@ export default function PricingPage() {
             </ul>
 
             <Button asChild>
-              <Link href="/sign-up">Kezdj bele ingyen</Link>
+              <Link href="/sign-up">Kezdés ingyen</Link>
             </Button>
           </div>
 
@@ -90,8 +90,7 @@ export default function PricingPage() {
                 Több roller, részletes riportok, exportok
               </p>
               <p className="mt-4 text-4xl font-bold">
-                —
-                <span className="text-muted-foreground ml-1 text-base font-normal">
+                <span className="text-muted-foreground text-base font-normal">
                   ár később
                 </span>
               </p>
@@ -124,7 +123,7 @@ export default function PricingPage() {
               href="/sample-report"
               className="text-foreground font-medium underline underline-offset-4"
             >
-              Nézd meg a minta riportot →
+              Minta riport megnyitása →
             </Link>
           </p>
           <p className="text-muted-foreground text-sm">
@@ -133,7 +132,7 @@ export default function PricingPage() {
               href="/preview/app"
               className="text-foreground font-medium underline underline-offset-4"
             >
-              Demo app megnyitása →
+              Demó app megnyitása →
             </Link>
           </p>
           <p className="text-muted-foreground text-sm">

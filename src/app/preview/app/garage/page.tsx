@@ -8,7 +8,7 @@ export default function PreviewGaragePage() {
       <AppPageHeader
         eyebrow="02 · Garázs"
         title="Garázs"
-        description="A rollerjeid egy helyen."
+        description="Rollereid adatlapja és km-állása."
       />
 
       <div className="bg-card divide-border/40 divide-y overflow-hidden rounded-xl border">
@@ -23,7 +23,7 @@ export default function PreviewGaragePage() {
           title={`${DEMO_SCOOTERS[1].brand} ${DEMO_SCOOTERS[1].model}`}
           meta={`${DEMO_SCOOTERS[1].year} · ${DEMO_SCOOTERS[1].currentMileage.toLocaleString("hu-HU")} km · ~${DEMO_SCOOTERS[1].estimate.toLocaleString("hu-HU")} Ft`}
           disabled
-          disabledLabel="Demo — nincs adatlap"
+          disabledLabel="Demó: nincs adatlap"
         />
       </div>
 
@@ -36,7 +36,7 @@ export default function PreviewGaragePage() {
           + Új roller hozzáadása
         </button>
         <p className="text-muted-foreground mt-1.5 text-xs">
-          Demo módban nem adható hozzá új roller.
+          Demóban nem adható hozzá új roller.
         </p>
       </div>
     </AppPage>

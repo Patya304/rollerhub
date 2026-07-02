@@ -4,10 +4,7 @@ import { auth } from "@/lib/auth";
 import { getScooterDetails } from "@/modules/garage/services/scooter-service";
 import { getValueHistory } from "@/modules/value/services/value-service";
 import { ScooterActions } from "@/modules/garage/components/scooter-actions";
-import {
-  SERVICE_TYPE_LABELS,
-  type ServiceType,
-} from "@/modules/services/service-types";
+import { type ServiceType } from "@/modules/services/service-types";
 import { ServiceLog } from "@/modules/services/components/service-log";
 import { ValueHistory } from "@/modules/value/components/value-history";
 import { SaleReport } from "@/modules/garage/components/sale-report";
@@ -38,7 +35,7 @@ export default async function ScooterDetailsPage({
 
   const techFields = [
     {
-      label: "Km óra állás",
+      label: "Km-állás",
       value: `${scooter.currentMileage.toLocaleString("hu-HU")} km`,
     },
     {
@@ -123,7 +120,7 @@ export default async function ScooterDetailsPage({
           href="#ertek"
           icon="💰"
           title="Vásárlás és érték"
-          description="Vételár, becsült jelenlegi érték."
+          description="Vételár és becsült érték."
         />
         <AppListItem
           href="#szerviz"
@@ -139,14 +136,14 @@ export default async function ScooterDetailsPage({
           href="#ertekjelentes"
           icon="📋"
           title="Értékriport"
-          description="Eladási állapotlap előnézet."
+          description="Állapotlap előnézet."
           eyebrow="Premium"
         />
         <AppListItem
           href="#ertektortenet"
           icon="📈"
           title="Értéktörténet"
-          description="Becsült érték időbeli alakulása."
+          description="Korábbi becslések."
         />
       </AppPanelList>
 

@@ -13,12 +13,15 @@ export async function GET(
 ) {
   const session = await auth.api.getSession({ headers: await headers() });
   if (!session)
-    return NextResponse.json({ error: "unauthorized" }, { status: 401 });
+    return NextResponse.json(
+      { error: "Bejelentkezés szükséges." },
+      { status: 401 },
+    );
 
   const { id } = await params;
   const services = await getServicesByScooter(session.user.id, id);
   if (services === null)
-    return NextResponse.json({ error: "not found" }, { status: 404 });
+    return NextResponse.json({ error: "Nem található." }, { status: 404 });
   return NextResponse.json(services);
 }
 
@@ -28,7 +31,10 @@ export async function POST(
 ) {
   const session = await auth.api.getSession({ headers: await headers() });
   if (!session)
-    return NextResponse.json({ error: "unauthorized" }, { status: 401 });
+    return NextResponse.json(
+      { error: "Bejelentkezés szükséges." },
+      { status: 401 },
+    );
 
   const { id } = await params;
   const body = await req.json().catch(() => null);
@@ -56,6 +62,6 @@ export async function POST(
     notes: parsed.data.notes,
   });
   if (service === null)
-    return NextResponse.json({ error: "not found" }, { status: 404 });
+    return NextResponse.json({ error: "Nem található." }, { status: 404 });
   return NextResponse.json(service, { status: 201 });
 }

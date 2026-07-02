@@ -4,7 +4,7 @@ export default function JogositvanyPage() {
   return (
     <div className="space-y-4 text-sm leading-relaxed">
       <Link href="/knowledge" className="text-muted-foreground hover:underline">
-        ← Vissza a Tudásközponthoz
+        ← Vissza a Tudástárhoz
       </Link>
       <h1 className="text-2xl font-semibold">Jogosítvány</h1>
 
@@ -20,7 +20,7 @@ export default function JogositvanyPage() {
         a könnyű rollerekhez viszont nem.
       </p>
       <p>
-        Fontos azonban: ez tervezet, és a részletek vitatottak — egyes
+        Fontos azonban: ez tervezet, és a részletek vitatottak. Egyes
         tervezet-változatok szerint egyik kategóriához sem kellene jogosítvány.
         A végleges szabály eltérhet, ezért érdemes a hivatalos forrásokat
         figyelni.
