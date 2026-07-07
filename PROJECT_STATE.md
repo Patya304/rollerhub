@@ -18,7 +18,7 @@ A V1 célja:
 - értéktörténet
 - menetnapló
 - dashboard összesítők
-- magyar rolleres tudásközpont
+- magyar rolleres tudástár
 - stabil publikus web/PWA alap
 
 A termékpozicionálás:
@@ -57,7 +57,7 @@ Launch előkészítés: körülbelül 80%
 - Értékbecslés
 - Értéktörténet
 - Menetnapló
-- Tudásközpont
+- Tudástár (4 olvasható cikkel: KRESZ, biztosítás, jogosítvány, szabályok)
 - Beállítások alap
 
 ## Kész technikai alapok
@@ -131,6 +131,7 @@ Van:
 
 Theme opciók:
 
+- `default`
 - `black-white`
 - `black-orange`
 - `black-blue`
@@ -165,7 +166,7 @@ A `/preview/app` route-csoportban teljes demo alkalmazás fut:
 - Nincs auth, nincs Prisma, nincs API hívás
 - `src/modules/preview/demo-data.ts` — centralizált mock adatok
 - `PreviewAppShell` — saját sidebar, nem importálja az authos layout-ot
-- 8 route: dashboard, garázs, demo-ruptor adatlap, szerviz, menetnapló, értékbecslés, tudásközpont, beállítások
+- 8 route: dashboard, garázs, demo-ruptor adatlap, szerviz, menetnapló, értékbecslés, tudástár, beállítások
 - `data-theme="black-orange"` fix a layout wrapperen
 - Minden interakció disabled/statikus
 
@@ -205,7 +206,7 @@ Aktuális fő irány:
 - PWA polish
 - soft launch 5–10 tesztelővel
 - landing page további polish
-- tudásközpont források friss ellenőrzése
+- tudástár források friss ellenőrzése
 - privacy/terms véglegesítés saját emaillel
 
 ### Később / Premium irány

@@ -81,7 +81,7 @@ export default function PreviewDashboardPage() {
         </p>
         <p className="mt-1 font-semibold">Értékriport és eladási állapotlap</p>
         <p className="text-muted-foreground mt-0.5 text-sm">
-          Részletes eladási riport szervizekkel, km-állással és PDF exporttal.
+          Értékriport szervizekkel, km-állással és exporttal.
         </p>
         <Link
           href="/pricing"

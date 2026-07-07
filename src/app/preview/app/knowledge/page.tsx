@@ -23,7 +23,7 @@ export default function PreviewKnowledgePage() {
             eyebrow={t.eyebrow}
             title={t.title}
             description={t.description}
-            meta="Hamarosan"
+            meta="Demó: nem megnyitható"
             disabled
           />
         ))}
@@ -31,8 +31,8 @@ export default function PreviewKnowledgePage() {
 
       <div className="space-y-1 px-1">
         <p className="text-muted-foreground text-xs">
-          A cikkek hamarosan érkeznek. Addig is ezeket az oldalakat érdemes
-          megnézni:
+          A cikkek a bejelentkezett appban olvashatók. Hivatalos információkért
+          ezeket az oldalakat érdemes megnézni:
         </p>
         <ul className="text-muted-foreground space-y-0.5 text-xs">
           <li>

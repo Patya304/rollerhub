@@ -41,6 +41,11 @@ Manuális ellenőrzési lista soft launch előtt.
 - [ ] `/value` oldalon látható a becslés
 - [ ] Ha nincs vételár: megfelelő fallback szöveg jelenik meg
 
+## Tudástár
+
+- [ ] `/knowledge` — mind a 4 cikk kattintható és megnyílik
+- [ ] Cikkoldalakról a "Vissza a Tudástárhoz" link működik
+
 ## Settings
 
 - [ ] Profil adatok (username, név) mentése működik
@@ -68,6 +73,6 @@ Manuális ellenőrzési lista soft launch előtt.
 
 ## Publikus oldalak
 
-- [ ] `/pricing` betölt, "Demo app megnyitása" link működik
+- [ ] `/pricing` betölt, "Demó app megnyitása" link működik
 - [ ] `/sample-report` betölt, demo badge látható
 - [ ] `/devlog` betölt

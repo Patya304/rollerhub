@@ -21,6 +21,10 @@ export function ValueHistory({ history }: { history: Estimate[] }) {
   const diff =
     history[history.length - 1].estimatedValue - history[0].estimatedValue;
 
+  // A history időrendben (legrégebbi elöl) érkezik, megjelenítéskor a
+  // legfrissebb becslés kerül felülre.
+  const items = [...history].reverse();
+
   return (
     <div className="space-y-4">
       {/* Trend összegzés */}
@@ -42,8 +46,8 @@ export function ValueHistory({ history }: { history: Estimate[] }) {
 
       {/* Sorok */}
       <div className="divide-border/30 divide-y">
-        {history.map((e, idx) => {
-          const prev = idx < history.length - 1 ? history[idx + 1] : null;
+        {items.map((e, idx) => {
+          const prev = idx < items.length - 1 ? items[idx + 1] : null;
           const change = prev ? e.estimatedValue - prev.estimatedValue : null;
           return (
             <div

@@ -1,8 +1,24 @@
 import { z } from "zod";
 
-const optNum = z.preprocess(
+// Felső korlátok: bőven a reális tartomány felett, elgépelés ellen védenek.
+const MAX_DISTANCE_KM = 10_000;
+const MAX_SPEED_KMH = 300;
+
+const optDistance = z.preprocess(
   (v) => (v === "" || v == null ? undefined : v),
-  z.coerce.number().min(0, "Nem lehet negatív.").optional(),
+  z.coerce
+    .number()
+    .min(0, "Nem lehet negatív.")
+    .max(MAX_DISTANCE_KM, "Túl nagy érték.")
+    .optional(),
+);
+const optSpeed = z.preprocess(
+  (v) => (v === "" || v == null ? undefined : v),
+  z.coerce
+    .number()
+    .min(0, "Nem lehet negatív.")
+    .max(MAX_SPEED_KMH, "Túl nagy érték.")
+    .optional(),
 );
 
 const MAX_FUTURE_MS = 24 * 60 * 60 * 1000; // 1 nap tolerancia
@@ -27,9 +43,9 @@ export const createRideSchema = z
       "Az indulás nem lehet a jövőben.",
     ),
     endAt: optionalDate,
-    distanceKm: optNum,
-    avgSpeed: optNum,
-    maxSpeed: optNum,
+    distanceKm: optDistance,
+    avgSpeed: optSpeed,
+    maxSpeed: optSpeed,
   })
   .refine((d) => !d.endAt || d.endAt >= d.startAt, {
     message: "A befejezés nem lehet korábban, mint az indulás.",

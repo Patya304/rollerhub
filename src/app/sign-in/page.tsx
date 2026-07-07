@@ -12,22 +12,35 @@ export default function SignInPage() {
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [message, setMessage] = useState("");
+  const [error, setError] = useState("");
+  const [busy, setBusy] = useState(false);
 
-  async function handleSignIn() {
-    setMessage("Belépés...");
-    const { error } = await signIn.email({ email, password });
-    if (error) {
-      setMessage(`Hiba: ${error.message}`);
-    } else {
-      router.push("/dashboard");
-      router.refresh();
+  async function handleSignIn(e: React.FormEvent) {
+    e.preventDefault();
+    setError("");
+    if (!email.trim() || !password) {
+      setError("Add meg az email címed és a jelszavad.");
+      return;
+    }
+    setBusy(true);
+    try {
+      const { error: signInError } = await signIn.email({ email, password });
+      if (signInError) {
+        setError("Sikertelen belépés. Ellenőrizd az email címet és a jelszót.");
+      } else {
+        router.push("/dashboard");
+        router.refresh();
+      }
+    } catch {
+      setError("Hálózati hiba. Próbáld újra.");
+    } finally {
+      setBusy(false);
     }
   }
 
   return (
     <main className="flex min-h-screen items-center justify-center p-4">
-      <div className="w-full max-w-sm space-y-4">
+      <form onSubmit={handleSignIn} className="w-full max-w-sm space-y-4">
         <div>
           <Link
             href="/"
@@ -45,6 +58,7 @@ export default function SignInPage() {
           <Input
             id="email"
             type="email"
+            autoComplete="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
@@ -54,21 +68,22 @@ export default function SignInPage() {
           <Input
             id="password"
             type="password"
+            autoComplete="current-password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
         </div>
-        <Button onClick={handleSignIn} className="w-full">
-          Belépek
+        <Button type="submit" className="w-full" disabled={busy}>
+          {busy ? "Belépés..." : "Belépek"}
         </Button>
-        {message && <p className="text-sm">{message}</p>}
+        {error && <p className="text-sm text-red-500">{error}</p>}
         <p className="text-muted-foreground text-center text-sm">
           Nincs fiókod?{" "}
           <Link href="/sign-up" className="underline">
             Regisztráció
           </Link>
         </p>
-      </div>
+      </form>
     </main>
   );
 }

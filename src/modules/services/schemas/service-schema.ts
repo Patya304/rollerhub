@@ -1,13 +1,27 @@
 import { z } from "zod";
 import { SERVICE_TYPES } from "@/modules/services/service-types";
 
+// Felső korlátok: bőven a reális tartomány felett, de védenek az elgépelés
+// és a Postgres Int túlcsordulása ellen.
+const MAX_INT_VALUE = 100_000_000;
+const MAX_NOTES_LENGTH = 2000;
+
 const optInt = z.preprocess(
   (v) => (v === "" || v == null ? undefined : v),
-  z.coerce.number().int().min(0, "Nem lehet negatív.").optional(),
+  z.coerce
+    .number()
+    .int()
+    .min(0, "Nem lehet negatív.")
+    .max(MAX_INT_VALUE, "Túl nagy érték.")
+    .optional(),
 );
 const optString = z.preprocess(
   (v) => (v === "" || v == null ? undefined : v),
-  z.string().trim().optional(),
+  z
+    .string()
+    .trim()
+    .max(MAX_NOTES_LENGTH, "A megjegyzés túl hosszú.")
+    .optional(),
 );
 
 const MAX_FUTURE_MS = 24 * 60 * 60 * 1000; // 1 nap tolerancia

@@ -2,14 +2,33 @@ import { z } from "zod";
 
 const currentYear = new Date().getFullYear();
 
+// Felső korlátok: bőven a reális tartomány felett, de védenek az elgépelés
+// és a Postgres Int túlcsordulása ellen.
+const MAX_INT_VALUE = 100_000_000;
+const MAX_STRING_LENGTH = 200;
+const MAX_NOTES_LENGTH = 2000;
+
 // ----- CREATE mezőtípusok: üres/hiányzó opcionális -> kimarad -----
 const optString = z.preprocess(
   (v) => (v === "" || v == null ? undefined : v),
-  z.string().trim().optional(),
+  z.string().trim().max(MAX_STRING_LENGTH, "Túl hosszú szöveg.").optional(),
+);
+const optNotes = z.preprocess(
+  (v) => (v === "" || v == null ? undefined : v),
+  z
+    .string()
+    .trim()
+    .max(MAX_NOTES_LENGTH, "A megjegyzés túl hosszú.")
+    .optional(),
 );
 const optInt = z.preprocess(
   (v) => (v === "" || v == null ? undefined : v),
-  z.coerce.number().int().min(0, "Nem lehet negatív.").optional(),
+  z.coerce
+    .number()
+    .int()
+    .min(0, "Nem lehet negatív.")
+    .max(MAX_INT_VALUE, "Túl nagy érték.")
+    .optional(),
 );
 const optYear = z.preprocess(
   (v) => (v === "" || v == null ? undefined : v),
@@ -45,8 +64,16 @@ const optDate = z.preprocess(
 );
 
 export const createScooterSchema = z.object({
-  brand: z.string().trim().min(1, "A márka kötelező."),
-  model: z.string().trim().min(1, "A modell kötelező."),
+  brand: z
+    .string()
+    .trim()
+    .min(1, "A márka kötelező.")
+    .max(MAX_STRING_LENGTH, "Túl hosszú szöveg."),
+  model: z
+    .string()
+    .trim()
+    .min(1, "A modell kötelező.")
+    .max(MAX_STRING_LENGTH, "Túl hosszú szöveg."),
   color: optString,
   serialNumber: optString,
   year: optYear,
@@ -57,17 +84,37 @@ export const createScooterSchema = z.object({
   topSpeed: optInt,
   rangeKm: optInt,
   photoUrl: optUrl,
-  notes: optString,
+  notes: optNotes,
 });
 
 // ----- UPDATE mezőtípusok: "" -> null (törlés), hiányzó -> nem módosul -----
 const updString = z.preprocess(
   (v) => (v === "" ? null : v),
-  z.string().trim().nullable().optional(),
+  z
+    .string()
+    .trim()
+    .max(MAX_STRING_LENGTH, "Túl hosszú szöveg.")
+    .nullable()
+    .optional(),
+);
+const updNotes = z.preprocess(
+  (v) => (v === "" ? null : v),
+  z
+    .string()
+    .trim()
+    .max(MAX_NOTES_LENGTH, "A megjegyzés túl hosszú.")
+    .nullable()
+    .optional(),
 );
 const updInt = z.preprocess(
   (v) => (v === "" ? null : v),
-  z.coerce.number().int().min(0, "Nem lehet negatív.").nullable().optional(),
+  z.coerce
+    .number()
+    .int()
+    .min(0, "Nem lehet negatív.")
+    .max(MAX_INT_VALUE, "Túl nagy érték.")
+    .nullable()
+    .optional(),
 );
 const updYear = z.preprocess(
   (v) => (v === "" ? null : v),
@@ -99,14 +146,29 @@ const updDate = z.preprocess(
 );
 
 export const updateScooterSchema = z.object({
-  brand: z.string().trim().min(1, "A márka nem lehet üres.").optional(),
-  model: z.string().trim().min(1, "A modell nem lehet üres.").optional(),
+  brand: z
+    .string()
+    .trim()
+    .min(1, "A márka nem lehet üres.")
+    .max(MAX_STRING_LENGTH, "Túl hosszú szöveg.")
+    .optional(),
+  model: z
+    .string()
+    .trim()
+    .min(1, "A modell nem lehet üres.")
+    .max(MAX_STRING_LENGTH, "Túl hosszú szöveg.")
+    .optional(),
   color: updString,
   serialNumber: updString,
   year: updYear,
   currentMileage: z.preprocess(
     (v) => (v === "" ? 0 : v),
-    z.coerce.number().int().min(0, "Nem lehet negatív.").optional(),
+    z.coerce
+      .number()
+      .int()
+      .min(0, "Nem lehet negatív.")
+      .max(MAX_INT_VALUE, "Túl nagy érték.")
+      .optional(),
   ),
   purchasePrice: updInt,
   purchaseDate: updDate,
@@ -114,5 +176,5 @@ export const updateScooterSchema = z.object({
   topSpeed: updInt,
   rangeKm: updInt,
   photoUrl: updUrl,
-  notes: updString,
+  notes: updNotes,
 });

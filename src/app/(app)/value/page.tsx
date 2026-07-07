@@ -81,18 +81,13 @@ export default async function ValuePage() {
                     <p className="font-semibold">
                       {scooter.brand} {scooter.model}
                     </p>
-                    {scooter.year && (
-                      <p className="text-muted-foreground mt-0.5 font-mono text-xs tabular-nums">
-                        {scooter.year} ·{" "}
-                        {scooter.currentMileage.toLocaleString("hu-HU")} km
-                      </p>
-                    )}
+                    <p className="text-muted-foreground mt-0.5 font-mono text-xs tabular-nums">
+                      {scooter.year ? `${scooter.year} · ` : ""}
+                      {scooter.currentMileage.toLocaleString("hu-HU")} km
+                    </p>
                     {estimate == null && (
                       <p className="text-muted-foreground mt-1 text-xs">
-                        {scooter.currentMileage === 0 &&
-                        scooter.purchasePrice == null
-                          ? "A becsléshez vételár és km-állás szükséges."
-                          : "Adj meg vételárat a roller adatlapján."}
+                        Adj meg vételárat a roller adatlapján.
                       </p>
                     )}
                   </div>

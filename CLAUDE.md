@@ -117,7 +117,7 @@ Dinamikus route mappák mindig szögletes zárójelet használnak:
 - Értékbecslés
 - Értéktörténet
 - Menetnapló
-- Tudásközpont
+- Tudástár
 - Fejlesztési napló
 - Privacy oldal
 - Terms oldal
@@ -141,6 +141,7 @@ A Settings oldal kezeli:
 
 Támogatott témák:
 
+- `default`
 - `black-white`
 - `black-orange`
 - `black-blue`

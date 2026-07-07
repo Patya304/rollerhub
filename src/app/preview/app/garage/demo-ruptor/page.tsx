@@ -116,9 +116,6 @@ export default function PreviewScooterDetailPage() {
               Adatok szerkesztése
             </button>
           </div>
-          <p className="text-muted-foreground text-xs">
-            Demóban a műveletek nem elérhetők.
-          </p>
         </div>
       </AppSection>
 

@@ -41,11 +41,21 @@ export function Garage() {
   const [rangeKm, setRangeKm] = useState("");
   const [photoUrl, setPhotoUrl] = useState("");
   const [error, setError] = useState("");
+  const [loadError, setLoadError] = useState("");
   const [busy, setBusy] = useState(false);
 
   async function load() {
-    const res = await fetch("/api/scooters");
-    if (res.ok) setScooters(await res.json());
+    try {
+      const res = await fetch("/api/scooters");
+      if (res.ok) {
+        setScooters(await res.json());
+        setLoadError("");
+      } else {
+        setLoadError("Nem sikerült betölteni a garázst. Frissítsd az oldalt.");
+      }
+    } catch {
+      setLoadError("Nem sikerült betölteni a garázst. Frissítsd az oldalt.");
+    }
     setLoading(false);
   }
 
@@ -108,6 +118,8 @@ export function Garage() {
       {/* Roller lista — ELSŐ */}
       {loading ? (
         <p className="text-muted-foreground py-4 text-sm">Betöltés...</p>
+      ) : loadError ? (
+        <p className="py-4 text-sm text-red-500">{loadError}</p>
       ) : scooters.length === 0 ? (
         <div className="rounded-xl border border-dashed px-8 py-10 text-center">
           <p className="text-4xl">🛴</p>

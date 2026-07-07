@@ -18,7 +18,7 @@ https://rollerhub.vercel.app
 - Értékbecslés és értéktörténet
 - Menetnapló
 - Dashboard összesítők
-- Magyar e-roller tudásközpont
+- Magyar e-roller tudástár
 - Fejlesztési napló
 - Adatkezelési és felhasználási oldalak
 - PWA alap
@@ -73,7 +73,7 @@ Publikus:
 - `/terms`
 - `/pricing`
 - `/sample-report`
-- `/preview/app` — bejelentkezés nélkül nézhető demo app (lásd alább)
+- `/preview/app` — bejelentkezés nélkül nézhető demó app (lásd alább)
 
 Bejelentkezés után:
 
@@ -88,11 +88,11 @@ Bejelentkezés után:
 
 ## Preview app
 
-A `/preview/app` route-csoportban egy teljes demo alkalmazás fut.
+A `/preview/app` route-csoportban egy teljes demó alkalmazás fut.
 
 Célja:
 
-- Design audit és demo bemutatás bejelentkezés nélkül
+- Design audit és demó bemutatás bejelentkezés nélkül
 - Minden adat hardcoded mock (`src/modules/preview/demo-data.ts`)
 
 Fontos:
@@ -111,7 +111,7 @@ Route-ok:
 - `/preview/app/service` — szervizkönyv
 - `/preview/app/rides` — menetnapló
 - `/preview/app/value` — értékbecslés
-- `/preview/app/knowledge` — tudásközpont
+- `/preview/app/knowledge` — tudástár
 - `/preview/app/settings` — beállítások
 
 ## Adatmodell
@@ -214,7 +214,7 @@ Adatbázis: Neon Postgres.
 Fontos environment változók Vercelen:
 
 - `DATABASE_URL`
-- `DIRECT_DATABASE_URL`, ha használva van
+- `DIRECT_URL` (a Prisma CLI, pl. migrationök használják)
 - `BETTER_AUTH_SECRET`
 - `BETTER_AUTH_URL`
 - később:
@@ -254,7 +254,7 @@ Következő lépések:
 
 A RollerHub V1 fókusza:
 
-Digitális garázs + szervizkönyv + értékbecslés + menetnapló + tudásközpont elektromos rollerekhez.
+Digitális garázs + szervizkönyv + értékbecslés + menetnapló + tudástár elektromos rollerekhez.
 
 Nem Strava-klón.
 Nem fórum.

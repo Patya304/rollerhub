@@ -12,7 +12,7 @@ const topics = [
     title: "KRESZ",
     description: "Alap közlekedési szabályok rollereseknek.",
     href: "/knowledge/kresz",
-    available: false,
+    available: true,
   },
   {
     marker: "02",
@@ -20,7 +20,7 @@ const topics = [
     title: "Biztosítás",
     description: "Biztosítási tudnivalók elektromos rollerekhez.",
     href: "/knowledge/biztositas",
-    available: false,
+    available: true,
   },
   {
     marker: "03",
@@ -28,7 +28,7 @@ const topics = [
     title: "Jogosítvány",
     description: "Jogosítvány és kategóriák rollereseknek.",
     href: "/knowledge/jogositvany",
-    available: false,
+    available: true,
   },
   {
     marker: "04",
@@ -36,7 +36,7 @@ const topics = [
     title: "Roller szabályok",
     description: "Szabályok és korlátozások Magyarországon.",
     href: "/knowledge/szabalyok",
-    available: false,
+    available: true,
   },
 ];
 
@@ -66,8 +66,8 @@ export default function KnowledgePage() {
 
       <div className="space-y-1 px-1">
         <p className="text-muted-foreground text-xs">
-          A cikkek hamarosan érkeznek. Addig is ezeket az oldalakat érdemes
-          megnézni:
+          A cikkek tájékoztató jellegűek. Hivatalos információkért ezeket az
+          oldalakat érdemes megnézni:
         </p>
         <ul className="text-muted-foreground space-y-0.5 text-xs">
           <li>

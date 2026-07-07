@@ -16,8 +16,8 @@ const rows = [
   { label: "Vételár", value: "200 000 Ft" },
   { label: "Becsült érték", value: "148 000 Ft" },
   { label: "Értékmegőrzés", value: "74%" },
-  { label: "Rögzített szervizek", value: "2 alkalom" },
-  { label: "Utolsó szerviz", value: "Fék ellenőrzés · 2025. 04. 12." },
+  { label: "Rögzített szervizek", value: "3 alkalom" },
+  { label: "Utolsó szerviz", value: "Akkuellenőrzés · 2026. 06. 01." },
   { label: "Menetek száma", value: "12 menet" },
 ];
 

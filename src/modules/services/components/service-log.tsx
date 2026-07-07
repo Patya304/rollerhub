@@ -30,11 +30,25 @@ export function ServiceLog({ scooterId }: { scooterId: string }) {
   const [cost, setCost] = useState("");
   const [notes, setNotes] = useState("");
   const [error, setError] = useState("");
+  const [loadError, setLoadError] = useState("");
   const [busy, setBusy] = useState(false);
 
   const load = useCallback(async () => {
-    const res = await fetch(`/api/scooters/${scooterId}/services`);
-    if (res.ok) setServices(await res.json());
+    try {
+      const res = await fetch(`/api/scooters/${scooterId}/services`);
+      if (res.ok) {
+        setServices(await res.json());
+        setLoadError("");
+      } else {
+        setLoadError(
+          "Nem sikerült betölteni a szervizeket. Frissítsd az oldalt.",
+        );
+      }
+    } catch {
+      setLoadError(
+        "Nem sikerült betölteni a szervizeket. Frissítsd az oldalt.",
+      );
+    }
     setLoading(false);
   }, [scooterId]);
 
@@ -106,6 +120,8 @@ export function ServiceLog({ scooterId }: { scooterId: string }) {
       {/* Meglévő szervizek */}
       {loading ? (
         <p className="text-muted-foreground text-sm">Betöltés...</p>
+      ) : loadError ? (
+        <p className="text-sm text-red-500">{loadError}</p>
       ) : services.length === 0 ? (
         <div className="rounded-lg border border-dashed px-5 py-8 text-center">
           <p className="text-2xl">🔧</p>
