@@ -41,6 +41,7 @@ Launch előkészítés: körülbelül 80%
 - Fejlesztési napló `/devlog`
 - Adatkezelési oldal `/privacy`
 - Felhasználási feltételek `/terms`
+- Publikus profil `/profile/@username` (explicit opt-in, sötét app témával)
 - Bejelentkezés
 - Regisztráció
 - PWA manifest és ikonok alapja
@@ -48,17 +49,32 @@ Launch előkészítés: körülbelül 80%
 ### Bejelentkezett app
 
 - App layout
-- Sidebar navigáció
+- Sidebar navigáció (Profilom menüponttal a Tudástár és Beállítások között)
 - Dashboard áttekintés valódi adatokkal
-- Garázs
-- Roller adatlap
+- Garázs (egyszerűsített, lépésenkénti roller hozzáadás: márka/modell katalógus + Egyéb)
+- Roller adatlap (rolleronkénti „Publikus a profilomon" kapcsolóval)
 - Szervizkönyv
 - Globális Szerviz oldal
 - Értékbecslés
 - Értéktörténet
 - Menetnapló
 - Tudástár (4 olvasható cikkel: KRESZ, biztosítás, jogosítvány, szabályok)
-- Beállítások alap
+- Profilom `/profile/me` (profilkép, username, név, bio, publikus profil kapcsoló, élő előnézet)
+- Beállítások (csak megjelenés, nyelv, fiók; a profil mezők a Profilomra kerültek)
+
+## Friss változások (2026. július)
+
+- Egyszerűsített roller hozzáadás wizard (`ScooterAddWizard`, scooter-catalog modul)
+- Publikus profil v1, majd explicit privacy: `profileIsPublic` + rolleronkénti `isPublic`, minden alapból privát
+- Új `bio` mező, Profilom oldal, settings/profil szétválasztás
+- `/pricing`, `/sample-report`, `/profile/@username` téma-wrapper (nem fehér oldal)
+- Preview/AI review egységesítés: közös presentational komponensek (RideListItem, ServiceListItem, PublicProfileView, ProfileIdentity, SettingsProfilePointer), review index a `/preview/app`-on
+- Migration: `add_public_profile_privacy`
+
+## Következő ajánlott lépés
+
+1. Commit + push + deploy, majd live audit (TASKS.md P0 első pontjai)
+2. Utána autonóm P0 batch az `AUTONOMOUS_WORKFLOW.md` szerint
 
 ## Kész technikai alapok
 
@@ -97,6 +113,8 @@ Launch előkészítés: körülbelül 80%
 - `name`
 - `image`
 - `username`
+- `bio`
+- `profileIsPublic` (default: false)
 - `preferredLanguage`
 - `theme`
 - `emailVerified`
@@ -116,18 +134,20 @@ Launch előkészítés: körülbelül 80%
 - `rangeKm`
 - `photoUrl`
 - `notes`
+- `isPublic` (default: false)
 
-## Jelenlegi Settings állapot
+## Jelenlegi Settings / Profilom állapot
 
-A Settings alap elkészült.
+A profil jellegű mezők (profilkép, username, név, bio, publikus profil kapcsoló) a `/profile/me` Profilom oldalra kerültek (`ProfileForm`).
 
-Van:
+A Settings oldalon maradt:
 
-- profil adatok
-- username
-- profilkép URL
-- nyelvi preferencia
+- Profilom mutató kártya
 - theme választás
+- nyelvi preferencia
+- fiók és biztonság (email, jelszó/fióktörlés: hamarosan)
+
+Mindkettő ugyanazt a `PATCH /api/settings` végpontot használja részleges payloaddal.
 
 Theme opciók:
 
@@ -161,14 +181,15 @@ A bejelentkezett app megkapta a digitális garázs designt:
 
 ## Preview app állapota
 
-A `/preview/app` route-csoportban teljes demo alkalmazás fut:
+A `/preview/app` a review belépő (embernek és AI-nak):
 
-- Nincs auth, nincs Prisma, nincs API hívás
+- Nincs auth, nincs Prisma, nincs API/fetch hívás
 - `src/modules/preview/demo-data.ts` — centralizált mock adatok
 - `PreviewAppShell` — saját sidebar, nem importálja az authos layout-ot
-- 8 route: dashboard, garázs, demo-ruptor adatlap, szerviz, menetnapló, értékbecslés, tudástár, beállítások
+- Route-ok: dashboard (review indexszel), garázs, demo-ruptor adatlap, szerviz, menetnapló, értékbecslés, tudástár, profil (me/public), beállítások
+- A valódi presentational komponenseket használja (ScooterAddWizard, RideListItem, ServiceListItem, PublicProfileView, ProfileIdentity, SettingsProfilePointer, GarageVehicleListItem, DashboardSummaryPanel, VehicleHero)
 - `data-theme="black-orange"` fix a layout wrapperen
-- Minden interakció disabled/statikus
+- Minden interakció disabled/statikus, csak megtekintésre
 
 ## Premium validációs alap
 
@@ -305,29 +326,9 @@ Ne menjen:
 
 ## Javasolt Claude workflow
 
-Egy Claude Project legyen:
+Az autonóm munkarend leírása: `AUTONOMOUS_WORKFLOW.md`.
 
-`RollerHub`
-
-Ne hozz létre új Projectet minden feature után.
-
-Új chat kell minden nagyobb feladathoz ugyanazon Projecten belül.
-
-Feladat előtt:
-
-- először tervet kérni
-- mely fájlok módosulnak
-- milyen sorrendben
-- van-e migration
-- Opus High vagy Sonnet/normál mód kell-e
-
-Feladat után:
-
-- build/lint/prisma ellenőrzés
-- devlog javaslat, ha releváns
-- rövid összefoglaló
-- commit
-- PROJECT_STATE.md frissítés, ha nagyobb változás történt
+Röviden: TASKS.md-ből P0/P1 feladat → rövid terv → kis batch → build/lint/prisma → összefoglaló → megállás commit előtt. Engedélyköteles: schema/migration, package, auth/payment, route törlés, nagy redesign.
 
 ## Ajánlott teszt parancsok
 
