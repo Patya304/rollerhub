@@ -177,4 +177,5 @@ export const updateScooterSchema = z.object({
   rangeKm: updInt,
   photoUrl: updUrl,
   notes: updNotes,
+  isPublic: z.boolean({ message: "Érvénytelen érték." }).optional(),
 });

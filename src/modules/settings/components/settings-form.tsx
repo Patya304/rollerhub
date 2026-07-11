@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
   LANGUAGES,
@@ -11,6 +10,7 @@ import {
   type Theme,
 } from "@/modules/settings/schemas/settings-schema";
 import { SettingsThemeOptions } from "@/components/settings-theme-options";
+import { SettingsProfilePointer } from "@/modules/settings/components/settings-profile-pointer";
 
 const LANGUAGE_LABELS: Record<Language, string> = {
   hu: "Magyar",
@@ -36,10 +36,7 @@ const THEME_OPTIONS: {
 ];
 
 type Settings = {
-  name: string | null;
   email: string;
-  image: string | null;
-  username: string | null;
   emailVerified: boolean;
   preferredLanguage: Language;
   theme: Theme;
@@ -47,9 +44,6 @@ type Settings = {
 
 export function SettingsForm({ settings }: { settings: Settings }) {
   const router = useRouter();
-  const [username, setUsername] = useState(settings.username ?? "");
-  const [name, setName] = useState(settings.name ?? "");
-  const [image, setImage] = useState(settings.image ?? "");
   const [language, setLanguage] = useState<Language>(
     settings.preferredLanguage,
   );
@@ -67,9 +61,6 @@ export function SettingsForm({ settings }: { settings: Settings }) {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          username: username || null,
-          name: name || null,
-          image: image || null,
           preferredLanguage: language,
           theme,
         }),
@@ -90,70 +81,8 @@ export function SettingsForm({ settings }: { settings: Settings }) {
 
   return (
     <div className="space-y-4">
-      {/* Profil szekció */}
-      <div className="bg-card overflow-hidden rounded-xl border">
-        <div className="border-border/50 border-b px-5 py-3">
-          <p className="text-muted-foreground text-xs font-semibold tracking-[0.15em] uppercase">
-            Profil
-          </p>
-        </div>
-        <div className="space-y-4 px-5 py-5">
-          <div className="space-y-1.5">
-            <Label htmlFor="image">Profilkép link</Label>
-            <Input
-              id="image"
-              value={image}
-              onChange={(e) => setImage(e.target.value)}
-              placeholder="https://..."
-            />
-            {image && (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img
-                src={image}
-                alt="Profilkép előnézet"
-                className="mt-2 h-16 w-16 rounded-full border object-cover"
-              />
-            )}
-            <p className="text-muted-foreground text-xs">
-              Most még csak képlink adható meg.
-            </p>
-          </div>
-
-          <div className="space-y-1.5">
-            <Label htmlFor="username">Felhasználónév</Label>
-            <Input
-              id="username"
-              value={username}
-              onChange={(e) => setUsername(e.target.value.toLowerCase())}
-              placeholder="pl. ruprider"
-            />
-            <p className="text-muted-foreground text-xs">
-              3–24 karakter. Kisbetű, szám, kötőjel és aláhúzás használható.
-            </p>
-          </div>
-
-          <div className="space-y-1.5">
-            <Label htmlFor="name">Megjelenített név</Label>
-            <Input
-              id="name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-            />
-          </div>
-
-          <div className="space-y-1">
-            <Label>Email cím</Label>
-            <p className="text-sm">
-              {settings.email}{" "}
-              {settings.emailVerified ? (
-                <span className="text-green-600">· megerősítve</span>
-              ) : (
-                <span className="text-amber-600">· nincs megerősítve</span>
-              )}
-            </p>
-          </div>
-        </div>
-      </div>
+      {/* Profil mutató */}
+      <SettingsProfilePointer href="/profile/me" />
 
       {/* Megjelenés szekció */}
       <div className="bg-card overflow-hidden rounded-xl border">

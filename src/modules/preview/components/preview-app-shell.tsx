@@ -9,6 +9,7 @@ import {
   Route,
   TrendingUp,
   BookOpen,
+  User,
   Settings,
 } from "lucide-react";
 
@@ -19,6 +20,7 @@ const NAV_ITEMS = [
   { title: "Menetek", url: "/preview/app/rides", icon: Route },
   { title: "Értékbecslés", url: "/preview/app/value", icon: TrendingUp },
   { title: "Tudástár", url: "/preview/app/knowledge", icon: BookOpen },
+  { title: "Profilom", url: "/preview/app/profile/me", icon: User },
   { title: "Beállítások", url: "/preview/app/settings", icon: Settings },
 ];
 
@@ -108,7 +110,7 @@ export function PreviewAppShell({ children }: { children: React.ReactNode }) {
             </span>
           </div>
           <span className="bg-primary/10 text-primary rounded-full px-2.5 py-0.5 text-xs font-medium">
-            Demó mód · nincs valódi adat
+            Előnézet · demóadatok
           </span>
         </header>
 

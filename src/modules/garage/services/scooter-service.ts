@@ -73,6 +73,7 @@ export async function updateScooter(
     rangeKm?: number | null;
     photoUrl?: string | null;
     notes?: string | null;
+    isPublic?: boolean;
   },
 ) {
   const result = await prisma.scooter.updateMany({

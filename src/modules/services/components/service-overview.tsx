@@ -5,6 +5,7 @@ import {
   SERVICE_TYPE_LABELS,
   type ServiceType,
 } from "@/modules/services/service-types";
+import { ServiceListItem } from "@/modules/services/components/service-list-item";
 
 type ServiceItem = {
   id: string;
@@ -76,41 +77,17 @@ export function ServiceOverview({
 
       {/* Szerviz lista */}
       {filtered.length > 0 ? (
-        <div className="bg-card overflow-hidden rounded-xl border">
-          {filtered.map((s, idx) => (
-            <div
+        <div className="bg-card divide-border/40 divide-y overflow-hidden rounded-xl border">
+          {filtered.map((s) => (
+            <ServiceListItem
               key={s.id}
-              className={`flex items-start justify-between gap-4 px-5 py-4 text-sm ${
-                idx < filtered.length - 1 ? "border-border/40 border-b" : ""
-              }`}
-            >
-              <div className="min-w-0 flex-1">
-                <p className="font-semibold">{SERVICE_TYPE_LABELS[s.type]}</p>
-                <p className="text-muted-foreground mt-0.5 text-xs">
-                  {s.scooterName}
-                </p>
-                {s.notes && (
-                  <p className="text-muted-foreground mt-1.5 text-xs leading-snug">
-                    {s.notes}
-                  </p>
-                )}
-              </div>
-              <div className="shrink-0 text-right">
-                <p className="text-muted-foreground font-mono text-xs tabular-nums">
-                  {new Date(s.performedAt).toLocaleDateString("hu-HU")}
-                </p>
-                {s.odometerKm != null && (
-                  <p className="text-muted-foreground font-mono text-xs tabular-nums">
-                    {s.odometerKm.toLocaleString("hu-HU")} km
-                  </p>
-                )}
-                {s.cost != null && (
-                  <p className="mt-0.5 font-mono text-xs font-semibold tabular-nums">
-                    {s.cost.toLocaleString("hu-HU")} Ft
-                  </p>
-                )}
-              </div>
-            </div>
+              title={SERVICE_TYPE_LABELS[s.type]}
+              scooterName={s.scooterName}
+              performedAt={s.performedAt}
+              odometerKm={s.odometerKm}
+              cost={s.cost}
+              notes={s.notes}
+            />
           ))}
         </div>
       ) : (

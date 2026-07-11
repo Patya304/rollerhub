@@ -1,5 +1,6 @@
 import { AppPage, AppPageHeader } from "@/components/app-page";
 import { SettingsThemeOptions } from "@/components/settings-theme-options";
+import { SettingsProfilePointer } from "@/modules/settings/components/settings-profile-pointer";
 import { DEMO_USER, THEME_OPTIONS } from "@/modules/preview/demo-data";
 
 export default function PreviewSettingsPage() {
@@ -7,46 +8,10 @@ export default function PreviewSettingsPage() {
 
   return (
     <AppPage>
-      <AppPageHeader eyebrow="07 · Beállítások" title="Beállítások" />
+      <AppPageHeader eyebrow="08 · Beállítások" title="Beállítások" />
 
-      {/* Profil */}
-      <div className="bg-card overflow-hidden rounded-xl border">
-        <div className="border-border/50 border-b px-5 py-3">
-          <p className="text-muted-foreground text-xs font-semibold tracking-[0.15em] uppercase">
-            Profil
-          </p>
-        </div>
-        <div className="space-y-4 px-5 py-5">
-          <div className="space-y-1.5">
-            <p className="text-sm font-medium">Profilkép link</p>
-            <div className="border-input bg-background h-9 w-full cursor-not-allowed rounded-md border px-3 py-2 text-sm opacity-60">
-              https://...
-            </div>
-            <p className="text-muted-foreground text-xs">
-              Demóban nem szerkeszthető.
-            </p>
-          </div>
-          <div className="space-y-1.5">
-            <p className="text-sm font-medium">Felhasználónév</p>
-            <div className="border-input bg-background h-9 cursor-not-allowed rounded-md border px-3 py-2 text-sm opacity-60">
-              {DEMO_USER.username}
-            </div>
-          </div>
-          <div className="space-y-1.5">
-            <p className="text-sm font-medium">Megjelenített név</p>
-            <div className="border-input bg-background h-9 cursor-not-allowed rounded-md border px-3 py-2 text-sm opacity-60">
-              {DEMO_USER.name}
-            </div>
-          </div>
-          <div className="space-y-1">
-            <p className="text-sm font-medium">Email cím</p>
-            <p className="text-sm">
-              {DEMO_USER.email}{" "}
-              <span className="text-green-600">· megerősítve</span>
-            </p>
-          </div>
-        </div>
-      </div>
+      {/* Profil mutató */}
+      <SettingsProfilePointer href="/preview/app/profile/me" />
 
       {/* Megjelenés */}
       <div className="bg-card overflow-hidden rounded-xl border">

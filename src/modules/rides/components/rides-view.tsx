@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { RideListItem } from "@/modules/rides/components/ride-list-item";
 
 type RideItem = {
   id: string;
@@ -240,55 +241,26 @@ export function RidesView({
 
       {/* Menet lista */}
       {filtered.length > 0 ? (
-        <div className="bg-card overflow-hidden rounded-xl border">
-          {filtered.map((r, idx) => (
-            <div
+        <div className="bg-card divide-border/40 divide-y overflow-hidden rounded-xl border">
+          {filtered.map((r) => (
+            <RideListItem
               key={r.id}
-              className={`flex items-start gap-4 px-5 py-4 text-sm ${
-                idx < filtered.length - 1 ? "border-border/40 border-b" : ""
-              }`}
-            >
-              <div className="min-w-0 flex-1">
-                <p className="font-semibold">{r.scooterName}</p>
-                <p className="text-muted-foreground mt-0.5 font-mono text-xs tabular-nums">
-                  {new Date(r.startAt).toLocaleString("hu-HU")}
-                  {r.endAt
-                    ? ` – ${new Date(r.endAt).toLocaleTimeString("hu-HU", {
-                        hour: "2-digit",
-                        minute: "2-digit",
-                      })}`
-                    : ""}
-                </p>
-                {(r.distanceKm != null ||
-                  r.avgSpeed != null ||
-                  r.maxSpeed != null) && (
-                  <div className="mt-2 flex flex-wrap gap-1.5">
-                    {r.distanceKm != null && (
-                      <span className="bg-muted/40 rounded px-2 py-0.5 font-mono text-xs tabular-nums">
-                        {r.distanceKm.toLocaleString("hu-HU")} km
-                      </span>
-                    )}
-                    {r.avgSpeed != null && (
-                      <span className="bg-muted/40 rounded px-2 py-0.5 font-mono text-xs tabular-nums">
-                        átl. {r.avgSpeed} km/h
-                      </span>
-                    )}
-                    {r.maxSpeed != null && (
-                      <span className="bg-muted/40 rounded px-2 py-0.5 font-mono text-xs tabular-nums">
-                        max {r.maxSpeed} km/h
-                      </span>
-                    )}
-                  </div>
-                )}
-              </div>
-              <button
-                onClick={() => handleDelete(r.id)}
-                disabled={busy}
-                className="text-muted-foreground hover:text-foreground mt-0.5 shrink-0 text-xs transition-colors disabled:opacity-40"
-              >
-                Törlés
-              </button>
-            </div>
+              scooterName={r.scooterName}
+              startAt={r.startAt}
+              endAt={r.endAt}
+              distanceKm={r.distanceKm}
+              avgSpeed={r.avgSpeed}
+              maxSpeed={r.maxSpeed}
+              action={
+                <button
+                  onClick={() => handleDelete(r.id)}
+                  disabled={busy}
+                  className="text-muted-foreground hover:text-foreground mt-0.5 shrink-0 text-xs transition-colors disabled:opacity-40"
+                >
+                  Törlés
+                </button>
+              }
+            />
           ))}
         </div>
       ) : (

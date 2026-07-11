@@ -11,7 +11,11 @@ import { DEMO_STATS } from "@/modules/preview/demo-data";
 export default function PreviewDashboardPage() {
   return (
     <AppPage>
-      <AppPageHeader eyebrow="01 · Műszerfal" title="Digitális garázs" />
+      <AppPageHeader
+        eyebrow="01 · Műszerfal"
+        title="Digitális garázs"
+        description="Előnézet demóadatokkal. Nem használ valódi fiókadatokat, és nem lehet menteni."
+      />
 
       <DashboardSummaryPanel
         scooterCount={DEMO_STATS.scooterCount}
@@ -71,6 +75,76 @@ export default function PreviewDashboardPage() {
           icon="📖"
           title="Tudástár"
           description="KRESZ, biztosítás, jogosítvány, szabályok."
+        />
+      </AppPanelList>
+
+      {/* Előnézeti képernyők — emberi és AI review-hoz */}
+      <AppPanelList label="Előnézeti képernyők">
+        <AppListItem
+          href="/preview/app/garage"
+          marker="01"
+          title="Garázs és roller hozzáadás"
+          description="Rollerlista és a lépésenkénti hozzáadás flow."
+        />
+        <AppListItem
+          href="/preview/app/garage/demo-ruptor"
+          marker="02"
+          title="Roller adatlap"
+          description="Műszaki adatok, érték, szervizkönyv, értéktörténet."
+        />
+        <AppListItem
+          href="/preview/app/service"
+          marker="03"
+          title="Szervizkönyv"
+          description="Szervizbejegyzések listája."
+        />
+        <AppListItem
+          href="/preview/app/rides"
+          marker="04"
+          title="Menetek"
+          description="Menetnapló táv- és sebességadatokkal."
+        />
+        <AppListItem
+          href="/preview/app/value"
+          marker="05"
+          title="Értékbecslés"
+          description="Becsült értékek és garázs összesítő."
+        />
+        <AppListItem
+          href="/preview/app/knowledge"
+          marker="06"
+          title="Tudástár"
+          description="Témakörök listája."
+        />
+        <AppListItem
+          href="/preview/app/profile/me"
+          marker="07"
+          title="Profilom"
+          description="Profil szerkesztő és publikus profil kapcsoló."
+        />
+        <AppListItem
+          href="/preview/app/profile/public"
+          marker="08"
+          title="Publikus profil"
+          description="Ahogy mások látják a profilt."
+        />
+        <AppListItem
+          href="/preview/app/settings"
+          marker="09"
+          title="Beállítások"
+          description="Megjelenés, nyelv, fiók."
+        />
+        <AppListItem
+          href="/pricing"
+          marker="10"
+          title="Árak"
+          description="Free és Premium csomagok."
+        />
+        <AppListItem
+          href="/sample-report"
+          marker="11"
+          title="Minta riport"
+          description="Értékriport előnézet."
         />
       </AppPanelList>
 

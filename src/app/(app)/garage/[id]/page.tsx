@@ -167,6 +167,7 @@ export default async function ScooterDetailsPage({
             rangeKm: scooter.rangeKm,
             photoUrl: scooter.photoUrl,
             notes: scooter.notes,
+            isPublic: scooter.isPublic,
           }}
         />
       </AppSection>

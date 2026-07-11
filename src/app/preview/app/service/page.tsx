@@ -1,4 +1,5 @@
 import { AppPage, AppPageHeader } from "@/components/app-page";
+import { ServiceListItem } from "@/modules/services/components/service-list-item";
 import { DEMO_SERVICES, DEMO_STATS } from "@/modules/preview/demo-data";
 
 export default function PreviewServicePage() {
@@ -33,46 +34,22 @@ export default function PreviewServicePage() {
       </div>
 
       {/* Szervizlista */}
-      <div className="bg-card overflow-hidden rounded-xl border">
-        {DEMO_SERVICES.map((s, idx) => (
-          <div
+      <div className="bg-card divide-border/40 divide-y overflow-hidden rounded-xl border">
+        {DEMO_SERVICES.map((s) => (
+          <ServiceListItem
             key={s.id}
-            className={`flex items-start justify-between gap-4 px-5 py-4 text-sm ${
-              idx < DEMO_SERVICES.length - 1 ? "border-border/40 border-b" : ""
-            }`}
-          >
-            <div className="min-w-0 flex-1">
-              <p className="font-semibold">{s.type}</p>
-              <p className="text-muted-foreground mt-0.5 text-xs">
-                {s.scooterName}
-              </p>
-              {s.notes && (
-                <p className="text-muted-foreground mt-1.5 text-xs leading-snug">
-                  {s.notes}
-                </p>
-              )}
-            </div>
-            <div className="shrink-0 text-right">
-              <p className="text-muted-foreground font-mono text-xs tabular-nums">
-                {new Date(s.performedAt).toLocaleDateString("hu-HU")}
-              </p>
-              {s.odometerKm != null && (
-                <p className="text-muted-foreground font-mono text-xs tabular-nums">
-                  {s.odometerKm.toLocaleString("hu-HU")} km
-                </p>
-              )}
-              {s.cost != null && (
-                <p className="mt-0.5 font-mono text-xs font-semibold tabular-nums">
-                  {s.cost.toLocaleString("hu-HU")} Ft
-                </p>
-              )}
-            </div>
-          </div>
+            title={s.type}
+            scooterName={s.scooterName}
+            performedAt={s.performedAt}
+            odometerKm={s.odometerKm}
+            cost={s.cost}
+            notes={s.notes}
+          />
         ))}
       </div>
 
       <p className="text-muted-foreground px-1 text-xs">
-        Demó mód: a szervizadatok statikusak, nem szerkeszthetők.
+        Előnézet demóadatokkal, csak megtekintésre. Szerviz nem rögzíthető.
       </p>
     </AppPage>
   );

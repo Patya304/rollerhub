@@ -20,6 +20,7 @@ export const DEMO_SCOOTERS = [
     serialNumber: "RP24-00142",
     photoUrl: null,
     notes: null,
+    isPublic: true,
     serviceCount: 3,
     rideCount: 12,
     marker: "01",
@@ -42,6 +43,7 @@ export const DEMO_SCOOTERS = [
     serialNumber: "NB23-55819",
     photoUrl: null,
     notes: null,
+    isPublic: false,
     serviceCount: 2,
     rideCount: 6,
     marker: "02",
@@ -178,6 +180,8 @@ export const DEMO_USER = {
   emailVerified: true,
   theme: "black-orange",
   language: "Magyar",
+  bio: "Városi rolleres vagyok, hétköznap ingázom, hétvégén túrázom. A garázsban egy Ruptor és egy Ninebot lakik.",
+  profileIsPublic: true,
 };
 
 export const KNOWLEDGE_TOPICS = [

@@ -96,7 +96,7 @@ export default function PreviewValuePage() {
 
       <p className="text-muted-foreground px-1 text-xs">
         Az értékbecslés tájékoztató jellegű: vételár, km-állás és évjárat
-        alapján számolódik. Demó mód: az adatok statikusak.
+        alapján számolódik. Előnézet demóadatokkal, csak megtekintésre.
       </p>
     </AppPage>
   );

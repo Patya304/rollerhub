@@ -1,4 +1,5 @@
 import { AppPage, AppPageHeader } from "@/components/app-page";
+import { RideListItem } from "@/modules/rides/components/ride-list-item";
 import { DEMO_RIDES, DEMO_STATS } from "@/modules/preview/demo-data";
 
 export default function PreviewRidesPage() {
@@ -31,49 +32,22 @@ export default function PreviewRidesPage() {
       </div>
 
       {/* Menetlista */}
-      <div className="bg-card overflow-hidden rounded-xl border">
-        {DEMO_RIDES.map((r, idx) => (
-          <div
+      <div className="bg-card divide-border/40 divide-y overflow-hidden rounded-xl border">
+        {DEMO_RIDES.map((r) => (
+          <RideListItem
             key={r.id}
-            className={`flex items-start gap-4 px-5 py-4 text-sm ${
-              idx < DEMO_RIDES.length - 1 ? "border-border/40 border-b" : ""
-            }`}
-          >
-            <div className="min-w-0 flex-1">
-              <p className="font-semibold">{r.scooterName}</p>
-              <p className="text-muted-foreground mt-0.5 font-mono text-xs tabular-nums">
-                {new Date(r.startAt).toLocaleString("hu-HU")}
-                {r.endAt
-                  ? ` – ${new Date(r.endAt).toLocaleTimeString("hu-HU", {
-                      hour: "2-digit",
-                      minute: "2-digit",
-                    })}`
-                  : ""}
-              </p>
-              <div className="mt-2 flex flex-wrap gap-1.5">
-                {r.distanceKm != null && (
-                  <span className="bg-muted/40 rounded px-2 py-0.5 font-mono text-xs tabular-nums">
-                    {r.distanceKm.toLocaleString("hu-HU")} km
-                  </span>
-                )}
-                {r.avgSpeed != null && (
-                  <span className="bg-muted/40 rounded px-2 py-0.5 font-mono text-xs tabular-nums">
-                    átl. {r.avgSpeed} km/h
-                  </span>
-                )}
-                {r.maxSpeed != null && (
-                  <span className="bg-muted/40 rounded px-2 py-0.5 font-mono text-xs tabular-nums">
-                    max {r.maxSpeed} km/h
-                  </span>
-                )}
-              </div>
-            </div>
-          </div>
+            scooterName={r.scooterName}
+            startAt={r.startAt}
+            endAt={r.endAt}
+            distanceKm={r.distanceKm}
+            avgSpeed={r.avgSpeed}
+            maxSpeed={r.maxSpeed}
+          />
         ))}
       </div>
 
       <p className="text-muted-foreground px-1 text-xs">
-        Demó mód: a menetadatok statikusak, valódi napló nem rögzíthető.
+        Előnézet demóadatokkal, csak megtekintésre. Menet nem rögzíthető.
       </p>
     </AppPage>
   );

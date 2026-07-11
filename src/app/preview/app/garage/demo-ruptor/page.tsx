@@ -116,6 +116,22 @@ export default function PreviewScooterDetailPage() {
               Adatok szerkesztése
             </button>
           </div>
+          <div className="border-border/40 flex items-start gap-3 border-t pt-3">
+            <input
+              type="checkbox"
+              checked={scooter.isPublic}
+              disabled
+              readOnly
+              className="accent-primary mt-0.5 h-4 w-4 opacity-60"
+            />
+            <div>
+              <p className="text-sm font-medium">Publikus a profilomon</p>
+              <p className="text-muted-foreground mt-0.5 text-xs">
+                Csak a márka, modell, évjárat és km-állás jelenik meg. Demóban
+                nem módosítható.
+              </p>
+            </div>
+          </div>
         </div>
       </AppSection>
 

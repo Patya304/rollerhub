@@ -14,6 +14,8 @@ model User {
   name              String?
   image             String?
   username          String?   @unique
+  bio               String?
+  profileIsPublic   Boolean   @default(false)
   preferredLanguage String    @default("hu")
   theme             String    @default("black-white")
   emailVerified     Boolean   @default(false)
@@ -45,6 +47,7 @@ model Scooter {
   rangeKm         Int?
   photoUrl        String?
   notes           String?
+  isPublic        Boolean   @default(false)
   createdAt       DateTime  @default(now())
   updatedAt       DateTime  @updatedAt
   deletedAt       DateTime?

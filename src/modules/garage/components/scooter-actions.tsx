@@ -21,6 +21,7 @@ type Scooter = {
   rangeKm: number | null;
   photoUrl: string | null;
   notes: string | null;
+  isPublic: boolean;
 };
 
 export function ScooterActions({ scooter }: { scooter: Scooter }) {
@@ -41,6 +42,7 @@ export function ScooterActions({ scooter }: { scooter: Scooter }) {
   const [rangeKm, setRangeKm] = useState(scooter.rangeKm?.toString() ?? "");
   const [photoUrl, setPhotoUrl] = useState(scooter.photoUrl ?? "");
   const [notes, setNotes] = useState(scooter.notes ?? "");
+  const [isPublic, setIsPublic] = useState(scooter.isPublic);
   const [busy, setBusy] = useState(false);
   const [estimate, setEstimate] = useState<number | null>(null);
   const [estimateMsg, setEstimateMsg] = useState("");
@@ -67,6 +69,7 @@ export function ScooterActions({ scooter }: { scooter: Scooter }) {
           rangeKm: rangeKm || null,
           photoUrl: photoUrl || null,
           notes: notes || null,
+          isPublic,
         }),
       });
       if (!res.ok) {
@@ -215,6 +218,21 @@ export function ScooterActions({ scooter }: { scooter: Scooter }) {
           <div className="space-y-1.5 sm:col-span-2">
             <Label>Megjegyzés</Label>
             <Input value={notes} onChange={(e) => setNotes(e.target.value)} />
+          </div>
+          <div className="flex items-start gap-3 sm:col-span-2">
+            <input
+              id="scooterIsPublic"
+              type="checkbox"
+              checked={isPublic}
+              onChange={(e) => setIsPublic(e.target.checked)}
+              className="accent-primary mt-0.5 h-4 w-4"
+            />
+            <div>
+              <Label htmlFor="scooterIsPublic">Publikus a profilomon</Label>
+              <p className="text-muted-foreground mt-0.5 text-xs">
+                Csak a márka, modell, évjárat és km-állás jelenik meg.
+              </p>
+            </div>
           </div>
         </div>
         {error && <p className="text-sm text-red-500">{error}</p>}

@@ -9,6 +9,7 @@ import {
   Route,
   TrendingUp,
   BookOpen,
+  User,
   Settings,
 } from "lucide-react";
 import {
@@ -30,6 +31,7 @@ const items = [
   { title: "Menetek", url: "/rides", icon: Route },
   { title: "Értékbecslés", url: "/value", icon: TrendingUp },
   { title: "Tudástár", url: "/knowledge", icon: BookOpen },
+  { title: "Profilom", url: "/profile/me", icon: User },
   { title: "Beállítások", url: "/settings", icon: Settings },
 ];
 
