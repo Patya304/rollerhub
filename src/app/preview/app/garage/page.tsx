@@ -1,5 +1,6 @@
 import { AppPage, AppPageHeader } from "@/components/app-page";
 import { GarageVehicleListItem } from "@/components/garage-vehicle-list-item";
+import { ScooterAddWizard } from "@/components/scooter-add-wizard";
 import { DEMO_SCOOTERS } from "@/modules/preview/demo-data";
 
 export default function PreviewGaragePage() {
@@ -27,16 +28,11 @@ export default function PreviewGaragePage() {
         />
       </div>
 
-      {/* Demo: új roller gomb */}
-      <div>
-        <button
-          disabled
-          className="text-muted-foreground cursor-not-allowed rounded-lg border px-4 py-2 text-sm opacity-50"
-        >
-          + Új roller hozzáadása
-        </button>
-        <p className="text-muted-foreground mt-1.5 text-xs">
-          Demóban nem adható hozzá új roller.
+      {/* Demó: az új roller hozzáadása flow végigkattintható, mentés nélkül */}
+      <div className="space-y-1.5">
+        <ScooterAddWizard demo />
+        <p className="text-muted-foreground text-xs">
+          Demóban végigkattinthatod a lépéseket, de menteni nem lehet.
         </p>
       </div>
     </AppPage>
