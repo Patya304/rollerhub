@@ -8,6 +8,7 @@ import {
   SCOOTER_CATALOG,
   OTHER_OPTION,
   getModelsForBrand,
+  getCatalogModel,
 } from "@/modules/scooter-catalog/scooter-catalog";
 
 export type ScooterAddValues = {
@@ -18,6 +19,10 @@ export type ScooterAddValues = {
   purchasePrice: string;
   purchaseDate: string;
   notes: string;
+  /** Gyári adatok a katalógusból, ha ismertek. */
+  batteryCapacity?: number;
+  topSpeed?: number;
+  rangeKm?: number;
 };
 
 type ScooterAddWizardProps = {
@@ -59,6 +64,28 @@ export function ScooterAddWizard({
   const brand = isOtherBrand ? customBrand.trim() || OTHER_OPTION : brandChoice;
   const model = isOtherModel ? customModel.trim() : modelChoice;
   const models = getModelsForBrand(brandChoice);
+
+  const catalogModel = isOtherModel ? undefined : getCatalogModel(brand, model);
+  // Gyári adatot csak akkor töltünk elő, ha a kiválasztott pontos változat
+  // adatai hivatalos gyártói forrásból ellenőrzöttek.
+  const verifiedSpecs =
+    catalogModel?.specsVerified === true &&
+    (catalogModel.sourceUrls?.length ?? 0) > 0
+      ? catalogModel.specs
+      : undefined;
+  const specParts = verifiedSpecs
+    ? [
+        verifiedSpecs.batteryWh != null
+          ? `${verifiedSpecs.batteryWh} Wh akku`
+          : null,
+        verifiedSpecs.topSpeedKmh != null
+          ? `${verifiedSpecs.topSpeedKmh} km/h végsebesség`
+          : null,
+        verifiedSpecs.rangeKm != null
+          ? `${verifiedSpecs.rangeKm} km hatótáv`
+          : null,
+      ].filter((p): p is string => p !== null)
+    : [];
 
   function pickBrand(name: string) {
     setBrandChoice(name);
@@ -110,6 +137,9 @@ export function ScooterAddWizard({
         purchasePrice: price,
         purchaseDate,
         notes,
+        batteryCapacity: verifiedSpecs?.batteryWh,
+        topSpeed: verifiedSpecs?.topSpeedKmh,
+        rangeKm: verifiedSpecs?.rangeKm,
       });
       if (submitError) setError(submitError);
     } finally {
@@ -319,10 +349,24 @@ export function ScooterAddWizard({
               </div>
             </div>
 
-            <p className="text-muted-foreground text-xs">
-              A többi adatot (szín, akku, végsebesség, hatótáv, alvázszám)
-              később is kitöltheted a roller adatlapján.
-            </p>
+            {specParts.length > 0 ? (
+              <p className="text-muted-foreground text-xs">
+                Gyári adatok az EU-változathoz: {specParts.join(" · ")}.
+                Mentéskor automatikusan kitöltjük, a roller adatlapján
+                módosíthatod. A többi adat (szín, alvázszám) is később tölthető
+                ki.
+              </p>
+            ) : catalogModel ? (
+              <p className="text-muted-foreground text-xs">
+                A pontos gyári adatok változatonként eltérhetnek. Ezeket később
+                megadhatod a roller adatlapján.
+              </p>
+            ) : (
+              <p className="text-muted-foreground text-xs">
+                A többi adatot (szín, akku, végsebesség, hatótáv, alvázszám)
+                később is kitöltheted a roller adatlapján.
+              </p>
+            )}
 
             {error && <p className="text-sm text-red-500">{error}</p>}
 

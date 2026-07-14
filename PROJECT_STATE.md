@@ -64,6 +64,9 @@ Launch előkészítés: körülbelül 80%
 
 ## Friss változások (2026. július)
 
+- Roller katalógus v2: márkánként külön fájl (`src/modules/scooter-catalog/brands/`), 10 márka (Ninebot, Xiaomi, Ruptor, Kugoo, Kukirin, Nami, Kaabo, Dualtron, Inmotion, VSett), modellenként stabil `id` slug, változat/piac jelölés (pl. Max G2 E, 4 Pro vs 4 Pro 2nd Gen külön), és előkészített meta mezők (category, insuranceRequired, helmetRecommended, licenseCategory, notes) — az UI a meta mezőket még nem használja; a category termékkategória, nem jogi besorolás
+- Katalógus adatpolitika: gyári adat csak hivatalos gyártói forrásból, `sourceUrls` + `verifiedAt` + `specsVerified` mezőkkel; jelenleg 5 ellenőrzött modell (Ninebot Max G2 E, F2 E; Xiaomi Mi Pro 2, 4 Pro, 4 Pro 2nd Gen), a többi specs nélkül
+- A wizard kizárólag ellenőrzött (`specsVerified` + `sourceUrls`) változatnál tölti elő a gyári adatokat (akku Wh, végsebesség, hatótáv), látható jelzéssel; nem ellenőrzött katalógusmodellnél jelzi, hogy az adatok változatonként eltérhetnek
 - Soft launch polish batch: minden publikus oldal (landing, sign-in, sign-up, devlog, privacy, terms) fix black-orange témát kapott, nincs több fehér oldal; devlog badge színek sötét témára igazítva
 - Onboarding gyorsítás: a dashboard „Első roller hozzáadása" CTA `?add=1`-gyel azonnal a wizarddal nyitja a garázst; szerviz form alapból mai dátummal indul; menet form egy roller esetén előválaszt és az indulást mostani időponttal tölti ki
 - Egyszerűsített roller hozzáadás wizard (`ScooterAddWizard`, scooter-catalog modul)

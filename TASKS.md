@@ -18,6 +18,8 @@ Jelölés: `[ ]` nyitott, `[x]` kész.
 
 ## P1 — soft launch utáni első kör
 
+- [ ] Katalógus gyári adatok pótlása hivatalos gyártói forrásból, `sourceUrls` + `specsVerified` kitöltésével (Ninebot Max G30/F40/F2 Pro E/E2 E, Xiaomi legacy modellek, Ruptor, Kugoo, Kukirin, Nami, Kaabo, Dualtron, Inmotion, VSett — most szándékosan üresek)
+- [ ] Katalógus meta mezők kitöltése és UI-használat (category, insuranceRequired, licenseCategory) a KRESZ/biztosítás funkciókhoz
 - [ ] Free csomag rollerkorlát döntés: a /pricing „1 roller nyilvántartása"-t ígér, de az API nem érvényesít limitet (vagy limit bevezetése, vagy pricing copy igazítása)
 - [ ] Eladó rollereim v1 (csak jelölés + megjelenítés, nem marketplace)
 - [ ] Publikus roller adatlap v1 (publikus rollerhez megosztható, biztonságos adatlap)

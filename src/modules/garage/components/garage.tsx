@@ -68,6 +68,10 @@ export function Garage({
           purchasePrice: values.purchasePrice || undefined,
           purchaseDate: values.purchaseDate || undefined,
           notes: values.notes || undefined,
+          // Gyári adatok a katalógusból, ha ismertek
+          batteryCapacity: values.batteryCapacity,
+          topSpeed: values.topSpeed,
+          rangeKm: values.rangeKm,
         }),
       });
       if (!res.ok) {

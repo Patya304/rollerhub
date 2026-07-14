@@ -1,0 +1,267 @@
+Szerintem most jött el az a pont, ahol **nem új feature-eket kell tervezni, hanem terméket kell befejezni**.
+
+Őszintén: ha szeptember a cél, akkor **nem fér bele minden**.
+
+Én most teljesen átírnám a gondolkodást.
+
+---
+
+# Cél
+
+**Szeptemberben ne egy "kész rendszered" legyen.**
+
+Hanem egy olyan terméked, amire azt mondja egy rolleres:
+
+> "Ezt használni akarom."
+
+Ez teljesen más cél.
+
+---
+
+# Mi a minimum siker?
+
+Szeptemberre legyen egy olyan RollerHub, amiben egy átlag felhasználó:
+
+✅ regisztrál
+
+✅ hozzáadja a rollerét
+
+✅ vezeti a szervizeit
+
+✅ látja az értékbecslést
+
+✅ megosztja a profilját
+
+✅ készít egy állapotlapot
+
+És ennyi.
+
+Ha ezt 100 ember használja, már nyertél.
+
+---
+
+# Mit dobnék ki szeptemberig?
+
+❌ Waze
+
+❌ GPS
+
+❌ Élő térkép
+
+❌ Chat
+
+❌ Ismerősök
+
+❌ Marketplace
+
+❌ Mobilapp
+
+❌ AI funkciók
+
+❌ Bonyolult statisztikák
+
+❌ Gamification
+
+---
+
+# Roadmap
+
+## 1. hét (MOST)
+
+## UI egyszerűsítés
+
+Ez szerintem jelenleg a legfontosabb.
+
+Most a weboldal:
+
+* túl sok szöveg
+* túl sok panel
+* túl sok input
+* túl "AI"
+
+Feladatok:
+
+* minden oldal copy audit
+* rövidebb mondatok
+* egyszerűbb onboarding
+* kevesebb mező
+* egységes gombok
+* mobil audit
+
+**Ez nem látványos, de ez fogja eldönteni, hogy marad-e a user.**
+
+---
+
+## 2. hét
+
+### Garázs véglegesítése
+
+* roller hozzáadás
+* szerkesztés
+* törlés
+* fotó
+* publikus kapcsoló
+* dokumentumok alapjai
+
+Ez legyen végleges.
+
+---
+
+## 3. hét
+
+### Szerviz
+
+* szerviz
+* képek
+* számlák
+* emlékeztetők
+
+---
+
+## 4. hét
+
+### Értékbecslés
+
+* pontosítás
+* roller katalógus
+* gyári adatok
+
+---
+
+## 5. hét
+
+### Állapotlap
+
+Ez legyen a zászlóshajó.
+
+Legyen olyan, hogy:
+
+> "Ezért fizetnék."
+
+---
+
+## 6. hét
+
+### Fizetés
+
+Stripe
+
+Jogosultság
+
+PDF
+
+Megosztás
+
+---
+
+## 7. hét
+
+### Tesztelés
+
+Hibák
+
+Sebesség
+
+UX
+
+Mobil
+
+---
+
+## 8. hét
+
+### Soft Launch
+
+Facebook
+
+Discord
+
+Rolleres csoportok
+
+10
+
+20
+
+50
+
+100 user
+
+---
+
+# Mi NE legyen cél?
+
+Ne ez legyen:
+
+```text
+100 feature
+```
+
+Hanem:
+
+```text
+10 feature
+
+10/10 minőség
+```
+
+---
+
+# Nekem jelenleg ez a legnagyobb problémám
+
+Nem a backend.
+
+Nem a Prisma.
+
+Nem a Next.js.
+
+Hanem ez.
+
+A RollerHub most még **fejlesztői szemmel készült**.
+
+Nem felhasználói szemmel.
+
+Például:
+
+> "Naplózd a meneteket"
+
+> "Értéktörténet"
+
+> "Becsült piaci érték"
+
+> "Publikus profil"
+
+Technikailag jó.
+
+De egy átlag user nem így gondolkodik.
+
+Ő azt kérdezi:
+
+> Mennyi most a rollerem?
+
+> Mikor cseréltem féket?
+
+> Hová tettem a számlát?
+
+> Mit küldjek a vevőnek?
+
+Ezért mondtam korábban is, hogy a **copy audit** szerintem fontosabb, mint még tíz új funkció.
+
+---
+
+# Amit szeptember előtt még kötelezőnek tartok
+
+1. **Teljes UX audit** – minden oldal egyszerűsítése.
+2. **Roller-katalógus** – gyors hozzáadás, kevesebb kézi adatbevitel.
+3. **Eladási állapotlap** – ez legyen a kiemelt funkció.
+4. **Dokumentumtár alapjai** – hogy az állapotlap valóban értékes legyen.
+5. **Fizetés** – csak akkor, amikor az állapotlap már tényleg kész.
+
+---
+
+## Egyetlen mondatban
+
+Ha én lennék a projekt vezetője, most kiadnám ezt az utasítást:
+
+> **Szeptemberig egyetlen új funkció csak akkor kerülhet be, ha közvetlenül javítja a roller hozzáadását, az eladási állapotlapot vagy az első felhasználói élményt. Minden más ötletet a soft launch utánra halasztunk.**
+
+Szerintem ez adja a legnagyobb esélyt arra, hogy szeptemberben ne csak egy érdekes projekted legyen, hanem egy valóban használható első verziód.

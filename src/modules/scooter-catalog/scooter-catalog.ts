@@ -1,37 +1,63 @@
-// Egyszerű helyi rollerkatalógus az új roller hozzáadásához.
-// Nincs adatbázis és nincs API: csak a gyakori márkák és modellek,
-// hogy az első roller felvétele pár koppintás legyen.
+// Helyi rollerkatalógus az új roller hozzáadásához.
+//
+// Nincs adatbázis és nincs API: a gyakori márkák és modellek statikus listája,
+// hogy az első roller felvétele pár koppintás legyen. A márkák külön
+// fájlokban élnek a `brands/` mappában, így a katalógus akár több ezer
+// modellig bővíthető anélkül, hogy egyetlen óriásfájl keletkezne.
+//
+// Adatpolitika: csak megbízhatóan ismert gyári adat kerül be, a bizonytalan
+// mezők üresen maradnak. Részletek: `types.ts`.
+
+import type { CatalogBrand, CatalogModel } from "./types";
+import { NINEBOT } from "./brands/ninebot";
+import { XIAOMI } from "./brands/xiaomi";
+import { RUPTOR } from "./brands/ruptor";
+import { KUGOO } from "./brands/kugoo";
+import { KUKIRIN } from "./brands/kukirin";
+import { NAMI } from "./brands/nami";
+import { KAABO } from "./brands/kaabo";
+import { DUALTRON } from "./brands/dualtron";
+import { INMOTION } from "./brands/inmotion";
+import { VSETT } from "./brands/vsett";
+
+export type {
+  CatalogBrand,
+  CatalogModel,
+  CatalogModelSpecs,
+  ScooterCategory,
+} from "./types";
 
 export const OTHER_OPTION = "Egyéb";
 
-export type CatalogBrand = {
-  name: string;
-  models: string[];
-};
-
+// A sorrend a magyar piacon jellemző ismertséget követi: ez határozza meg
+// a wizard márkalistájának sorrendjét is.
 export const SCOOTER_CATALOG: CatalogBrand[] = [
-  {
-    name: "Ninebot",
-    models: ["Max G2", "Max G30", "F2", "F40", "E2"],
-  },
-  {
-    name: "Xiaomi",
-    models: ["Mi 1S", "Mi Pro 2", "Mi 3", "Mi 4 Pro"],
-  },
-  {
-    name: "Ruptor",
-    models: ["R1", "R1 V2", "R2", "R3"],
-  },
-  {
-    name: "Kugoo",
-    models: ["S1", "M4", "M4 Pro", "G2 Pro"],
-  },
-  {
-    name: "Nami",
-    models: ["Klima", "Burn-E 2", "Burn-E 2 Max"],
-  },
+  NINEBOT,
+  XIAOMI,
+  RUPTOR,
+  KUGOO,
+  KUKIRIN,
+  NAMI,
+  KAABO,
+  DUALTRON,
+  INMOTION,
+  VSETT,
 ];
 
+/** A márkához tartozó modellnevek (a wizard választólistájához). */
 export function getModelsForBrand(brand: string): string[] {
-  return SCOOTER_CATALOG.find((b) => b.name === brand)?.models ?? [];
+  return (
+    SCOOTER_CATALOG.find((b) => b.name === brand)?.models.map((m) => m.name) ??
+    []
+  );
+}
+
+/** Egy katalógusmodell teljes rekordja, ha szerepel a katalógusban. */
+export function getCatalogModel(
+  brand: string,
+  model: string,
+): CatalogModel | undefined {
+  return SCOOTER_CATALOG.find((b) => b.name === brand)?.models.find(
+    (m) => m.name === model,
+  );
 }
