@@ -64,6 +64,8 @@ Launch előkészítés: körülbelül 80%
 
 ## Friss változások (2026. július)
 
+- Soft launch polish batch: minden publikus oldal (landing, sign-in, sign-up, devlog, privacy, terms) fix black-orange témát kapott, nincs több fehér oldal; devlog badge színek sötét témára igazítva
+- Onboarding gyorsítás: a dashboard „Első roller hozzáadása" CTA `?add=1`-gyel azonnal a wizarddal nyitja a garázst; szerviz form alapból mai dátummal indul; menet form egy roller esetén előválaszt és az indulást mostani időponttal tölti ki
 - Egyszerűsített roller hozzáadás wizard (`ScooterAddWizard`, scooter-catalog modul)
 - Publikus profil v1, majd explicit privacy: `profileIsPublic` + rolleronkénti `isPublic`, minden alapból privát
 - Új `bio` mező, Profilom oldal, settings/profil szétválasztás

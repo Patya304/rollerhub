@@ -18,6 +18,7 @@ Jelölés: `[ ]` nyitott, `[x]` kész.
 
 ## P1 — soft launch utáni első kör
 
+- [ ] Free csomag rollerkorlát döntés: a /pricing „1 roller nyilvántartása"-t ígér, de az API nem érvényesít limitet (vagy limit bevezetése, vagy pricing copy igazítása)
 - [ ] Eladó rollereim v1 (csak jelölés + megjelenítés, nem marketplace)
 - [ ] Publikus roller adatlap v1 (publikus rollerhez megosztható, biztonságos adatlap)
 - [ ] Profil előnézet finomítás

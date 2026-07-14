@@ -12,10 +12,10 @@ export const metadata: Metadata = {
 };
 
 const TYPE_BADGE_CLASS: Record<DevlogType, string> = {
-  feature: "bg-green-100 text-green-700",
-  fix: "bg-red-100 text-red-700",
-  improvement: "bg-blue-100 text-blue-700",
-  planning: "bg-amber-100 text-amber-700",
+  feature: "bg-green-500/15 text-green-400",
+  fix: "bg-red-500/15 text-red-400",
+  improvement: "bg-blue-500/15 text-blue-400",
+  planning: "bg-amber-500/15 text-amber-400",
 };
 
 export default function DevlogPage() {

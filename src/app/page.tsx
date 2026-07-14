@@ -50,7 +50,12 @@ export default function Home() {
   const loggedIn = !isPending && !!session;
 
   return (
-    <main className="flex min-h-screen flex-col">
+    // A landing is az app fekete-narancs vizuális rendszerét kapja, hogy a
+    // belépés utáni felület ne legyen törés az első benyomáshoz képest.
+    <main
+      data-theme="black-orange"
+      className="bg-background text-foreground flex min-h-screen flex-col"
+    >
       <header className="flex items-center justify-between px-6 py-4">
         <span className="text-lg font-semibold">🛴 RollerHub</span>
         <div className="flex items-center gap-2">

@@ -7,6 +7,13 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { RideListItem } from "@/modules/rides/components/ride-list-item";
 
+/** Helyi idő szerinti "éééé-hh-nnTóó:pp" a datetime-local inputhoz. */
+function nowForDatetimeInput(): string {
+  const d = new Date();
+  d.setMinutes(d.getMinutes() - d.getTimezoneOffset());
+  return d.toISOString().slice(0, 16);
+}
+
 type RideItem = {
   id: string;
   scooterId: string;
@@ -26,7 +33,10 @@ export function RidesView({
   rides: RideItem[];
 }) {
   const router = useRouter();
-  const [scooterId, setScooterId] = useState("");
+  // Egyetlen roller esetén nincs mit választani, azzal indul a form.
+  const [scooterId, setScooterId] = useState(
+    scooters.length === 1 ? scooters[0].id : "",
+  );
   const [startAt, setStartAt] = useState("");
   const [endAt, setEndAt] = useState("");
   const [distanceKm, setDistanceKm] = useState("");
@@ -36,6 +46,12 @@ export function RidesView({
   const [busy, setBusy] = useState(false);
   const [filter, setFilter] = useState("all");
   const [showForm, setShowForm] = useState(false);
+
+  function openForm() {
+    // Az indulás alapból a mostani időpont, elég csak a távot beírni.
+    setStartAt((v) => v || nowForDatetimeInput());
+    setShowForm(true);
+  }
 
   async function handleAdd() {
     setError("");
@@ -152,7 +168,7 @@ export function RidesView({
             />
           </div>
           <div className="space-y-1.5">
-            <Label htmlFor="ride-avg">Átlagseb. (km/h)</Label>
+            <Label htmlFor="ride-avg">Átlagsebesség (km/h)</Label>
             <Input
               id="ride-avg"
               type="number"
@@ -161,7 +177,7 @@ export function RidesView({
             />
           </div>
           <div className="space-y-1.5 sm:col-span-2">
-            <Label htmlFor="ride-max">Max seb. (km/h)</Label>
+            <Label htmlFor="ride-max">Max. sebesség (km/h)</Label>
             <Input
               id="ride-max"
               type="number"
@@ -197,7 +213,7 @@ export function RidesView({
             Rögzítsd az első menetet távval, idővel és sebességgel.
           </p>
           {scooters.length > 0 ? (
-            <Button className="mt-6" onClick={() => setShowForm(true)}>
+            <Button className="mt-6" onClick={openForm}>
               Első menet rögzítése
             </Button>
           ) : (
@@ -270,7 +286,7 @@ export function RidesView({
       )}
 
       {!showForm && scooters.length > 0 && (
-        <Button variant="outline" size="sm" onClick={() => setShowForm(true)}>
+        <Button variant="outline" size="sm" onClick={openForm}>
           + Új menet rögzítése
         </Button>
       )}

@@ -25,10 +25,14 @@ type Scooter = {
   photoUrl: string | null;
 };
 
-export function Garage() {
+export function Garage({
+  initialShowForm = false,
+}: {
+  initialShowForm?: boolean;
+}) {
   const [scooters, setScooters] = useState<Scooter[]>([]);
   const [loading, setLoading] = useState(true);
-  const [showForm, setShowForm] = useState(false);
+  const [showForm, setShowForm] = useState(initialShowForm);
   const [loadError, setLoadError] = useState("");
 
   async function load() {

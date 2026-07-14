@@ -57,6 +57,13 @@ export function ServiceLog({ scooterId }: { scooterId: string }) {
     load();
   }, [load]);
 
+  // A dátum alapból a mai nap, mert a legtöbb szervizt aznap rögzítik.
+  // useEffect-ben, hogy a szerver és a kliens időzónája ne térhessen el.
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setDate((d) => d || new Date().toLocaleDateString("sv"));
+  }, []);
+
   async function handleAdd() {
     setError("");
     if (!type || !date) {
@@ -82,7 +89,7 @@ export function ServiceLog({ scooterId }: { scooterId: string }) {
         return;
       }
       setType("");
-      setDate("");
+      setDate(new Date().toLocaleDateString("sv"));
       setKm("");
       setCost("");
       setNotes("");

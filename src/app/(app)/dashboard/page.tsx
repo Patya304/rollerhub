@@ -91,7 +91,7 @@ export default async function OverviewPage() {
               állapotlap. 2 perc az egész.
             </p>
             <Button asChild className="mt-5">
-              <Link href="/garage">Első roller hozzáadása</Link>
+              <Link href="/garage?add=1">Első roller hozzáadása</Link>
             </Button>
           </div>
         </div>
