@@ -352,19 +352,11 @@ export function ScooterAddWizard({
             {specParts.length > 0 ? (
               <p className="text-muted-foreground text-xs">
                 Gyári adatok az EU-változathoz: {specParts.join(" · ")}.
-                Mentéskor automatikusan kitöltjük, a roller adatlapján
-                módosíthatod. A többi adat (szín, alvázszám) is később tölthető
-                ki.
-              </p>
-            ) : catalogModel ? (
-              <p className="text-muted-foreground text-xs">
-                A pontos gyári adatok változatonként eltérhetnek. Ezeket később
-                megadhatod a roller adatlapján.
+                Mentéskor kitöltjük, az adatlapon módosíthatod.
               </p>
             ) : (
               <p className="text-muted-foreground text-xs">
-                A többi adatot (szín, akku, végsebesség, hatótáv, alvázszám)
-                később is kitöltheted a roller adatlapján.
+                A többi adatot később is kitöltheted a roller adatlapján.
               </p>
             )}
 

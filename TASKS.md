@@ -27,6 +27,8 @@ Jelölés: `[ ]` nyitott, `[x]` kész.
 - [ ] Soft launch QA oldal/lista karbantartás (`SOFT_LAUNCH_QA.md` frissítés az új funkciókkal)
 - [ ] Onboarding copy polish
 - [ ] Értékbecslés UX visszajelzés javítás
+- [ ] Natív `confirm()` lecserélése app-stílusú megerősítő dialógusra (roller törlése, menet törlése)
+- [ ] 390 px-es valódi eszközös/devtools ellenőrzés (a Chrome ablak desktopon nem megy 500 px alá, a 390-es réteg csak heurisztikával volt tesztelve)
 - [ ] Tudástár cikkek disclaimer és hivatalos linkek ellenőrzése
 
 ## P2 — később

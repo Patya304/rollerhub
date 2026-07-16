@@ -59,7 +59,9 @@ export default function Home() {
       <header className="flex items-center justify-between px-6 py-4">
         <span className="text-lg font-semibold">🛴 RollerHub</span>
         <div className="flex items-center gap-2">
-          {loggedIn ? (
+          {isPending ? (
+            <div className="h-8" aria-hidden />
+          ) : loggedIn ? (
             <Button asChild size="sm">
               <Link href="/dashboard">Garázs megnyitása</Link>
             </Button>
@@ -81,10 +83,12 @@ export default function Home() {
           A rollered digitális otthona
         </h1>
         <p className="text-muted-foreground mt-4 max-w-xl text-lg">
-          Szerviznapló, értékbecslés, menetnapló és Tudástár rollereseknek.
+          Szervizkönyv, értékbecslés, menetnapló és Tudástár rollereseknek.
         </p>
         <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
-          {loggedIn ? (
+          {isPending ? (
+            <div className="h-10" aria-hidden />
+          ) : loggedIn ? (
             <Button asChild size="lg">
               <Link href="/dashboard">Megnyitom a garázsom</Link>
             </Button>

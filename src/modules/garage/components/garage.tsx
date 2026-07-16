@@ -99,13 +99,9 @@ export function Garage({
             <p className="text-4xl">🛴</p>
             <p className="mt-4 font-semibold">A garázs üres</p>
             <p className="text-muted-foreground mx-auto mt-1.5 max-w-xs text-sm leading-relaxed">
-              Add hozzá az első rollered. Ezután használhatod:
+              Add hozzá az első rollered. Ezzel indul a szervizkönyv és az
+              értékbecslés, 2 perc az egész.
             </p>
-            <ul className="text-muted-foreground mx-auto mt-3 max-w-xs space-y-1 text-left text-sm">
-              <li>🔧 Szervizkönyv: gumicsere, fékállítás, ellenőrzés</li>
-              <li>📊 Értékbecslés: becsült érték és értékvesztés</li>
-              <li>📋 Állapotlap: ha később eladnád</li>
-            </ul>
             <Button className="mt-6" onClick={() => setShowForm(true)}>
               Roller hozzáadása
             </Button>

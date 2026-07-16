@@ -7,6 +7,7 @@ import {
   SidebarTrigger,
 } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/app-sidebar";
+import { BodyTheme } from "@/components/body-theme";
 import { getUserSettings } from "@/modules/settings/services/settings-service";
 
 export default async function AppLayout({
@@ -27,6 +28,7 @@ export default async function AppLayout({
       data-theme={theme}
       className="bg-background text-foreground min-h-screen"
     >
+      <BodyTheme theme={theme} />
       <SidebarProvider>
         <AppSidebar />
         <SidebarInset>

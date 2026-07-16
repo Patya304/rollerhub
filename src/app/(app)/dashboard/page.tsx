@@ -87,7 +87,7 @@ export default async function OverviewPage() {
               Hozd létre a garázsodat
             </p>
             <p className="text-muted-foreground mt-1 text-sm leading-relaxed">
-              Ezzel indul a szerviznapló, az értékbecslés és az eladási
+              Ezzel indul a szervizkönyv, az értékbecslés és az eladási
               állapotlap. 2 perc az egész.
             </p>
             <Button asChild className="mt-5">
@@ -100,7 +100,7 @@ export default async function OverviewPage() {
         <AppPanelList label="Mi épül fel ezután">
           <AppListItem
             icon="🔧"
-            title="Szerviznapló"
+            title="Szervizkönyv"
             description="Gumicsere, fékállítás, akkuellenőrzés."
           />
           <AppListItem

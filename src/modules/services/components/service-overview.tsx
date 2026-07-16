@@ -1,6 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
 import {
   SERVICE_TYPE_LABELS,
   type ServiceType,
@@ -40,9 +42,19 @@ export function ServiceOverview({
         <p className="text-4xl">🔧</p>
         <p className="mt-4 font-semibold">Még nincs szervizbejegyzés</p>
         <p className="text-muted-foreground mx-auto mt-1.5 max-w-xs text-sm leading-relaxed">
-          Nyisd meg a rollert a Garázsban, görgess a Szervizkönyvhöz, és
-          rögzítsd az első bejegyzést.
+          {scooters.length > 0
+            ? "Rögzítsd az első javítást vagy ellenőrzést a roller adatlapján."
+            : "Előbb add hozzá az első rollered."}
         </p>
+        <Button asChild className="mt-6">
+          {scooters.length > 0 ? (
+            <Link href={`/garage/${scooters[0].id}#szerviz`}>
+              Szerviz rögzítése
+            </Link>
+          ) : (
+            <Link href="/garage?add=1">Roller hozzáadása</Link>
+          )}
+        </Button>
       </div>
     );
   }

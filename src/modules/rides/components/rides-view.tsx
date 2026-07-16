@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -217,9 +218,9 @@ export function RidesView({
               Első menet rögzítése
             </Button>
           ) : (
-            <p className="text-muted-foreground mt-4 text-xs">
-              Előbb adj hozzá egy rollert a Garázsban.
-            </p>
+            <Button asChild className="mt-6">
+              <Link href="/garage?add=1">Roller hozzáadása</Link>
+            </Button>
           )}
         </div>
         {rideForm}
