@@ -1,9 +1,4 @@
-import {
-  AppPanelList,
-  AppListItem,
-  AppSection,
-  FieldList,
-} from "@/components/app-page";
+import { AppSection, FieldList } from "@/components/app-page";
 import { VehicleHero } from "@/components/vehicle-hero";
 import {
   DEMO_SCOOTERS,
@@ -39,6 +34,10 @@ const valueFields = [
     value: `${scooter.estimate.toLocaleString("hu-HU")} Ft`,
   },
   { label: "Utolsó becslés", value: "2026. 06. 28." },
+  {
+    label: "Értékmegőrzés",
+    value: `${Math.round((scooter.estimate / scooter.purchasePrice) * 100)}%`,
+  },
 ];
 
 const priceLow = Math.round((scooter.estimate * 0.9) / 1000) * 1000;
@@ -60,41 +59,6 @@ export default function PreviewScooterDetailPage() {
         backHref="/preview/app/garage"
         backLabel="Garázs"
       />
-
-      {/* Jármű navigáció */}
-      <AppPanelList label="Jármű adatlap">
-        <AppListItem
-          href="#muszaki"
-          icon="⚙️"
-          title="Műszaki adatok"
-          description="Km-állás, akku, sebesség, hatótáv."
-        />
-        <AppListItem
-          href="#ertek"
-          icon="💰"
-          title="Vásárlás és érték"
-          description="Vételár és becsült érték."
-        />
-        <AppListItem
-          href="#szerviz"
-          icon="🔧"
-          title="Szervizkönyv"
-          description={`${scooter.serviceCount} bejegyzés`}
-        />
-        <AppListItem
-          href="#ertekjelentes"
-          icon="📋"
-          title="Értékriport"
-          description="Állapotlap előnézet."
-          eyebrow="Premium"
-        />
-        <AppListItem
-          href="#ertektortenet"
-          icon="📈"
-          title="Értéktörténet"
-          description="Korábbi becslések."
-        />
-      </AppPanelList>
 
       {/* Műveletek */}
       <AppSection label="Műveletek">
@@ -188,13 +152,10 @@ export default function PreviewScooterDetailPage() {
             <p className="text-muted-foreground text-xs font-semibold tracking-[0.15em] uppercase">
               Értékriport
             </p>
-            <p className="mt-0.5 font-bold">Értékriport előnézet</p>
-            <p className="text-muted-foreground mt-0.5 text-sm">
-              Állapotlap eladáshoz.
-            </p>
+            <p className="mt-0.5 font-bold">Állapotlap eladáshoz</p>
           </div>
           <span className="border-primary/30 text-primary rounded-full border px-2.5 py-0.5 text-xs font-medium">
-            Premium · Hamarosan
+            Premium
           </span>
         </div>
         <div className="space-y-5 px-5 py-5">
@@ -250,12 +211,9 @@ export default function PreviewScooterDetailPage() {
             </div>
           </div>
           <div className="border-border/40 border-t pt-4">
-            <button
-              disabled
-              className="text-muted-foreground cursor-not-allowed rounded-lg border px-4 py-2 text-sm opacity-40"
-            >
-              Állapotlap generálása (hamarosan)
-            </button>
+            <p className="text-primary text-sm font-medium">
+              Premium csomagok →
+            </p>
           </div>
         </div>
       </div>

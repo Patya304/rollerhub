@@ -1,19 +1,9 @@
 import Link from "next/link";
-import {
-  SERVICE_TYPE_LABELS,
-  type ServiceType,
-} from "@/modules/services/service-types";
 
 type SaleReportProps = {
-  brand: string;
-  model: string;
-  year: number | null;
-  currentMileage: number;
   purchasePrice: number | null;
   lastEstimatedValue: number | null;
   serviceCount: number;
-  lastServiceType: ServiceType | null;
-  lastServiceDate: Date | null;
   rideCount: number;
   photoUrl: string | null;
 };
@@ -23,23 +13,12 @@ function roundToThousand(n: number): number {
 }
 
 export function SaleReport({
-  brand,
-  model,
-  year,
-  currentMileage,
   purchasePrice,
   lastEstimatedValue,
   serviceCount,
-  lastServiceType,
-  lastServiceDate,
   rideCount,
   photoUrl,
 }: SaleReportProps) {
-  const valueRetention =
-    purchasePrice && lastEstimatedValue
-      ? Math.round((lastEstimatedValue / purchasePrice) * 100)
-      : null;
-
   const priceLow = lastEstimatedValue
     ? roundToThousand(lastEstimatedValue * 0.9)
     : null;
@@ -66,48 +45,6 @@ export function SaleReport({
         ? "Indíts értékbecslést az ajánlott ársávhoz."
         : "Az állapotlap használható alap. A PDF export később érkezik.";
 
-  const rows: { label: string; value: string }[] = [
-    {
-      label: "Roller",
-      value: year ? `${brand} ${model} (${year})` : `${brand} ${model}`,
-    },
-    {
-      label: "Futásteljesítmény",
-      value: `${currentMileage.toLocaleString("hu-HU")} km`,
-    },
-    {
-      label: "Vételár",
-      value: purchasePrice
-        ? `${purchasePrice.toLocaleString("hu-HU")} Ft`
-        : "–",
-    },
-    {
-      label: "Becsült érték",
-      value: lastEstimatedValue
-        ? `${lastEstimatedValue.toLocaleString("hu-HU")} Ft`
-        : "–",
-    },
-    {
-      label: "Értékmegőrzés",
-      value: valueRetention != null ? `${valueRetention}%` : "–",
-    },
-    {
-      label: "Rögzített szervizek",
-      value: `${serviceCount} alkalom`,
-    },
-    {
-      label: "Utolsó szerviz",
-      value:
-        lastServiceType && lastServiceDate
-          ? `${SERVICE_TYPE_LABELS[lastServiceType]} · ${new Date(lastServiceDate).toLocaleDateString("hu-HU")}`
-          : "–",
-    },
-    {
-      label: "Menetek száma",
-      value: `${rideCount} menet`,
-    },
-  ];
-
   return (
     <div className="bg-card overflow-hidden rounded-xl border">
       {/* Header */}
@@ -116,32 +53,14 @@ export function SaleReport({
           <p className="text-muted-foreground text-xs font-semibold tracking-[0.15em] uppercase">
             Értékriport
           </p>
-          <p className="mt-0.5 font-bold">Értékriport előnézet</p>
-          <p className="text-muted-foreground mt-0.5 text-sm">
-            Állapotlap eladáshoz.
-          </p>
+          <p className="mt-0.5 font-bold">Állapotlap eladáshoz</p>
         </div>
         <span className="border-primary/30 text-primary rounded-full border px-2.5 py-0.5 text-xs font-medium">
-          Premium · Hamarosan
+          Premium
         </span>
       </div>
 
       <div className="space-y-5 px-5 py-5">
-        {/* Adatsorok */}
-        <dl className="divide-border/30 divide-y">
-          {rows.map((r) => (
-            <div
-              key={r.label}
-              className="flex items-center justify-between gap-4 py-2 text-sm"
-            >
-              <dt className="text-muted-foreground">{r.label}</dt>
-              <dd className="font-mono font-semibold tabular-nums">
-                {r.value}
-              </dd>
-            </div>
-          ))}
-        </dl>
-
         {/* Ársáv callout */}
         {priceLow != null && priceHigh != null && (
           <div className="border-primary/20 bg-primary/5 rounded-xl border px-5 py-4">
@@ -200,24 +119,12 @@ export function SaleReport({
 
         {/* Premium CTA */}
         <div className="border-border/40 border-t pt-4">
-          <p className="text-muted-foreground text-xs leading-relaxed">
-            Az állapotlap tartalmazza a szervizeket, a km-állást és a becsült
-            értéket. Átláthatóbb képet ad a roller állapotáról.
-          </p>
-          <div className="mt-3 flex flex-wrap items-center gap-3">
-            <button
-              disabled
-              className="text-muted-foreground cursor-not-allowed rounded-lg border px-4 py-2 text-sm opacity-40"
-            >
-              Állapotlap generálása (hamarosan)
-            </button>
-            <Link
-              href="/pricing"
-              className="text-primary text-sm font-medium hover:underline"
-            >
-              Premium csomagok →
-            </Link>
-          </div>
+          <Link
+            href="/pricing"
+            className="text-primary text-sm font-medium hover:underline"
+          >
+            Premium csomagok →
+          </Link>
         </div>
       </div>
     </div>

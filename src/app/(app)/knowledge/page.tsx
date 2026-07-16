@@ -8,7 +8,6 @@ import {
 const topics = [
   {
     marker: "01",
-    eyebrow: "Közlekedési szabályok",
     title: "KRESZ",
     description: "Alap közlekedési szabályok rollereseknek.",
     href: "/knowledge/kresz",
@@ -16,7 +15,6 @@ const topics = [
   },
   {
     marker: "02",
-    eyebrow: "Felelősségvállalás",
     title: "Biztosítás",
     description: "Biztosítási tudnivalók elektromos rollerekhez.",
     href: "/knowledge/biztositas",
@@ -24,7 +22,6 @@ const topics = [
   },
   {
     marker: "03",
-    eyebrow: "Okmányok",
     title: "Jogosítvány",
     description: "Jogosítvány és kategóriák rollereseknek.",
     href: "/knowledge/jogositvany",
@@ -32,7 +29,6 @@ const topics = [
   },
   {
     marker: "04",
-    eyebrow: "Szabályozás",
     title: "Roller szabályok",
     description: "Szabályok és korlátozások Magyarországon.",
     href: "/knowledge/szabalyok",
@@ -44,7 +40,6 @@ export default function KnowledgePage() {
   return (
     <AppPage>
       <AppPageHeader
-        eyebrow="06 · Tudástár"
         title="Tudástár"
         description="Szabályok és hasznos infók rollereseknek."
       />
@@ -55,10 +50,9 @@ export default function KnowledgePage() {
             key={t.marker}
             href={t.available ? t.href : undefined}
             marker={t.marker}
-            eyebrow={t.eyebrow}
             title={t.title}
             description={t.description}
-            meta={t.available ? undefined : "Hamarosan"}
+            meta={t.available ? undefined : "Készül"}
             disabled={!t.available}
           />
         ))}

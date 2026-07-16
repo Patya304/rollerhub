@@ -27,8 +27,7 @@ function getNextStep(
     return {
       eyebrow: "Következő lépés",
       label: "Rögzíts egy első szervizt",
-      description:
-        "Nyisd meg a roller adatlapját, és görgess a Szervizkönyvhöz.",
+      description: "Gumicsere, fékcsere vagy ellenőrzés a roller adatlapján.",
       href: scooterHref,
     };
   }
@@ -36,7 +35,7 @@ function getNextStep(
     return {
       eyebrow: "Következő lépés",
       label: "Rögzítsd az első menetet",
-      description: "Menetek távval, idővel és sebességgel.",
+      description: "Táv, idő, sebesség.",
       href: "/rides",
     };
   }
@@ -68,11 +67,7 @@ export default async function OverviewPage() {
   if (stats.scooterCount === 0) {
     return (
       <AppPage>
-        <AppPageHeader
-          eyebrow="01 · Műszerfal"
-          title="Digitális garázs"
-          description="Add hozzá az első rolleredet a kezdéshez."
-        />
+        <AppPageHeader title="Áttekintés" />
 
         {/* Onboarding first step */}
         <div className="bg-card overflow-hidden rounded-xl border">
@@ -122,7 +117,7 @@ export default async function OverviewPage() {
 
   return (
     <AppPage>
-      <AppPageHeader eyebrow="01 · Műszerfal" title="Digitális garázs" />
+      <AppPageHeader title="Áttekintés" />
 
       <DashboardSummaryPanel
         scooterCount={stats.scooterCount}
@@ -148,19 +143,17 @@ export default async function OverviewPage() {
       </Link>
 
       {/* Modulok navigáció */}
-      <AppPanelList label="Modulok">
+      <AppPanelList label="Funkciók">
         <AppListItem
           href="/garage"
           icon="🛴"
           title="Garázs"
-          description="Rollereid adatlapja és km-állása."
           meta={`${stats.scooterCount} roller`}
         />
         <AppListItem
           href="/service"
           icon="🔧"
           title="Szervizkönyv"
-          description="Javítások, cserék és ellenőrzések."
           meta={
             stats.serviceCount > 0
               ? `${stats.serviceCount} bejegyzés · ${stats.totalServiceCost.toLocaleString("hu-HU")} Ft`
@@ -171,7 +164,6 @@ export default async function OverviewPage() {
           href="/rides"
           icon="🛣️"
           title="Menetnapló"
-          description="Táv, idő és sebesség."
           meta={
             stats.rideCount > 0
               ? `${stats.rideCount} menet · ${stats.totalRideKm.toLocaleString("hu-HU")} km`
@@ -182,37 +174,14 @@ export default async function OverviewPage() {
           href="/value"
           icon="📊"
           title="Értékbecslés"
-          description="Tájékoztató érték vételár és km-állás alapján."
           meta={
             stats.totalValue > 0
               ? `~${stats.totalValue.toLocaleString("hu-HU")} Ft`
               : undefined
           }
         />
-        <AppListItem
-          href="/knowledge"
-          icon="📖"
-          title="Tudástár"
-          description="KRESZ, biztosítás, jogosítvány, szabályok."
-        />
+        <AppListItem href="/knowledge" icon="📖" title="Tudástár" />
       </AppPanelList>
-
-      {/* Premium callout */}
-      <div className="border-primary/20 rounded-xl border px-5 py-4">
-        <p className="text-primary text-xs font-semibold tracking-[0.15em] uppercase">
-          Premium · Hamarosan
-        </p>
-        <p className="mt-1 font-semibold">Értékriport és eladási állapotlap</p>
-        <p className="text-muted-foreground mt-0.5 text-sm">
-          Értékriport szervizekkel, km-állással és exporttal.
-        </p>
-        <Link
-          href="/pricing"
-          className="text-primary mt-3 inline-block text-sm font-medium hover:underline"
-        >
-          Csomagok megtekintése →
-        </Link>
-      </div>
     </AppPage>
   );
 }

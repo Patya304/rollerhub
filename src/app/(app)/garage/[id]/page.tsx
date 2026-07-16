@@ -4,16 +4,10 @@ import { auth } from "@/lib/auth";
 import { getScooterDetails } from "@/modules/garage/services/scooter-service";
 import { getValueHistory } from "@/modules/value/services/value-service";
 import { ScooterActions } from "@/modules/garage/components/scooter-actions";
-import { type ServiceType } from "@/modules/services/service-types";
 import { ServiceLog } from "@/modules/services/components/service-log";
 import { ValueHistory } from "@/modules/value/components/value-history";
 import { SaleReport } from "@/modules/garage/components/sale-report";
-import {
-  AppSection,
-  AppPanelList,
-  AppListItem,
-  FieldList,
-} from "@/components/app-page";
+import { AppSection, FieldList } from "@/components/app-page";
 import { VehicleHero } from "@/components/vehicle-hero";
 
 export default async function ScooterDetailsPage({
@@ -30,7 +24,6 @@ export default async function ScooterDetailsPage({
 
   const valueHistory = (await getValueHistory(session.user.id, id)) ?? [];
 
-  const lastService = scooter.services[0] ?? null;
   const lastEstimate = scooter.valueEstimates[0] ?? null;
 
   const techFields = [
@@ -65,6 +58,11 @@ export default async function ScooterDetailsPage({
     },
   ];
 
+  const valueRetention =
+    scooter.purchasePrice != null && lastEstimate
+      ? Math.round((lastEstimate.estimatedValue / scooter.purchasePrice) * 100)
+      : null;
+
   const valueFields = [
     {
       label: "Vételár",
@@ -91,6 +89,10 @@ export default async function ScooterDetailsPage({
         ? new Date(lastEstimate.createdAt).toLocaleDateString("hu-HU")
         : "–",
     },
+    {
+      label: "Értékmegőrzés",
+      value: valueRetention != null ? `${valueRetention}%` : "–",
+    },
   ];
 
   return (
@@ -107,45 +109,6 @@ export default async function ScooterDetailsPage({
         backHref="/garage"
         backLabel="Garázs"
       />
-
-      {/* Jármű modulok — gyors navigáció az oldalon belüli szekciókhoz */}
-      <AppPanelList label="Jármű adatlap">
-        <AppListItem
-          href="#muszaki"
-          icon="⚙️"
-          title="Műszaki adatok"
-          description="Km-állás, akku, sebesség, hatótáv."
-        />
-        <AppListItem
-          href="#ertek"
-          icon="💰"
-          title="Vásárlás és érték"
-          description="Vételár és becsült érték."
-        />
-        <AppListItem
-          href="#szerviz"
-          icon="🔧"
-          title="Szervizkönyv"
-          description={
-            scooter._count.services > 0
-              ? `${scooter._count.services} bejegyzés`
-              : "Még nincs szerviz rögzítve."
-          }
-        />
-        <AppListItem
-          href="#ertekjelentes"
-          icon="📋"
-          title="Értékriport"
-          description="Állapotlap előnézet."
-          eyebrow="Premium"
-        />
-        <AppListItem
-          href="#ertektortenet"
-          icon="📈"
-          title="Értéktörténet"
-          description="Korábbi becslések."
-        />
-      </AppPanelList>
 
       {/* Műveletek */}
       <AppSection label="Műveletek">
@@ -190,17 +153,9 @@ export default async function ScooterDetailsPage({
       {/* Értékriport */}
       <div id="ertekjelentes">
         <SaleReport
-          brand={scooter.brand}
-          model={scooter.model}
-          year={scooter.year}
-          currentMileage={scooter.currentMileage}
           purchasePrice={scooter.purchasePrice}
           lastEstimatedValue={lastEstimate?.estimatedValue ?? null}
           serviceCount={scooter._count.services}
-          lastServiceType={
-            lastService ? (lastService.type as ServiceType) : null
-          }
-          lastServiceDate={lastService ? lastService.performedAt : null}
           rideCount={scooter._count.rides}
           photoUrl={scooter.photoUrl}
         />

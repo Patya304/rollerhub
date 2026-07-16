@@ -11,11 +11,7 @@ export default async function GaragePage({
 
   return (
     <AppPage>
-      <AppPageHeader
-        eyebrow="02 · Garázs"
-        title="A garázsod"
-        description="Rollereid adatlapja, becsült értékük és szerviztörténetük."
-      />
+      <AppPageHeader title="Garázs" />
       <Garage initialShowForm={add === "1"} />
     </AppPage>
   );

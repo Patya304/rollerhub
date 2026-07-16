@@ -35,9 +35,8 @@ export default async function ServicePage() {
   return (
     <AppPage>
       <AppPageHeader
-        eyebrow="03 · Szerviz"
         title="Szervizkönyv"
-        description="Javítások, cserék és ellenőrzések naplója."
+        description="Javítások, cserék, ellenőrzések."
       />
       <ServiceOverview scooters={scooterOptions} services={items} />
     </AppPage>

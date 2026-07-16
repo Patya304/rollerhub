@@ -6,11 +6,7 @@ import { DEMO_SCOOTERS } from "@/modules/preview/demo-data";
 export default function PreviewGaragePage() {
   return (
     <AppPage>
-      <AppPageHeader
-        eyebrow="02 · Garázs"
-        title="Garázs"
-        description="Rollereid adatlapja és km-állása."
-      />
+      <AppPageHeader title="Garázs" />
 
       <div className="bg-card divide-border/40 divide-y overflow-hidden rounded-xl border">
         <GarageVehicleListItem

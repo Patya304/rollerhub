@@ -6,7 +6,6 @@ export default function PreviewValuePage() {
   return (
     <AppPage>
       <AppPageHeader
-        eyebrow="05 · Értékbecslés"
         title="Értékbecslés"
         description="Tájékoztató becslés vételár, évjárat és km-állás alapján."
       />

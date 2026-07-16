@@ -7,7 +7,6 @@ export default function PreviewMyProfilePage() {
   return (
     <AppPage>
       <AppPageHeader
-        eyebrow="07 · Profilom"
         title="Profilom"
         description="Profilkép, felhasználónév és publikus profil."
       />

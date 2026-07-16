@@ -5,11 +5,7 @@ import { DEMO_RIDES, DEMO_STATS } from "@/modules/preview/demo-data";
 export default function PreviewRidesPage() {
   return (
     <AppPage>
-      <AppPageHeader
-        eyebrow="04 · Menetnapló"
-        title="Menetek"
-        description="Menetek távval, idővel és sebességgel."
-      />
+      <AppPageHeader title="Menetek" description="Táv, idő, sebesség." />
 
       {/* Filter sor */}
       <div className="flex flex-wrap items-center justify-between gap-3">

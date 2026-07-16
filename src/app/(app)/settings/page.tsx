@@ -18,15 +18,10 @@ export default async function SettingsPage() {
 
   return (
     <AppPage>
-      <AppPageHeader
-        eyebrow="08 · Beállítások"
-        title="Beállítások"
-        description="Megjelenés, nyelv és fiókbeállítások."
-      />
+      <AppPageHeader title="Beállítások" description="Megjelenés és fiók." />
       <SettingsForm
         settings={{
           email: user.email,
-          emailVerified: user.emailVerified,
           preferredLanguage: user.preferredLanguage as Language,
           theme: user.theme as Theme,
         }}

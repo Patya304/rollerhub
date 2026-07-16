@@ -8,7 +8,7 @@ export default function PreviewSettingsPage() {
 
   return (
     <AppPage>
-      <AppPageHeader eyebrow="08 · Beállítások" title="Beállítások" />
+      <AppPageHeader title="Beállítások" />
 
       {/* Profil mutató */}
       <SettingsProfilePointer href="/preview/app/profile/me" />
@@ -33,24 +33,6 @@ export default function PreviewSettingsPage() {
         </div>
       </div>
 
-      {/* Nyelv */}
-      <div className="bg-card overflow-hidden rounded-xl border">
-        <div className="border-border/50 border-b px-5 py-3">
-          <p className="text-muted-foreground text-xs font-semibold tracking-[0.15em] uppercase">
-            Nyelv
-          </p>
-        </div>
-        <div className="px-5 py-5">
-          <div className="border-input bg-background h-9 w-full cursor-not-allowed rounded-md border px-3 py-2 text-sm opacity-60 sm:w-64">
-            {DEMO_USER.language}
-          </div>
-          <p className="text-muted-foreground mt-1.5 text-xs">
-            A többnyelvű felület hamarosan érkezik, egyelőre csak a beállítást
-            tároljuk.
-          </p>
-        </div>
-      </div>
-
       {/* Fiók */}
       <div className="bg-card overflow-hidden rounded-xl border">
         <div className="border-border/50 border-b px-5 py-3">
@@ -58,29 +40,11 @@ export default function PreviewSettingsPage() {
             Fiók és biztonság
           </p>
         </div>
-        <div className="divide-border/30 divide-y px-5 text-sm">
-          <div className="flex items-start justify-between gap-2 py-3">
-            <div>
-              <span>Email</span>
-              <p className="text-muted-foreground mt-0.5 text-xs">
-                {DEMO_USER.email}
-              </p>
-            </div>
-            <span className="mt-0.5 shrink-0 rounded-full border border-green-600 px-2 py-0.5 text-xs text-green-600">
-              Megerősítve
-            </span>
-          </div>
-          <div className="flex items-center justify-between gap-2 py-3">
-            <div>
-              <span>Jelszó módosítása</span>
-              <p className="text-muted-foreground mt-0.5 text-xs">
-                Jelszóvisszaállítás később.
-              </p>
-            </div>
-            <span className="text-muted-foreground shrink-0 rounded-full border px-2 py-0.5 text-xs">
-              Hamarosan
-            </span>
-          </div>
+        <div className="px-5 py-3 text-sm">
+          <span>Email</span>
+          <p className="text-muted-foreground mt-0.5 text-xs">
+            {DEMO_USER.email}
+          </p>
         </div>
       </div>
 

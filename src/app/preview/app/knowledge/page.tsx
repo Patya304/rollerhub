@@ -10,7 +10,6 @@ export default function PreviewKnowledgePage() {
   return (
     <AppPage>
       <AppPageHeader
-        eyebrow="06 · Tudástár"
         title="Tudástár"
         description="Szabályok és hasznos infók rollereseknek."
       />
@@ -20,7 +19,6 @@ export default function PreviewKnowledgePage() {
           <AppListItem
             key={t.marker}
             marker={t.marker}
-            eyebrow={t.eyebrow}
             title={t.title}
             description={t.description}
             meta="Demó: nem megnyitható"

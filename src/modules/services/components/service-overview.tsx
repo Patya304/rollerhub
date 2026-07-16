@@ -61,20 +61,24 @@ export function ServiceOverview({
 
   return (
     <div className="space-y-4">
-      {/* Filter + összesítő sor */}
+      {/* Filter + összesítő sor — szűrő csak több roller esetén */}
       <div className="flex flex-wrap items-center justify-between gap-3">
-        <select
-          value={filter}
-          onChange={(e) => setFilter(e.target.value)}
-          className="border-input bg-background h-9 rounded-lg border px-3 text-sm"
-        >
-          <option value="all">Összes roller</option>
-          {scooters.map((s) => (
-            <option key={s.id} value={s.id}>
-              {s.name}
-            </option>
-          ))}
-        </select>
+        {scooters.length > 1 ? (
+          <select
+            value={filter}
+            onChange={(e) => setFilter(e.target.value)}
+            className="border-input bg-background h-9 rounded-lg border px-3 text-sm"
+          >
+            <option value="all">Összes roller</option>
+            {scooters.map((s) => (
+              <option key={s.id} value={s.id}>
+                {s.name}
+              </option>
+            ))}
+          </select>
+        ) : (
+          <span />
+        )}
         <div className="flex items-center gap-2">
           <span className="text-muted-foreground text-xs">
             {filtered.length} bejegyzés

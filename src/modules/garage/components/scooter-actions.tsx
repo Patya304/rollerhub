@@ -257,9 +257,6 @@ export function ScooterActions({ scooter }: { scooter: Scooter }) {
     <div className="space-y-4">
       {/* Elsődleges műveletek */}
       <div>
-        <p className="text-muted-foreground mb-2.5 text-xs">
-          Értékbecslés vételár és km-állás alapján, vagy adatok szerkesztése.
-        </p>
         <div className="flex flex-wrap gap-2">
           <Button size="sm" onClick={handleEstimate} disabled={busy}>
             {busy ? "Számítás..." : "Értékbecslés indítása"}

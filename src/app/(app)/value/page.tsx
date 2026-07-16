@@ -42,7 +42,6 @@ export default async function ValuePage() {
   return (
     <AppPage>
       <AppPageHeader
-        eyebrow="05 · Értékbecslés"
         title="Értékbecslés"
         description="Tájékoztató becslés vételár, évjárat és km-állás alapján."
       />
@@ -147,9 +146,7 @@ export default async function ValuePage() {
           )}
 
           <p className="text-muted-foreground px-1 text-xs">
-            Az értékbecslés tájékoztató jellegű: vételár, km-állás és évjárat
-            alapján számolódik. Részletes becslést a roller adatlapján
-            indíthatsz.
+            Részletes becslést a roller adatlapján indíthatsz.
           </p>
         </>
       )}
