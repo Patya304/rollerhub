@@ -1,10 +1,19 @@
+import { redirect } from "next/navigation";
+import { headers } from "next/headers";
+import { auth } from "@/lib/auth";
+
 // A regisztráció a landingról és az árak oldalról is elérhető, ezért az app
 // vizuális rendszerében, fix témával jelenik meg, nem fehér külön oldalként.
-export default function SignUpLayout({
+// Bejelentkezett user nem kap regisztrációs formot, megy vissza az appba.
+export default async function SignUpLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const session = await auth.api.getSession({ headers: await headers() });
+  if (session) {
+    redirect("/dashboard");
+  }
   return (
     <div
       data-theme="black-orange"

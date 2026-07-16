@@ -1,4 +1,6 @@
 import Link from "next/link";
+import { headers } from "next/headers";
+import { auth } from "@/lib/auth";
 import { Button } from "@/components/ui/button";
 import { Check } from "lucide-react";
 
@@ -20,7 +22,9 @@ const premiumFeatures = [
   "Minden ingyenes funkció",
 ];
 
-export default function PricingPage() {
+export default async function PricingPage() {
+  const session = await auth.api.getSession({ headers: await headers() });
+
   return (
     <main className="flex min-h-screen flex-col">
       <header className="flex items-center justify-between px-6 py-4">
@@ -28,12 +32,20 @@ export default function PricingPage() {
           🛴 RollerHub
         </Link>
         <div className="flex items-center gap-2">
-          <Button asChild size="sm" variant="ghost">
-            <Link href="/sign-in">Belépés</Link>
-          </Button>
-          <Button asChild size="sm">
-            <Link href="/sign-up">Regisztráció</Link>
-          </Button>
+          {session ? (
+            <Button asChild size="sm">
+              <Link href="/dashboard">Vissza az appba</Link>
+            </Button>
+          ) : (
+            <>
+              <Button asChild size="sm" variant="ghost">
+                <Link href="/sign-in">Belépés</Link>
+              </Button>
+              <Button asChild size="sm">
+                <Link href="/sign-up">Regisztráció</Link>
+              </Button>
+            </>
+          )}
         </div>
       </header>
 
@@ -73,7 +85,11 @@ export default function PricingPage() {
             </ul>
 
             <Button asChild>
-              <Link href="/sign-up">Kezdés ingyen</Link>
+              {session ? (
+                <Link href="/dashboard">Megnyitás az appban</Link>
+              ) : (
+                <Link href="/sign-up">Kezdés ingyen</Link>
+              )}
             </Button>
           </div>
 
