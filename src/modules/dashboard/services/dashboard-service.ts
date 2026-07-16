@@ -30,6 +30,7 @@ export async function getDashboardData(userId: string) {
     serviceCount,
     serviceCostAgg,
     rideCount,
+    rideDistanceAgg,
     recentServices,
     recentEstimates,
   ] = await Promise.all([
@@ -39,6 +40,10 @@ export async function getDashboardData(userId: string) {
       _sum: { cost: true },
     }),
     prisma.ride.count({ where: { scooterId: { in: scooterIds } } }),
+    prisma.ride.aggregate({
+      where: { scooterId: { in: scooterIds } },
+      _sum: { distanceKm: true },
+    }),
     prisma.service.findMany({
       where: { scooterId: { in: scooterIds } },
       orderBy: { performedAt: "desc" },
@@ -66,6 +71,7 @@ export async function getDashboardData(userId: string) {
       serviceCount,
       totalServiceCost: serviceCostAgg._sum.cost ?? 0,
       rideCount,
+      totalRideKm: rideDistanceAgg._sum.distanceKm ?? 0,
     },
     recentScooters: scooters.slice(0, 5).map((s) => ({
       id: s.id,

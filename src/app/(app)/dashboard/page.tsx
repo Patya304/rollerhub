@@ -174,7 +174,7 @@ export default async function OverviewPage() {
           description="Táv, idő és sebesség."
           meta={
             stats.rideCount > 0
-              ? `${stats.rideCount} menet · ${stats.totalKm.toLocaleString("hu-HU")} km`
+              ? `${stats.rideCount} menet · ${stats.totalRideKm.toLocaleString("hu-HU")} km`
               : "Még nincs menet"
           }
         />

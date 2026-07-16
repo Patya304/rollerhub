@@ -24,7 +24,13 @@ export function RideListItem({
       <div className="min-w-0 flex-1">
         <p className="font-semibold">{scooterName}</p>
         <p className="text-muted-foreground mt-0.5 font-mono text-xs tabular-nums">
-          {new Date(startAt).toLocaleString("hu-HU")}
+          {new Date(startAt).toLocaleString("hu-HU", {
+            year: "numeric",
+            month: "2-digit",
+            day: "2-digit",
+            hour: "2-digit",
+            minute: "2-digit",
+          })}
           {endAt
             ? ` – ${new Date(endAt).toLocaleTimeString("hu-HU", {
                 hour: "2-digit",
