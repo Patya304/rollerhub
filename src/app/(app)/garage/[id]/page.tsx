@@ -1,5 +1,6 @@
 import { notFound, redirect } from "next/navigation";
 import { headers } from "next/headers";
+import Link from "next/link";
 import { auth } from "@/lib/auth";
 import { getScooterDetails } from "@/modules/garage/services/scooter-service";
 import { getValueHistory } from "@/modules/value/services/value-service";
@@ -13,6 +14,20 @@ import { ValueHistory } from "@/modules/value/components/value-history";
 import { SaleReport } from "@/modules/garage/components/sale-report";
 import { AppSection, FieldList } from "@/components/app-page";
 import { VehicleHero } from "@/components/vehicle-hero";
+
+function EmptyBlock({ text }: { text: string }) {
+  return (
+    <div className="py-1 text-center">
+      <p className="text-muted-foreground text-sm">{text}</p>
+      <Link
+        href="#roller-adatok"
+        className="text-primary text-sm font-medium hover:underline"
+      >
+        Adatok szerkesztése →
+      </Link>
+    </div>
+  );
+}
 
 export default async function ScooterDetailsPage({
   params,
@@ -30,74 +45,61 @@ export default async function ScooterDetailsPage({
 
   const lastEstimate = scooter.valueEstimates[0] ?? null;
 
+  // Évjárat és km-állás már a heroban látszik, itt nem ismételjük.
   const techFields = [
-    {
-      label: "Km-állás",
-      value: `${scooter.currentMileage.toLocaleString("hu-HU")} km`,
-    },
-    {
-      label: "Évjárat",
-      value: scooter.year != null ? String(scooter.year) : "–",
-    },
-    {
-      label: "Akku",
-      value:
-        scooter.batteryCapacity != null ? `${scooter.batteryCapacity} Wh` : "–",
-    },
-    {
-      label: "Végsebesség",
-      value: scooter.topSpeed != null ? `${scooter.topSpeed} km/h` : "–",
-    },
-    {
-      label: "Hatótáv",
-      value: scooter.rangeKm != null ? `${scooter.rangeKm} km` : "–",
-    },
-    {
-      label: "Szín",
-      value: scooter.color ?? "–",
-    },
-    {
-      label: "Alvázszám",
-      value: scooter.serialNumber ?? "–",
-    },
-  ];
+    scooter.batteryCapacity != null
+      ? { label: "Akku", value: `${scooter.batteryCapacity} Wh` }
+      : null,
+    scooter.topSpeed != null
+      ? { label: "Végsebesség", value: `${scooter.topSpeed} km/h` }
+      : null,
+    scooter.rangeKm != null
+      ? { label: "Hatótáv", value: `${scooter.rangeKm} km` }
+      : null,
+    scooter.color ? { label: "Szín", value: scooter.color } : null,
+    scooter.serialNumber
+      ? { label: "Alvázszám", value: scooter.serialNumber }
+      : null,
+  ].filter((f): f is { label: string; value: string } => f !== null);
 
-  const valueRetention =
-    scooter.purchasePrice != null && lastEstimate
-      ? Math.round((lastEstimate.estimatedValue / scooter.purchasePrice) * 100)
-      : null;
+  // Csak akkor számoljuk, ha van mivel osztani, és véges, értelmes % jön ki
+  // (nulla vagy hiányzó vételárnál nincs NaN%/Infinity%).
+  let valueRetention: number | null = null;
+  if (
+    lastEstimate &&
+    scooter.purchasePrice != null &&
+    scooter.purchasePrice > 0
+  ) {
+    const pct = Math.round(
+      (lastEstimate.estimatedValue / scooter.purchasePrice) * 100,
+    );
+    if (Number.isFinite(pct)) valueRetention = pct;
+  }
 
+  // Becsült érték már a heroban látszik, itt nem ismételjük.
   const valueFields = [
-    {
-      label: "Vételár",
-      value:
-        scooter.purchasePrice != null
-          ? `${scooter.purchasePrice.toLocaleString("hu-HU")} Ft`
-          : "–",
-    },
-    {
-      label: "Vásárlás dátuma",
-      value: scooter.purchaseDate
-        ? new Date(scooter.purchaseDate).toLocaleDateString("hu-HU")
-        : "–",
-    },
-    {
-      label: "Becsült érték",
-      value: lastEstimate
-        ? `${lastEstimate.estimatedValue.toLocaleString("hu-HU")} Ft`
-        : "–",
-    },
-    {
-      label: "Utolsó becslés",
-      value: lastEstimate
-        ? new Date(lastEstimate.createdAt).toLocaleDateString("hu-HU")
-        : "–",
-    },
-    {
-      label: "Értékmegőrzés",
-      value: valueRetention != null ? `${valueRetention}%` : "–",
-    },
-  ];
+    scooter.purchasePrice != null
+      ? {
+          label: "Vételár",
+          value: `${scooter.purchasePrice.toLocaleString("hu-HU")} Ft`,
+        }
+      : null,
+    scooter.purchaseDate
+      ? {
+          label: "Vásárlás dátuma",
+          value: new Date(scooter.purchaseDate).toLocaleDateString("hu-HU"),
+        }
+      : null,
+    lastEstimate
+      ? {
+          label: "Utolsó becslés",
+          value: new Date(lastEstimate.createdAt).toLocaleDateString("hu-HU"),
+        }
+      : null,
+    valueRetention != null
+      ? { label: "Értékmegőrzés", value: `${valueRetention}%` }
+      : null,
+  ].filter((f): f is { label: string; value: string } => f !== null);
 
   return (
     <div className="mx-auto w-full max-w-2xl space-y-4">
@@ -114,40 +116,56 @@ export default async function ScooterDetailsPage({
         backLabel="Garázs"
       />
 
-      {/* Műveletek */}
-      <AppSection label="Műveletek">
-        <ScooterActions
-          scooter={{
-            id: scooter.id,
-            brand: scooter.brand,
-            model: scooter.model,
-            color: scooter.color,
-            serialNumber: scooter.serialNumber,
-            year: scooter.year,
-            currentMileage: scooter.currentMileage,
-            purchasePrice: scooter.purchasePrice,
-            purchaseDate: scooter.purchaseDate
-              ? scooter.purchaseDate.toISOString().slice(0, 10)
-              : null,
-            batteryCapacity: scooter.batteryCapacity,
-            topSpeed: scooter.topSpeed,
-            rangeKm: scooter.rangeKm,
-            photoUrl: scooter.photoUrl,
-            notes: scooter.notes,
-            isPublic: scooter.isPublic,
-          }}
-        />
-      </AppSection>
+      <ScooterActions
+        scooter={{
+          id: scooter.id,
+          brand: scooter.brand,
+          model: scooter.model,
+          color: scooter.color,
+          serialNumber: scooter.serialNumber,
+          year: scooter.year,
+          currentMileage: scooter.currentMileage,
+          purchasePrice: scooter.purchasePrice,
+          purchaseDate: scooter.purchaseDate
+            ? scooter.purchaseDate.toISOString().slice(0, 10)
+            : null,
+          batteryCapacity: scooter.batteryCapacity,
+          topSpeed: scooter.topSpeed,
+          rangeKm: scooter.rangeKm,
+          photoUrl: scooter.photoUrl,
+          notes: scooter.notes,
+          isPublic: scooter.isPublic,
+        }}
+        serviceCount={scooter._count.services}
+        hasEstimate={lastEstimate != null}
+      />
 
       {/* Műszaki adatok */}
       <AppSection label="Műszaki adatok" id="muszaki">
-        <FieldList fields={techFields} />
+        {techFields.length > 0 ? (
+          <FieldList fields={techFields} />
+        ) : (
+          <EmptyBlock text="Még nincs rögzítve akku, sebesség vagy egyéb műszaki adat." />
+        )}
       </AppSection>
 
       {/* Vásárlás és érték */}
       <AppSection label="Vásárlás és érték" id="ertek">
-        <FieldList fields={valueFields} />
+        {valueFields.length > 0 ? (
+          <FieldList fields={valueFields} />
+        ) : (
+          <EmptyBlock text="Még nincs rögzítve vételár vagy vásárlási adat." />
+        )}
       </AppSection>
+
+      {/* Megjegyzés — csak ha van */}
+      {scooter.notes && (
+        <AppSection label="Megjegyzés">
+          <p className="text-sm leading-relaxed break-words whitespace-pre-wrap">
+            {scooter.notes}
+          </p>
+        </AppSection>
+      )}
 
       {/* Szervizkönyv */}
       <AppSection label="Szervizkönyv" id="szerviz">

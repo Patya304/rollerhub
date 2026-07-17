@@ -199,10 +199,12 @@ export function FieldList({
       {fields.map((f) => (
         <div
           key={f.label}
-          className="border-border/30 flex items-center justify-between gap-4 border-b py-2.5 text-sm last:border-b-0"
+          className="border-border/30 flex items-start justify-between gap-4 border-b py-2.5 text-sm last:border-b-0"
         >
-          <dt className="text-muted-foreground">{f.label}</dt>
-          <dd className="font-mono font-semibold tabular-nums">{f.value}</dd>
+          <dt className="text-muted-foreground shrink-0">{f.label}</dt>
+          <dd className="min-w-0 text-right font-mono font-semibold break-all tabular-nums">
+            {f.value}
+          </dd>
         </div>
       ))}
     </dl>

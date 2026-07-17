@@ -30,6 +30,26 @@ type Scooter = {
 
 type AddedScooter = { id: string; name: string };
 
+/**
+ * Eltávolít egy query paramétert az URL-ből, minden más paraméter és a hash
+ * fragment megőrzésével. Nem hoz létre history bejegyzést.
+ */
+function stripQueryParam(
+  router: ReturnType<typeof useRouter>,
+  pathname: string,
+  name: string,
+) {
+  const params = new URLSearchParams(window.location.search);
+  if (!params.has(name)) return false;
+  params.delete(name);
+  const query = params.toString();
+  router.replace(
+    `${pathname}${query ? `?${query}` : ""}${window.location.hash}`,
+    { scroll: false },
+  );
+  return true;
+}
+
 function GarageListSkeleton() {
   return (
     <div
@@ -68,6 +88,7 @@ export function Garage({
   const [loadError, setLoadError] = useState(false);
   const [retrying, setRetrying] = useState(false);
   const [justAdded, setJustAdded] = useState<AddedScooter | null>(null);
+  const [deletedBannerVisible, setDeletedBannerVisible] = useState(false);
 
   async function load() {
     try {
@@ -90,21 +111,24 @@ export function Garage({
     load();
   }, []);
 
+  // Ha a rollerlapról ?deleted=1-gyel érkeztünk, mutassuk a visszajelzést,
+  // majd tüntessük el a paramétert, hogy frissítéskor ne jelenjen meg újra.
+  useEffect(() => {
+    if (new URLSearchParams(window.location.search).has("deleted")) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setDeletedBannerVisible(true);
+      stripQueryParam(router, pathname, "deleted");
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   // Ha a wizard ?add=1-ről nyílt, bezáráskor (mégsem vagy siker esetén is)
   // el kell tüntetni a paramétert, nehogy frissítéskor újra megnyíljon.
   // Csak az add paramétert töröljük: a többi query paraméter és a hash
   // fragment változatlanul megmarad.
   function closeForm() {
     setShowForm(false);
-    const params = new URLSearchParams(window.location.search);
-    if (params.has("add")) {
-      params.delete("add");
-      const query = params.toString();
-      router.replace(
-        `${pathname}${query ? `?${query}` : ""}${window.location.hash}`,
-        { scroll: false },
-      );
-    }
+    stripQueryParam(router, pathname, "add");
   }
 
   function handleRetry() {
@@ -160,6 +184,24 @@ export function Garage({
 
   return (
     <div className="space-y-4">
+      {deletedBannerVisible && (
+        <div
+          role="status"
+          aria-live="polite"
+          className="border-primary/30 bg-primary/5 flex items-center justify-between gap-3 rounded-xl border px-5 py-4"
+        >
+          <p className="font-semibold">Roller törölve</p>
+          <button
+            type="button"
+            onClick={() => setDeletedBannerVisible(false)}
+            aria-label="Bezárás"
+            className="text-muted-foreground hover:text-foreground text-sm"
+          >
+            ✕
+          </button>
+        </div>
+      )}
+
       {justAdded && (
         <div
           role="status"

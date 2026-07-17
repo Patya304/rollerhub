@@ -52,10 +52,10 @@ export function VehicleHero({
             </div>
           )}
           <div className="min-w-0 flex-1 pt-1">
-            <p className="text-primary text-xs font-semibold tracking-[0.18em] uppercase">
+            <p className="text-primary truncate text-xs font-semibold tracking-[0.18em] uppercase">
               {brand}
             </p>
-            <h1 className="mt-0.5 text-2xl font-bold tracking-tight">
+            <h1 className="mt-0.5 text-2xl font-bold tracking-tight break-words">
               {model}
             </h1>
             {year != null && (
