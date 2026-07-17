@@ -1,42 +1,36 @@
 import Link from "next/link";
+import { headers } from "next/headers";
+import { auth } from "@/lib/auth";
 import { Button } from "@/components/ui/button";
+import { PublicSiteHeader } from "@/components/public-site-header";
+import { SaleReport } from "@/modules/garage/components/sale-report";
 
-const checklist = [
-  { label: "Vételár megadva", ok: true },
-  { label: "Futásteljesítmény megadva", ok: true },
-  { label: "Becsült érték elérhető", ok: true },
-  { label: "Fotó hozzáadva", ok: true },
-  { label: "Legalább 1 szerviz rögzítve", ok: true },
-  { label: "Legalább 1 menet rögzítve", ok: true },
+// Mock adatok az egyetlen publikus bemutatóoldalhoz.
+const scooter = {
+  brand: "Ruptor",
+  model: "R1 v2",
+  year: 2024,
+  currentMileage: 2000,
+  purchasePrice: 200000,
+  estimate: 148000,
+  serviceCount: 3,
+  rideCount: 12,
+  photoUrl: null,
+};
+
+const services = [
+  { label: "Akkuellenőrzés", performedAt: "2026-06-01", odometerKm: 1900 },
+  { label: "Fékállítás", performedAt: "2026-05-20", odometerKm: 1500 },
+  { label: "Gumicsere", performedAt: "2026-04-15", odometerKm: 800 },
 ];
 
-const rows = [
-  { label: "Roller", value: "Ruptor R1 v2 (2024)" },
-  { label: "Futásteljesítmény", value: "2 000 km" },
-  { label: "Vételár", value: "200 000 Ft" },
-  { label: "Becsült érték", value: "148 000 Ft" },
-  { label: "Értékmegőrzés", value: "74%" },
-  { label: "Rögzített szervizek", value: "3 alkalom" },
-  { label: "Utolsó szerviz", value: "Akkuellenőrzés · 2026. 06. 01." },
-  { label: "Menetek száma", value: "12 menet" },
-];
+export default async function SampleReportPage() {
+  const session = await auth.api.getSession({ headers: await headers() });
+  const loggedIn = !!session;
 
-export default function SampleReportPage() {
   return (
     <main className="flex min-h-screen flex-col">
-      <header className="flex items-center justify-between px-6 py-4">
-        <Link href="/" className="text-lg font-semibold">
-          🛴 RollerHub
-        </Link>
-        <div className="flex items-center gap-2">
-          <Button asChild size="sm" variant="ghost">
-            <Link href="/sign-in">Belépés</Link>
-          </Button>
-          <Button asChild size="sm">
-            <Link href="/sign-up">Regisztráció</Link>
-          </Button>
-        </div>
-      </header>
+      <PublicSiteHeader loggedIn={loggedIn} />
 
       <section className="mx-auto w-full max-w-2xl px-6 py-12">
         <div className="mb-2 text-center">
@@ -54,76 +48,31 @@ export default function SampleReportPage() {
           Ez egy demó. A valódi riport a saját rolleradataidból készül.
         </p>
 
-        <div className="mt-10 space-y-6 rounded-xl border p-6">
-          <div className="flex flex-wrap items-start justify-between gap-2">
-            <div>
-              <h2 className="text-xl font-semibold">Értékriport előnézet</h2>
-              <p className="text-muted-foreground text-sm">
-                Állapotlap eladáshoz.
-              </p>
-            </div>
-            <span className="rounded-full border px-2 py-0.5 text-xs">
-              Premium · Hamarosan
-            </span>
-          </div>
-
-          <dl className="grid grid-cols-1 gap-x-6 gap-y-2 text-sm sm:grid-cols-2">
-            {rows.map((r) => (
-              <div key={r.label} className="flex justify-between gap-4">
-                <dt className="text-muted-foreground">{r.label}</dt>
-                <dd className="text-right font-medium">{r.value}</dd>
-              </div>
-            ))}
-          </dl>
-
-          <div className="rounded-lg border p-3">
-            <p className="text-muted-foreground text-xs">
-              Ajánlott hirdetési ársáv
-            </p>
-            <p className="mt-1 text-base font-semibold">
-              kb. 133 000 – 163 000 Ft
-            </p>
-          </div>
-
-          <div className="space-y-2">
-            <p className="text-muted-foreground text-xs font-medium tracking-wide uppercase">
-              Állapotlap teljessége
-            </p>
-            <ul className="space-y-1">
-              {checklist.map((item) => (
-                <li
-                  key={item.label}
-                  className="flex items-center gap-2 text-sm"
-                >
-                  <span className="text-green-600">✓</span>
-                  <span>{item.label}</span>
-                </li>
-              ))}
-            </ul>
-            <p className="text-muted-foreground pt-1 text-xs italic">
-              Az állapotlapod jó alap egy eladási PDF-hez. PDF export Premium
-              funkcióként érkezik.
-            </p>
-          </div>
-
-          <div className="space-y-3 border-t pt-4">
-            <p className="text-muted-foreground text-xs">
-              A Premium állapotlap tartalmazza a szervizeket, a km-állást és a
-              becsült értéket. Átláthatóbb képet ad a roller állapotáról.
-            </p>
-            <button
-              disabled
-              className="text-muted-foreground cursor-not-allowed rounded-md border px-4 py-2 text-sm opacity-50"
-            >
-              Állapotlap generálása (hamarosan)
-            </button>
-          </div>
+        <div className="mt-10">
+          <SaleReport
+            brand={scooter.brand}
+            model={scooter.model}
+            year={scooter.year}
+            photoUrl={scooter.photoUrl}
+            currentMileage={scooter.currentMileage}
+            purchasePrice={scooter.purchasePrice}
+            lastEstimatedValue={scooter.estimate}
+            services={services}
+            serviceCount={scooter.serviceCount}
+            rideCount={scooter.rideCount}
+          />
         </div>
 
         <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
-          <Button asChild size="lg">
-            <Link href="/sign-up">Kipróbálom ingyen</Link>
-          </Button>
+          {loggedIn ? (
+            <Button asChild size="lg">
+              <Link href="/dashboard">Vissza az appba</Link>
+            </Button>
+          ) : (
+            <Button asChild size="lg">
+              <Link href="/sign-up">Kipróbálom ingyen</Link>
+            </Button>
+          )}
           <Button asChild size="lg" variant="outline">
             <Link href="/pricing">Csomagok megtekintése</Link>
           </Button>

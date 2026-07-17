@@ -50,25 +50,20 @@ Manuális ellenőrzési lista soft launch előtt.
 
 - [ ] Profil adatok (username, név) mentése működik
 - [ ] Téma váltás (black-orange, black-blue, black-white) mentés után ténylegesen vált
-- [ ] Nyelv select lenyíló opciókat mutat és választható
 
-## Preview app (bejelentkezés nélkül)
+## Minta riport (bejelentkezés nélkül)
 
-- [ ] `/preview/app` betölt, sidebar látható
-- [ ] `/preview/app/garage` — Ruptor kattintható, Ninebot nem kattintható
-- [ ] `/preview/app/garage/demo-ruptor` — teljes adatlap megjelenik
-- [ ] `/preview/app/service` — 5 bejegyzés látható
-- [ ] `/preview/app/rides` — 4 menet látható
-- [ ] `/preview/app/value` — 2 roller értéke látható
-- [ ] `/preview/app/knowledge` — 4 disabled téma, kozut.hu + kav.hu linkek működnek
-- [ ] `/preview/app/settings` — disabled inputok, mentés gomb disabled
+- [ ] `/sample-report` betölt, sötét témával
+- [ ] A riportban látszik a roller neve, évjárata, km-állása és a becsült eladási ár
+- [ ] Szervizelőzmények: 3 bejegyzés dátummal és km-állással
+- [ ] Kijelentkezve Belépés / Regisztráció, bejelentkezve „Vissza az appba" a fejlécben
+- [ ] Semmi nem menthető vagy módosítható
 
 ## Mobil (390px)
 
 - [ ] Dashboard hero 2×2 grid nem törik
 - [ ] Garázs lista sorok nem lógnak ki
 - [ ] Roller adatlap hero kép + szöveg nem vágódik le
-- [ ] Preview sidebar helyett mobil nav jelenik meg
 - [ ] Settings theme grid 2 oszlopos mobilon
 
 ## Publikus oldalak

@@ -4,6 +4,10 @@ import { auth } from "@/lib/auth";
 import { getScooterDetails } from "@/modules/garage/services/scooter-service";
 import { getValueHistory } from "@/modules/value/services/value-service";
 import { ScooterActions } from "@/modules/garage/components/scooter-actions";
+import {
+  SERVICE_TYPE_LABELS,
+  type ServiceType,
+} from "@/modules/services/service-types";
 import { ServiceLog } from "@/modules/services/components/service-log";
 import { ValueHistory } from "@/modules/value/components/value-history";
 import { SaleReport } from "@/modules/garage/components/sale-report";
@@ -153,16 +157,25 @@ export default async function ScooterDetailsPage({
       {/* Értékriport */}
       <div id="ertekjelentes">
         <SaleReport
+          brand={scooter.brand}
+          model={scooter.model}
+          year={scooter.year}
+          photoUrl={scooter.photoUrl}
+          currentMileage={scooter.currentMileage}
           purchasePrice={scooter.purchasePrice}
           lastEstimatedValue={lastEstimate?.estimatedValue ?? null}
+          services={scooter.services.map((s) => ({
+            label: SERVICE_TYPE_LABELS[s.type as ServiceType],
+            performedAt: s.performedAt.toISOString(),
+            odometerKm: s.odometerKm,
+          }))}
           serviceCount={scooter._count.services}
           rideCount={scooter._count.rides}
-          photoUrl={scooter.photoUrl}
         />
       </div>
 
       {/* Értéktörténet */}
-      <AppSection label="Értéktörténet" id="ertektortenet">
+      <AppSection label="Korábbi becslések" id="ertektortenet">
         <ValueHistory history={valueHistory} />
       </AppSection>
     </div>

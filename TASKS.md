@@ -7,7 +7,7 @@ Jelölés: `[ ]` nyitott, `[x]` kész.
 ## P0 — soft launch előtti kötelezők
 
 - [ ] Live deploy audit: a Vercelen tényleg a legfrissebb commit fut-e (utolsó lokális commitok pusholva vannak-e)
-- [ ] `/preview/app` live ellenőrzés (review index, minden képernyő megnyílik, semmi nem menthető)
+- [ ] `/sample-report` live ellenőrzés (mock riport megjelenik, session-aware fejléc, semmi nem menthető)
 - [ ] `/profile/me` live ellenőrzés (védett, app shellben, mentés működik)
 - [ ] `/settings` live ellenőrzés (csak megjelenés/nyelv/fiók, Profilom mutató kártya)
 - [ ] `/pricing` és `/sample-report` live shell ellenőrzés (sötét téma, nem fehér oldal)

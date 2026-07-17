@@ -1,7 +1,6 @@
 import { type ReactNode } from "react";
 
-// Presentational menet-listaelem: a valódi Menetek oldal és az előnézet is
-// ezt használja. Csak propsból dolgozik, nincs auth/Prisma/fetch.
+// Presentational menet-listaelem, csak propsból dolgozik.
 export function RideListItem({
   scooterName,
   startAt,

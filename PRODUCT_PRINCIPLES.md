@@ -23,12 +23,10 @@ Döntési alapelvek. Ha egy feladat ezekkel ütközik, jelezd, mielőtt megépí
 11. Belső oldalak egységes app shellben jelenjenek meg, a beállított témával.
 12. Ne legyen random fehér, témátlan oldal, az appból linkelt oldalakon sem.
 
-## Preview
+## Publikus demó
 
-13. A preview az AI és emberi review eszköze, nem külön termék.
-14. A preview mock-only és csak megtekintésre való: nincs auth, Prisma, API/fetch, mentés.
-15. A preview a valódi presentational komponenseket használja, hogy ne tudjon széttartani a valódi UI-tól.
+13. Nincs külön demó-alkalmazás. Az egyetlen bejelentkezés nélküli bemutató a `/sample-report`: mock adat, a valódi presentational komponensekkel.
 
 ## Copy
 
-16. Magyar copy: rövid, természetes, nem marketinges. Tiltó- és preferencialista: CLAUDE.md „Copy elvek".
+14. Magyar copy: rövid, természetes, nem marketinges. Tiltó- és preferencialista: CLAUDE.md „Copy elvek".

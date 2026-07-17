@@ -2,6 +2,7 @@ import Link from "next/link";
 import { headers } from "next/headers";
 import { auth } from "@/lib/auth";
 import { Button } from "@/components/ui/button";
+import { PublicSiteHeader } from "@/components/public-site-header";
 import { Check } from "lucide-react";
 
 const freeFeatures = [
@@ -27,27 +28,7 @@ export default async function PricingPage() {
 
   return (
     <main className="flex min-h-screen flex-col">
-      <header className="flex items-center justify-between px-6 py-4">
-        <Link href="/" className="text-lg font-semibold">
-          🛴 RollerHub
-        </Link>
-        <div className="flex items-center gap-2">
-          {session ? (
-            <Button asChild size="sm">
-              <Link href="/dashboard">Vissza az appba</Link>
-            </Button>
-          ) : (
-            <>
-              <Button asChild size="sm" variant="ghost">
-                <Link href="/sign-in">Belépés</Link>
-              </Button>
-              <Button asChild size="sm">
-                <Link href="/sign-up">Regisztráció</Link>
-              </Button>
-            </>
-          )}
-        </div>
-      </header>
+      <PublicSiteHeader loggedIn={!!session} />
 
       <section className="mx-auto w-full max-w-3xl px-6 py-16 text-center">
         <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">
@@ -140,15 +121,6 @@ export default async function PricingPage() {
               className="text-foreground font-medium underline underline-offset-4"
             >
               Minta riport megnyitása →
-            </Link>
-          </p>
-          <p className="text-muted-foreground text-sm">
-            Megnéznéd az appot bejelentkezés nélkül?{" "}
-            <Link
-              href="/preview/app"
-              className="text-foreground font-medium underline underline-offset-4"
-            >
-              Demó app megnyitása →
             </Link>
           </p>
           <p className="text-muted-foreground text-sm">

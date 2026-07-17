@@ -67,15 +67,14 @@ Ne vezess be microservice-t, NestJS-t, event bus-t, komplex DI frameworköt vagy
 - Ne kérj `.env`-t, database URL-t, secretet. Ne logold az auth secretet.
 - Ne nyúlj production env változókhoz és auth flow-hoz kérés nélkül.
 
-## Preview szabály
+## Publikus demó szabály
 
-A `/preview/app` a review belépő (embernek és AI-nak). Szabályai:
+A `/preview/app` demóalkalmazás megszűnt. Az egyetlen bejelentkezés nélküli bemutatóoldal a `/sample-report`:
 
-- csak mock adat (`src/modules/preview/demo-data.ts`)
-- csak megtekintésre: nincs mentés/módosítás/törlés
-- nincs auth, nincs Prisma, nincs API/fetch import
-- a valódi presentational komponenseket használja propsból
+- csak hardcoded mock adat, nincs Prisma és nincs mentés
+- a valódi presentational komponenseket használja (pl. `SaleReport`)
 - tilos User-Agent bypass vagy bármilyen login bypass
+- ne építs új preview route-okat és ne tarts fenn preview-paritást
 
 ## Prisma szabályok
 

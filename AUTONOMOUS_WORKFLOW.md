@@ -31,7 +31,6 @@ npx prisma validate
 - Copy polish (a CLAUDE.md copy elvei szerint)
 - UI konzisztencia javítás
 - Kisebb komponens refaktor
-- Preview javítás
 - App shell konzisztencia
 - Read-only presentational komponensek közösítése
 - Dokumentáció frissítés (ROADMAP, TASKS, PROJECT_STATE)
@@ -54,8 +53,7 @@ npx prisma validate
 
 - User-Agent bypass
 - Login bypass
-- Production user adat preview-ban
-- Preview route-ban auth/prisma/API/fetch import
+- Production user adat mock/demó oldalon
 - Token vagy secret commitolása
 - `git reset --hard`
 - `git clean -fd`
@@ -66,7 +64,7 @@ npx prisma validate
 - `npm run build` zöld
 - `npm run lint` zöld
 - `npx prisma validate` zöld
-- Nincs tiltott import (auth/prisma/fetch) a `src/app/preview` és `src/modules/preview` alatt
+- Nincs auth/Prisma import és mentés a `/sample-report` mock oldalon
 - Nincs user-facing angol hibaszöveg magyar UI-ban
 - Nincs fehér, shellből/témából kilógó belső oldal
 - A végső összefoglaló konkrét: fájlok, változások, teszteredmény, nyitott kérdés

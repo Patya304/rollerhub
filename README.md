@@ -73,7 +73,6 @@ Publikus:
 - `/terms`
 - `/pricing`
 - `/sample-report`
-- `/preview/app` — bejelentkezés nélkül nézhető demó app (lásd alább)
 
 Bejelentkezés után:
 
@@ -86,33 +85,13 @@ Bejelentkezés után:
 - `/knowledge`
 - `/settings`
 
-## Preview app
+## Publikus demó
 
-A `/preview/app` route-csoportban egy teljes demó alkalmazás fut.
+Az egyetlen bejelentkezés nélküli bemutatóoldal a `/sample-report`:
 
-Célja:
-
-- Design audit és demó bemutatás bejelentkezés nélkül
-- Minden adat hardcoded mock (`src/modules/preview/demo-data.ts`)
-
-Fontos:
-
-- Nincs auth
-- Nincs Prisma hívás
-- Nincs API hívás
-- Nincs adat mentés vagy törlés
-- `data-theme="black-orange"` fix — nem vált dinamikusan
-
-Route-ok:
-
-- `/preview/app` — dashboard
-- `/preview/app/garage` — garázs lista
-- `/preview/app/garage/demo-ruptor` — teljes roller adatlap
-- `/preview/app/service` — szervizkönyv
-- `/preview/app/rides` — menetnapló
-- `/preview/app/value` — értékbecslés
-- `/preview/app/knowledge` — tudástár
-- `/preview/app/settings` — beállítások
+- Mock adatos eladási állapotlap a közös `SaleReport` komponenssel
+- Nincs auth-függés a tartalomban, nincs Prisma-adat, nincs mentés
+- Session-aware fejléc: bejelentkezve app CTA-t mutat
 
 ## Adatmodell
 

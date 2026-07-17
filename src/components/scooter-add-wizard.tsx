@@ -26,10 +26,8 @@ export type ScooterAddValues = {
 };
 
 type ScooterAddWizardProps = {
-  /** Demó mód: a lépések végigkattinthatók, de mentés nincs. */
-  demo?: boolean;
   /** Mentés. Hibaüzenettel tér vissza, vagy null-lal, ha sikerült. */
-  onSubmit?: (values: ScooterAddValues) => Promise<string | null>;
+  onSubmit: (values: ScooterAddValues) => Promise<string | null>;
   onCancel?: () => void;
 };
 
@@ -42,7 +40,6 @@ const STEP_TITLES = {
 type Step = 1 | 2 | 3;
 
 export function ScooterAddWizard({
-  demo = false,
   onSubmit,
   onCancel,
 }: ScooterAddWizardProps) {
@@ -125,7 +122,6 @@ export function ScooterAddWizard({
   }
 
   async function handleSubmit() {
-    if (demo || !onSubmit) return;
     setError("");
     setBusy(true);
     try {
@@ -363,15 +359,9 @@ export function ScooterAddWizard({
             {error && <p className="text-sm text-red-500">{error}</p>}
 
             <div className="flex flex-wrap gap-2">
-              {demo ? (
-                <Button type="button" disabled>
-                  Demóban nem menthető
-                </Button>
-              ) : (
-                <Button type="submit" disabled={busy}>
-                  {busy ? "Mentés..." : "Hozzáadás a garázshoz"}
-                </Button>
-              )}
+              <Button type="submit" disabled={busy}>
+                {busy ? "Mentés..." : "Hozzáadás a garázshoz"}
+              </Button>
               <Button
                 type="button"
                 variant="ghost"

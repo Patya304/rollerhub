@@ -8,15 +8,13 @@ export type ThemeOption = {
 type SettingsThemeOptionsProps = {
   options: readonly ThemeOption[];
   value: string;
-  onChange?: (value: string) => void;
-  disabled?: boolean;
+  onChange: (value: string) => void;
 };
 
 export function SettingsThemeOptions({
   options,
   value,
   onChange,
-  disabled = false,
 }: SettingsThemeOptionsProps) {
   return (
     <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
@@ -26,15 +24,12 @@ export function SettingsThemeOptions({
           <button
             key={t.value}
             type="button"
-            onClick={disabled ? undefined : () => onChange?.(t.value)}
-            disabled={disabled}
+            onClick={() => onChange(t.value)}
             className={`relative rounded-lg border p-3 text-left transition-colors ${
               active
                 ? "border-primary bg-primary/5 ring-primary ring-1"
-                : disabled
-                  ? "opacity-60"
-                  : "hover:bg-muted/50"
-            } ${disabled ? "cursor-default" : ""}`}
+                : "hover:bg-muted/50"
+            }`}
           >
             {t.recommended && (
               <span className="text-primary absolute top-2 right-2 text-xs font-semibold">

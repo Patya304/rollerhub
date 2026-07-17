@@ -73,7 +73,7 @@ Launch előkészítés: körülbelül 80%
 - Publikus profil v1, majd explicit privacy: `profileIsPublic` + rolleronkénti `isPublic`, minden alapból privát
 - Új `bio` mező, Profilom oldal, settings/profil szétválasztás
 - `/pricing`, `/sample-report`, `/profile/@username` téma-wrapper (nem fehér oldal)
-- Preview/AI review egységesítés: közös presentational komponensek (RideListItem, ServiceListItem, PublicProfileView, ProfileIdentity, SettingsProfilePointer), review index a `/preview/app`-on
+- Közös presentational komponensek (RideListItem, ServiceListItem, PublicProfileView, ProfileIdentity, SettingsProfilePointer, SaleReport)
 - Migration: `add_public_profile_privacy`
 
 ## Következő ajánlott lépés
@@ -184,15 +184,13 @@ A bejelentkezett app megkapta a digitális garázs designt:
 - Onboarding empty state-ek dashboard-on és garázsban
 - Témák ténylegesen alkalmazódnak (data-theme wrapper)
 
-## Preview app állapota
+## Publikus demó állapota
 
-A `/preview/app` a review belépő (embernek és AI-nak):
+A `/preview/app` demóalkalmazás 2026-07-17-én megszűnt (minden UI-változtatást megduplázott). Az egyetlen bejelentkezés nélküli bemutató a `/sample-report`:
 
-- Nincs auth, nincs Prisma, nincs API/fetch hívás
-- `src/modules/preview/demo-data.ts` — centralizált mock adatok
-- `PreviewAppShell` — saját sidebar, nem importálja az authos layout-ot
-- Route-ok: dashboard (review indexszel), garázs, demo-ruptor adatlap, szerviz, menetnapló, értékbecslés, tudástár, profil (me/public), beállítások
-- A valódi presentational komponenseket használja (ScooterAddWizard, RideListItem, ServiceListItem, PublicProfileView, ProfileIdentity, SettingsProfilePointer, GarageVehicleListItem, DashboardSummaryPanel, VehicleHero)
+- Hardcoded mock adat az oldalban, nincs Prisma és nincs mentés
+- A közös `SaleReport` presentational komponenst használja
+- Session-aware fejléc (`PublicSiteHeader`), bejelentkezve app CTA-t mutat
 - `data-theme="black-orange"` fix a layout wrapperen
 - Minden interakció disabled/statikus, csak megtekintésre
 
