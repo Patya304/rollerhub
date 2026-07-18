@@ -71,3 +71,36 @@ Manuális ellenőrzési lista soft launch előtt.
 - [ ] `/pricing` betölt, "Demó app megnyitása" link működik
 - [ ] `/sample-report` betölt, demo badge látható
 - [ ] `/devlog` betölt
+
+## Fotó
+
+- [ ] Érvényes kép megjelenik a roller adatlapján, a Garázs listában és a publikus rolleroldalon
+- [ ] Hibás (formailag rossz) URL mezőközeli hibát ad, nem menthető el
+- [ ] Formailag helyes, de nem betölthető kép URL-nél mezőközeli hiba jelenik meg, a mentés nem indul el
+- [ ] Kép eltávolítása külön success üzenetet ad ("Fénykép eltávolítva"), nem ugyanazt, mint a hozzáadás/csere
+- [ ] Broken-image ikon helyett mindenhol a placeholder (🛴 vagy monogram) jelenik meg
+
+## Privacy
+
+- [ ] Privát profil + publikus rollerre jelölés esetén nincs publikus link és nincs "Link másolása"
+- [ ] Publikus profil + privát roller esetén nincs publikus rollerlink
+- [ ] Publikus profil + publikus roller esetén a publikus oldal megnyílik és a link másolható
+- [ ] Rossz username/roller páros, törölt roller vagy idegen roller a publikus URL-en 404-et ad
+
+## Szerviz
+
+- [ ] Szerviz hozzáadása működik, mezőközeli validációval
+- [ ] Szerviz szerkesztése működik, csak változtatás esetén menthető
+- [ ] Szerviz törlése soft delete-tel történik, natív `confirm()` nélkül
+- [ ] Törölt szerviz nem számít bele a service countokba (dashboard, Sale Report, publikus profil)
+- [ ] Nyitott törlési megerősítés mellett nem indítható új szerviz hozzáadása vagy szerkesztés
+
+## Értékbecslés
+
+- [ ] Nulla vagy hiányzó vételárnál nincs értelmes retention-számítás, nincs téves becslés
+- [ ] Pozitív vételárnál helyes becslés készül
+- [ ] Ismételt becslés (dedup) esetén a UI jelzi, hogy nem történt új mentés
+- [ ] Renderelt oldalakon sehol nincs `NaN`, `Infinity`, `-0 Ft` vagy `−0 Ft`
+- [ ] Az értéktörténetben a pozitív változás nem jelenik meg automatikusan "sikeres/zöld" színnel
+
+A valódi 390 px-es eszközteszt ez idáig nem történt meg (a Chrome ablak ebben a fejlesztői környezetben nem ment 500 px alá), ez továbbra is nyitott, kézi ellenőrzést igénylő tétel.

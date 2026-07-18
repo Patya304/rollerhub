@@ -64,6 +64,12 @@ Launch előkészítés: körülbelül 80%
 
 ## Friss változások (2026. július)
 
+- G3/S1/E1 batch: rollerfotó és publikus roller adatlap véglegesítve, szervizkönyv soft delete-re állt át (szerkeszthető, törléskor `deletedAt`), értékbecslés stabilizálva. Részletek lent.
+- Rollerfotó külön `Fénykép` blokk a roller adatlapon (`ScooterPhotoEditor`), URL-alapú v1 (nincs storage SDK a repóban), broken-image fallback mindenhol (`ImageWithFallback`)
+- Roller publikus kapcsoló külön `Publikus megjelenés` blokk (`ScooterVisibility`), 4 privacy-kombináció szövegezve, link másolás
+- Új publikus roller adatlap: `/profile/[username]/scooters/[id]`, csak biztonságos mezők
+- `Service` modell soft delete-et kapott (`deletedAt`, `updatedAt`), migration: `service_soft_delete`; szerviz szerkeszthető (`PATCH /api/services/[serviceId]`), törlés natív `confirm()` nélkül
+- Értékbecslés: `-0 Ft`/NaN% védelem a `/value` oldalon, dedup visszajelzés (`saved` API mező), rövid disclaimer copy
 - Roller katalógus v2: márkánként külön fájl (`src/modules/scooter-catalog/brands/`), 10 márka (Ninebot, Xiaomi, Ruptor, Kugoo, Kukirin, Nami, Kaabo, Dualtron, Inmotion, VSett), modellenként stabil `id` slug, változat/piac jelölés (pl. Max G2 E, 4 Pro vs 4 Pro 2nd Gen külön), és előkészített meta mezők (category, insuranceRequired, helmetRecommended, licenseCategory, notes) — az UI a meta mezőket még nem használja; a category termékkategória, nem jogi besorolás
 - Katalógus adatpolitika: gyári adat csak hivatalos gyártói forrásból, `sourceUrls` + `verifiedAt` + `specsVerified` mezőkkel; jelenleg 5 ellenőrzött modell (Ninebot Max G2 E, F2 E; Xiaomi Mi Pro 2, 4 Pro, 4 Pro 2nd Gen), a többi specs nélkül
 - A wizard kizárólag ellenőrzött (`specsVerified` + `sourceUrls`) változatnál tölti elő a gyári adatokat (akku Wh, végsebesség, hatótáv), látható jelzéssel; nem ellenőrzött katalógusmodellnél jelzi, hogy az adatok változatonként eltérhetnek

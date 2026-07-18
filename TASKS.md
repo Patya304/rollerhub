@@ -22,14 +22,16 @@ Jelölés: `[ ]` nyitott, `[x]` kész.
 - [ ] Katalógus meta mezők kitöltése és UI-használat (category, insuranceRequired, licenseCategory) a KRESZ/biztosítás funkciókhoz
 - [ ] Free csomag rollerkorlát döntés: a /pricing „1 roller nyilvántartása"-t ígér, de az API nem érvényesít limitet (vagy limit bevezetése, vagy pricing copy igazítása)
 - [ ] Eladó rollereim v1 (csak jelölés + megjelenítés, nem marketplace)
-- [ ] Publikus roller adatlap v1 (publikus rollerhez megosztható, biztonságos adatlap)
+- [x] Publikus roller adatlap v1 (`/profile/[username]/scooters/[id]`, csak biztonságos mezők, notFound minden nem publikus/törölt/idegen esetben)
 - [ ] Profil előnézet finomítás
 - [ ] Soft launch QA oldal/lista karbantartás (`SOFT_LAUNCH_QA.md` frissítés az új funkciókkal)
 - [ ] Onboarding copy polish
-- [ ] Értékbecslés UX visszajelzés javítás
-- [ ] Natív `confirm()` lecserélése app-stílusú megerősítő dialógusra (roller törlése, menet törlése)
-- [ ] 390 px-es valódi eszközös/devtools ellenőrzés (a Chrome ablak desktopon nem megy 500 px alá, a 390-es réteg csak heurisztikával volt tesztelve)
+- [x] Értékbecslés UX visszajelzés javítás (dedup visszajelzés, `saved` API mező, disclaimer, `-0 Ft`/NaN% védelem a `/value` oldalon)
+- [x] Natív `confirm()` lecserélése app-stílusú megerősítő dialógusra a szervizbejegyzés törlésénél (roller törlésénél már korábban megvolt); menet törlése (`/rides`) még natív `confirm()`-ot használ, ez nyitva maradt
+- [ ] 390 px-es valódi eszközös/devtools ellenőrzés (a Chrome ablak ebben a környezetben sem ment 500 px alá `resize_window`-val, a 390-es réteg továbbra is csak heurisztikával volt tesztelve)
 - [ ] Tudástár cikkek disclaimer és hivatalos linkek ellenőrzése
+- [ ] Valódi fájlfeltöltés (rollerfotó, profilkép) — jelenleg nincs storage SDK a repóban; lásd a G3 storage bevezetési tervet a devlog/beszámoló mellett
+- [ ] Szervizfotó, számla, dokumentumtár, szervizemlékeztető (külön későbbi batch)
 
 ## P2 — később
 
