@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { optHttpUrlSchema, updHttpUrlSchema } from "@/lib/http-url-schema";
 
 const currentYear = new Date().getFullYear();
 
@@ -39,10 +40,7 @@ const optYear = z.preprocess(
     .max(currentYear + 1, "Az évjárat túl nagy.")
     .optional(),
 );
-const optUrl = z.preprocess(
-  (v) => (v === "" || v == null ? undefined : v),
-  z.string().trim().url("Érvénytelen URL.").optional(),
-);
+const optUrl = optHttpUrlSchema;
 
 // Vásárlás dátuma — create: üres/hiányzó -> kimarad
 const PURCHASE_MAX_FUTURE_MS = 24 * 60 * 60 * 1000; // 1 nap tolerancia
@@ -126,10 +124,7 @@ const updYear = z.preprocess(
     .nullable()
     .optional(),
 );
-const updUrl = z.preprocess(
-  (v) => (v === "" ? null : v),
-  z.string().trim().url("Érvénytelen URL.").nullable().optional(),
-);
+const updUrl = updHttpUrlSchema;
 const updDate = z.preprocess(
   (v) => (v === "" ? null : v),
   z

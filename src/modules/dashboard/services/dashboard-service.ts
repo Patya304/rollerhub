@@ -14,7 +14,8 @@ export async function getDashboardData(userId: string) {
   let totalValue = 0;
   for (const s of scooters) {
     totalKm += s.currentMileage;
-    if (s.purchasePrice != null) {
+    // A vételár csak akkor számít használható becslési alapnak, ha pozitív.
+    if (s.purchasePrice != null && s.purchasePrice > 0) {
       totalPurchase += s.purchasePrice;
       totalValue += calculateEstimate({
         purchasePrice: s.purchasePrice,
@@ -34,9 +35,11 @@ export async function getDashboardData(userId: string) {
     recentServices,
     recentEstimates,
   ] = await Promise.all([
-    prisma.service.count({ where: { scooterId: { in: scooterIds } } }),
+    prisma.service.count({
+      where: { scooterId: { in: scooterIds }, deletedAt: null },
+    }),
     prisma.service.aggregate({
-      where: { scooterId: { in: scooterIds } },
+      where: { scooterId: { in: scooterIds }, deletedAt: null },
       _sum: { cost: true },
     }),
     prisma.ride.count({ where: { scooterId: { in: scooterIds } } }),
@@ -45,7 +48,7 @@ export async function getDashboardData(userId: string) {
       _sum: { distanceKm: true },
     }),
     prisma.service.findMany({
-      where: { scooterId: { in: scooterIds } },
+      where: { scooterId: { in: scooterIds }, deletedAt: null },
       orderBy: { performedAt: "desc" },
       take: 5,
     }),

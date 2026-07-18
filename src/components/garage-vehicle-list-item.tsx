@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { ImageWithFallback } from "@/components/image-with-fallback";
 
 export type GarageVehicleListItemProps = {
   marker?: string;
@@ -23,11 +24,15 @@ export function GarageVehicleListItem({
     <>
       {/* Fotó vagy marker */}
       {photoUrl ? (
-        // eslint-disable-next-line @next/next/no-img-element
-        <img
+        <ImageWithFallback
           src={photoUrl}
           alt={title}
           className="h-12 w-12 shrink-0 rounded-lg object-cover"
+          fallback={
+            <div className="bg-muted flex h-12 w-12 shrink-0 items-center justify-center rounded-lg text-xl">
+              🛴
+            </div>
+          }
         />
       ) : marker ? (
         <span className="text-muted-foreground/50 flex w-8 shrink-0 items-start justify-center pt-0.5 font-mono text-xs font-semibold tabular-nums">
@@ -36,9 +41,9 @@ export function GarageVehicleListItem({
       ) : null}
 
       <div className="min-w-0 flex-1">
-        <p className="font-semibold">{title}</p>
+        <p className="font-semibold break-words">{title}</p>
         {meta && (
-          <p className="text-muted-foreground mt-0.5 font-mono text-xs tabular-nums">
+          <p className="text-muted-foreground mt-0.5 font-mono text-xs break-words tabular-nums">
             {meta}
           </p>
         )}

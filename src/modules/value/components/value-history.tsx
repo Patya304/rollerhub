@@ -34,8 +34,12 @@ export function ValueHistory({ history }: { history: Estimate[] }) {
             Változás az első becslés óta
           </p>
           <p
-            className={`font-mono text-sm font-bold tabular-nums ${
-              diff < 0 ? "text-red-500" : "text-green-500"
+            className={`font-mono text-sm tabular-nums ${
+              diff < 0
+                ? "font-bold text-amber-600"
+                : diff === 0
+                  ? "text-muted-foreground"
+                  : "text-foreground font-bold"
             }`}
           >
             {diff > 0 ? "+" : ""}
@@ -65,7 +69,11 @@ export function ValueHistory({ history }: { history: Estimate[] }) {
                 {change != null && (
                   <p
                     className={`mt-0.5 font-mono text-xs tabular-nums ${
-                      change < 0 ? "text-red-500/80" : "text-green-500/80"
+                      change < 0
+                        ? "text-amber-600/80"
+                        : change === 0
+                          ? "text-muted-foreground"
+                          : "text-foreground/80"
                     }`}
                   >
                     {change > 0 ? "+" : ""}

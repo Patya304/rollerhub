@@ -50,5 +50,8 @@ export async function POST(
     );
   }
 
-  return NextResponse.json({ estimatedValue: result.estimatedValue });
+  return NextResponse.json({
+    estimatedValue: result.estimatedValue,
+    saved: result.saved,
+  });
 }

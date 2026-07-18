@@ -11,9 +11,15 @@ export async function getScooterDetails(userId: string, scooterId: string) {
   return prisma.scooter.findFirst({
     where: { id: scooterId, userId, deletedAt: null },
     include: {
-      services: { orderBy: { performedAt: "desc" }, take: 3 },
+      services: {
+        where: { deletedAt: null },
+        orderBy: { performedAt: "desc" },
+        take: 3,
+      },
       valueEstimates: { orderBy: { createdAt: "desc" }, take: 1 },
-      _count: { select: { services: true, rides: true } },
+      _count: {
+        select: { services: { where: { deletedAt: null } }, rides: true },
+      },
     },
   });
 }

@@ -103,6 +103,7 @@ export function ServiceOverview({
               odometerKm={s.odometerKm}
               cost={s.cost}
               notes={s.notes}
+              href={`/garage/${s.scooterId}#szerviz`}
             />
           ))}
         </div>

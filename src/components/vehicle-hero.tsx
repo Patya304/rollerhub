@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { ImageWithFallback } from "@/components/image-with-fallback";
 
 export type VehicleHeroProps = {
   brand: string;
@@ -39,20 +40,18 @@ export function VehicleHero({
       <div className="bg-card overflow-hidden rounded-xl border">
         {/* Azonosítás + fotó */}
         <div className="flex items-start gap-4 p-5 pb-4">
-          {photoUrl ? (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img
-              src={photoUrl}
-              alt={`${brand} ${model}`}
-              className="h-24 w-24 shrink-0 rounded-xl object-cover"
-            />
-          ) : (
-            <div className="bg-muted flex h-24 w-24 shrink-0 items-center justify-center rounded-xl text-4xl">
-              🛴
-            </div>
-          )}
+          <ImageWithFallback
+            src={photoUrl}
+            alt={`${brand} ${model}`}
+            className="h-24 w-24 shrink-0 rounded-xl object-cover"
+            fallback={
+              <div className="bg-muted flex h-24 w-24 shrink-0 items-center justify-center rounded-xl text-4xl">
+                🛴
+              </div>
+            }
+          />
           <div className="min-w-0 flex-1 pt-1">
-            <p className="text-primary truncate text-xs font-semibold tracking-[0.18em] uppercase">
+            <p className="text-primary text-xs font-semibold tracking-[0.18em] break-words uppercase">
               {brand}
             </p>
             <h1 className="mt-0.5 text-2xl font-bold tracking-tight break-words">

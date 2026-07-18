@@ -11,7 +11,8 @@ export async function estimateScooterValue(userId: string, scooterId: string) {
   if (!scooter) {
     return { status: "not_found" as const };
   }
-  if (!scooter.purchasePrice) {
+  // A vételár csak akkor használható becslési alapnak, ha pozitív.
+  if (scooter.purchasePrice == null || scooter.purchasePrice <= 0) {
     return { status: "no_price" as const };
   }
 

@@ -4,7 +4,10 @@ import Link from "next/link";
 import { auth } from "@/lib/auth";
 import { getScooterDetails } from "@/modules/garage/services/scooter-service";
 import { getValueHistory } from "@/modules/value/services/value-service";
+import { getUserSettings } from "@/modules/settings/services/settings-service";
 import { ScooterActions } from "@/modules/garage/components/scooter-actions";
+import { ScooterPhotoEditor } from "@/modules/garage/components/scooter-photo-editor";
+import { ScooterVisibility } from "@/modules/garage/components/scooter-visibility";
 import {
   SERVICE_TYPE_LABELS,
   type ServiceType,
@@ -42,6 +45,7 @@ export default async function ScooterDetailsPage({
   if (!scooter) notFound();
 
   const valueHistory = (await getValueHistory(session.user.id, id)) ?? [];
+  const userSettings = await getUserSettings(session.user.id);
 
   const lastEstimate = scooter.valueEstimates[0] ?? null;
 
@@ -132,12 +136,25 @@ export default async function ScooterDetailsPage({
           batteryCapacity: scooter.batteryCapacity,
           topSpeed: scooter.topSpeed,
           rangeKm: scooter.rangeKm,
-          photoUrl: scooter.photoUrl,
           notes: scooter.notes,
-          isPublic: scooter.isPublic,
         }}
         serviceCount={scooter._count.services}
         hasEstimate={lastEstimate != null}
+      />
+
+      {/* Fénykép */}
+      <ScooterPhotoEditor
+        scooterId={scooter.id}
+        title={`${scooter.brand} ${scooter.model}`}
+        photoUrl={scooter.photoUrl}
+      />
+
+      {/* Publikus megjelenés */}
+      <ScooterVisibility
+        scooterId={scooter.id}
+        isPublic={scooter.isPublic}
+        profileIsPublic={userSettings?.profileIsPublic ?? false}
+        username={userSettings?.username ?? null}
       />
 
       {/* Műszaki adatok */}

@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { updHttpUrlSchema } from "@/lib/http-url-schema";
 
 export const LANGUAGES = ["hu", "en", "de"] as const;
 export const THEMES = [
@@ -37,10 +38,7 @@ const nameSchema = z.preprocess((v) => {
   return v === "" || v === null ? null : v;
 }, z.string().trim().max(60, "A név legfeljebb 60 karakter.").nullable().optional());
 
-const imageSchema = z.preprocess((v) => {
-  if (v === undefined) return undefined;
-  return v === "" || v === null ? null : v;
-}, z.string().trim().url("Érvénytelen kép-URL.").nullable().optional());
+const imageSchema = updHttpUrlSchema;
 
 const bioSchema = z.preprocess((v) => {
   if (v === undefined) return undefined;

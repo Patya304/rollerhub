@@ -12,14 +12,14 @@ async function ownsScooter(userId: string, scooterId: string) {
 export async function getServicesByScooter(userId: string, scooterId: string) {
   if (!(await ownsScooter(userId, scooterId))) return null;
   return prisma.service.findMany({
-    where: { scooterId },
+    where: { scooterId, deletedAt: null },
     orderBy: { performedAt: "desc" },
   });
 }
 
 export async function getServicesByUser(userId: string) {
   return prisma.service.findMany({
-    where: { scooter: { userId, deletedAt: null } },
+    where: { scooter: { userId, deletedAt: null }, deletedAt: null },
     orderBy: { performedAt: "desc" },
     include: { scooter: { select: { id: true, brand: true, model: true } } },
   });
@@ -49,9 +49,36 @@ export async function createService(
   });
 }
 
+export async function updateService(
+  userId: string,
+  serviceId: string,
+  data: {
+    type?: ServiceType;
+    performedAt?: Date;
+    odometerKm?: number | null;
+    cost?: number | null;
+    notes?: string | null;
+  },
+) {
+  const result = await prisma.service.updateMany({
+    where: {
+      id: serviceId,
+      deletedAt: null,
+      scooter: { userId, deletedAt: null },
+    },
+    data,
+  });
+  return result.count;
+}
+
 export async function deleteService(userId: string, serviceId: string) {
-  const result = await prisma.service.deleteMany({
-    where: { id: serviceId, scooter: { userId, deletedAt: null } },
+  const result = await prisma.service.updateMany({
+    where: {
+      id: serviceId,
+      deletedAt: null,
+      scooter: { userId, deletedAt: null },
+    },
+    data: { deletedAt: new Date() },
   });
   return result.count;
 }

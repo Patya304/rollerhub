@@ -12,29 +12,29 @@ export default async function ValuePage() {
 
   const scooters = await getScootersByUser(session.user.id);
 
+  // A vételár csak akkor számít használható becslési alapnak, ha pozitív;
+  // nulla vagy hiányzó vételárnál nincs értelmes retention/NaN% a rendernél.
   const rows = scooters.map((s) => {
-    const estimate =
-      s.purchasePrice != null
-        ? calculateEstimate({
-            purchasePrice: s.purchasePrice,
-            year: s.year,
-            currentMileage: s.currentMileage,
-            purchaseDate: s.purchaseDate,
-          })
-        : null;
+    const hasUsablePrice = s.purchasePrice != null && s.purchasePrice > 0;
+    const estimate = hasUsablePrice
+      ? calculateEstimate({
+          purchasePrice: s.purchasePrice!,
+          year: s.year,
+          currentMileage: s.currentMileage,
+          purchaseDate: s.purchaseDate,
+        })
+      : null;
     const depreciation =
-      s.purchasePrice != null && estimate != null
-        ? s.purchasePrice - estimate
-        : null;
+      hasUsablePrice && estimate != null ? s.purchasePrice! - estimate : null;
     const retention =
-      s.purchasePrice != null && estimate != null
-        ? Math.round((estimate / s.purchasePrice) * 100)
+      hasUsablePrice && estimate != null
+        ? Math.round((estimate / s.purchasePrice!) * 100)
         : null;
-    return { scooter: s, estimate, depreciation, retention };
+    return { scooter: s, estimate, depreciation, retention, hasUsablePrice };
   });
 
   const totalPurchase = rows.reduce(
-    (sum, r) => sum + (r.scooter.purchasePrice ?? 0),
+    (sum, r) => sum + (r.hasUsablePrice ? r.scooter.purchasePrice! : 0),
     0,
   );
   const totalValue = rows.reduce((sum, r) => sum + (r.estimate ?? 0), 0);
@@ -77,7 +77,7 @@ export default async function ValuePage() {
                   className="hover:bg-muted/30 group flex items-start justify-between gap-4 px-5 py-4 transition-colors"
                 >
                   <div className="min-w-0 flex-1">
-                    <p className="font-semibold">
+                    <p className="min-w-0 font-semibold break-words">
                       {scooter.brand} {scooter.model}
                     </p>
                     <p className="text-muted-foreground mt-0.5 font-mono text-xs tabular-nums">
@@ -96,7 +96,10 @@ export default async function ValuePage() {
                         ~{estimate.toLocaleString("hu-HU")} Ft
                       </p>
                       <p className="text-muted-foreground mt-0.5 font-mono text-xs tabular-nums">
-                        {retention}% · −{depreciation!.toLocaleString("hu-HU")}{" "}
+                        {retention}% ·{" "}
+                        {depreciation! > 0
+                          ? `-${depreciation!.toLocaleString("hu-HU")}`
+                          : depreciation!.toLocaleString("hu-HU")}{" "}
                         Ft
                       </p>
                     </div>
@@ -145,8 +148,10 @@ export default async function ValuePage() {
             </div>
           )}
 
-          <p className="text-muted-foreground px-1 text-xs">
-            Részletes becslést a roller adatlapján indíthatsz.
+          <p className="text-muted-foreground px-1 text-xs leading-relaxed">
+            A becslés a vételár, a kor és a Km-állás alapján készül. Tájékoztató
+            érték, a tényleges eladási ár eltérhet. Részletes becslést a roller
+            adatlapján indíthatsz.
           </p>
         </>
       )}

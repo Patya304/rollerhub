@@ -21,9 +21,7 @@ type Scooter = {
   batteryCapacity: number | null;
   topSpeed: number | null;
   rangeKm: number | null;
-  photoUrl: string | null;
   notes: string | null;
-  isPublic: boolean;
 };
 
 type FormValues = {
@@ -38,9 +36,7 @@ type FormValues = {
   battery: string;
   topSpeed: string;
   rangeKm: string;
-  photoUrl: string;
   notes: string;
-  isPublic: boolean;
 };
 
 function valuesFromScooter(s: Scooter): FormValues {
@@ -56,9 +52,7 @@ function valuesFromScooter(s: Scooter): FormValues {
     battery: s.batteryCapacity?.toString() ?? "",
     topSpeed: s.topSpeed?.toString() ?? "",
     rangeKm: s.rangeKm?.toString() ?? "",
-    photoUrl: s.photoUrl ?? "",
     notes: s.notes ?? "",
-    isPublic: s.isPublic,
   };
 }
 
@@ -129,14 +123,6 @@ function validate(v: FormValues): Record<string, string> {
     errors.notes = "A megjegyzés túl hosszú (legfeljebb 2000 karakter).";
   }
 
-  if (v.photoUrl.trim()) {
-    try {
-      new URL(v.photoUrl.trim());
-    } catch {
-      errors.photoUrl = "Érvénytelen fénykép URL.";
-    }
-  }
-
   return errors;
 }
 
@@ -198,6 +184,7 @@ export function ScooterActions({
   const [savedBannerVisible, setSavedBannerVisible] = useState(false);
 
   const [estimateValue, setEstimateValue] = useState<number | null>(null);
+  const [estimateSaved, setEstimateSaved] = useState(true);
   const [estimateError, setEstimateError] = useState("");
 
   const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false);
@@ -273,9 +260,7 @@ export function ScooterActions({
           batteryCapacity: values.battery || null,
           topSpeed: values.topSpeed || null,
           rangeKm: values.rangeKm || null,
-          photoUrl: values.photoUrl.trim() || null,
           notes: values.notes.trim() || null,
-          isPublic: values.isPublic,
         }),
       });
       if (!res.ok) {
@@ -340,6 +325,7 @@ export function ScooterActions({
         setEstimateError(data.error ?? "Hiba a becslésnél.");
       } else {
         setEstimateValue(data.estimatedValue);
+        setEstimateSaved(data.saved !== false);
         router.refresh();
       }
     } catch {
@@ -539,25 +525,6 @@ export function ScooterActions({
             </div>
 
             <FieldWrapper
-              id="editPhotoUrl"
-              label="Fénykép URL"
-              error={fieldErrors.photoUrl}
-            >
-              <Input
-                id="editPhotoUrl"
-                type="url"
-                inputMode="url"
-                placeholder="https://..."
-                value={values.photoUrl}
-                onChange={(e) => setField("photoUrl", e.target.value)}
-                aria-invalid={!!fieldErrors.photoUrl}
-                aria-describedby={
-                  fieldErrors.photoUrl ? "editPhotoUrl-error" : undefined
-                }
-              />
-            </FieldWrapper>
-
-            <FieldWrapper
               id="editNotes"
               label="Megjegyzés"
               error={fieldErrors.notes}
@@ -574,22 +541,6 @@ export function ScooterActions({
                 }
               />
             </FieldWrapper>
-
-            <div className="flex items-start gap-3">
-              <input
-                id="editIsPublic"
-                type="checkbox"
-                checked={values.isPublic}
-                onChange={(e) => setField("isPublic", e.target.checked)}
-                className="accent-primary mt-0.5 h-4 w-4"
-              />
-              <div>
-                <Label htmlFor="editIsPublic">Publikus a profilomon</Label>
-                <p className="text-muted-foreground mt-0.5 text-xs">
-                  Csak a márka, modell, évjárat és km-állás jelenik meg.
-                </p>
-              </div>
-            </div>
           </div>
         </details>
 
@@ -748,11 +699,16 @@ export function ScooterActions({
             className="bg-muted/40 mt-3 rounded-lg px-4 py-3"
           >
             <p className="text-muted-foreground text-xs font-medium tracking-widest uppercase">
-              Friss becsült érték
+              {estimateSaved ? "Becsült érték frissítve" : "Becsült érték"}
             </p>
             <p className="mt-1 font-mono text-lg font-bold tabular-nums">
               {estimateValue.toLocaleString("hu-HU")} Ft
             </p>
+            {!estimateSaved && (
+              <p className="text-muted-foreground mt-1 text-xs">
+                A becsült érték nem változott az utolsó becslés óta.
+              </p>
+            )}
           </div>
         )}
 
@@ -761,6 +717,11 @@ export function ScooterActions({
             {estimateError}
           </p>
         )}
+
+        <p className="text-muted-foreground mt-3 text-xs leading-relaxed">
+          A becslés a vételár, a kor és a Km-állás alapján készül. Tájékoztató
+          érték, a tényleges eladási ár eltérhet.
+        </p>
       </div>
 
       {/* Veszélyes zóna */}

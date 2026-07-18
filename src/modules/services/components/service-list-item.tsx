@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 // Presentational szerviz-listaelem: a valódi Szervizkönyv oldal és az
 // előnézet is ezt használja. Csak propsból dolgozik, nincs auth/Prisma/fetch.
 export function ServiceListItem({
@@ -7,6 +9,7 @@ export function ServiceListItem({
   odometerKm,
   cost,
   notes,
+  href,
 }: {
   title: string;
   scooterName: string;
@@ -14,14 +17,17 @@ export function ServiceListItem({
   odometerKm: number | null;
   cost: number | null;
   notes: string | null;
+  href?: string;
 }) {
-  return (
+  const content = (
     <div className="flex items-start justify-between gap-4 px-5 py-4 text-sm">
       <div className="min-w-0 flex-1">
-        <p className="font-semibold">{title}</p>
-        <p className="text-muted-foreground mt-0.5 text-xs">{scooterName}</p>
+        <p className="font-semibold break-words">{title}</p>
+        <p className="text-muted-foreground mt-0.5 text-xs break-words">
+          {scooterName}
+        </p>
         {notes && (
-          <p className="text-muted-foreground mt-1.5 text-xs leading-snug">
+          <p className="text-muted-foreground mt-1.5 text-xs leading-snug break-words whitespace-pre-wrap">
             {notes}
           </p>
         )}
@@ -43,4 +49,14 @@ export function ServiceListItem({
       </div>
     </div>
   );
+
+  if (href) {
+    return (
+      <Link href={href} className="hover:bg-muted/30 block transition-colors">
+        {content}
+      </Link>
+    );
+  }
+
+  return content;
 }

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { ImageWithFallback } from "@/components/image-with-fallback";
 
 // Vevőközpontú eladási állapotlap előnézet. Presentational: csak propsból
 // dolgozik, a roller adatlap és a publikus /sample-report ugyanezt használja.
@@ -39,8 +40,13 @@ export function SaleReport({
   serviceCount,
   rideCount,
 }: SaleReportProps) {
+  // A vételár csak akkor számít használható becslési alapnak, ha pozitív.
+  const hasUsablePrice = purchasePrice != null && purchasePrice > 0;
+
   const valueRetention =
-    purchasePrice && lastEstimatedValue
+    hasUsablePrice &&
+    lastEstimatedValue != null &&
+    Number.isFinite(lastEstimatedValue / purchasePrice)
       ? Math.round((lastEstimatedValue / purchasePrice) * 100)
       : null;
 
@@ -52,7 +58,7 @@ export function SaleReport({
     : null;
 
   const checklist = [
-    { label: "Vételár", ok: purchasePrice != null },
+    { label: "Vételár", ok: hasUsablePrice },
     { label: "Km-állás", ok: true },
     { label: "Becsült érték", ok: lastEstimatedValue != null },
     { label: "Fotó", ok: !!photoUrl },
@@ -82,20 +88,18 @@ export function SaleReport({
           </span>
         </div>
         <div className="mt-2 flex items-center gap-3">
-          {photoUrl ? (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img
-              src={photoUrl}
-              alt={`${brand} ${model}`}
-              className="h-12 w-12 shrink-0 rounded-lg object-cover"
-            />
-          ) : (
-            <div className="bg-muted flex h-12 w-12 shrink-0 items-center justify-center rounded-lg text-xl">
-              🛴
-            </div>
-          )}
+          <ImageWithFallback
+            src={photoUrl}
+            alt={`${brand} ${model}`}
+            className="h-12 w-12 shrink-0 rounded-lg object-cover"
+            fallback={
+              <div className="bg-muted flex h-12 w-12 shrink-0 items-center justify-center rounded-lg text-xl">
+                🛴
+              </div>
+            }
+          />
           <div className="min-w-0">
-            <p className="truncate font-bold">
+            <p className="font-bold break-words">
               {brand} {model}
             </p>
             <p className="text-muted-foreground font-mono text-xs tabular-nums">
