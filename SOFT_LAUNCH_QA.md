@@ -104,3 +104,21 @@ Manuális ellenőrzési lista soft launch előtt.
 - [ ] Az értéktörténetben a pozitív változás nem jelenik meg automatikusan "sikeres/zöld" színnel
 
 A valódi 390 px-es eszközteszt ez idáig nem történt meg (a Chrome ablak ebben a fejlesztői környezetben nem ment 500 px alá), ez továbbra is nyitott, kézi ellenőrzést igénylő tétel.
+
+## Eladási állapotlap
+
+- [ ] Roller adatlapján az "Eladási állapotlap" blokk mutatja a készültségi checklistet, hiányzó adatnál közvetlen javítási linkkel
+- [ ] "Megosztás létrehozása" csak akkor aktív/érdemi, ha márka/modell/km-állás megvan
+- [ ] "Állapotlap megtekintése" előnézet pontosan ugyanazt mutatja, mint a publikus oldal (nincs vételár, vásárlás dátuma, alvázszám, megjegyzés, értéktörténet, értékmegőrzési %, szerviz költség/megjegyzés, ride adat)
+- [ ] "Megosztás létrehozása" után publikus link, "Link másolása" és "Publikus állapotlap megnyitása" működik
+- [ ] "Megosztás frissítése" a `Frissítve` dátumot frissíti, a token nem változik
+- [ ] "Megosztás visszavonása" inline megerősítést kér (nincs natív `confirm()`), sikeres visszavonás után a régi link 404
+- [ ] Új megosztás mindig új tokent kap, a régi visszavont token soha nem éled újra
+- [ ] Törölt (soft-deleted) rollerhez tartozó aktív megosztás publikus linkje is 404
+- [ ] A publikus `/report/[token]` oldal working, semleges 404 hibás/ismeretlen tokennél
+- [ ] Tulajdonosi blokk a publikus oldalon csak akkor jelenik meg, ha a profil explicit publikus és van username
+- [ ] A megosztás nem igényel publikus profilt vagy publikus rollert (független privacy-engedély)
+- [ ] A `/report/[token]` oldal `robots` metája `noindex, nofollow, nocache`, `referrer` metája `no-referrer`
+- [ ] Tulajdonosi profilkép megjelenik a publikus oldalon, ha a profil publikus és van kép; hibás/hiányzó képnél monogram fallback
+- [ ] Service ID nem jelenik meg sem a DTO-ban, sem a publikus HTML/RSC tartalomban
+- [ ] Linkmásolás sikere képernyőolvasóval is érzékelhető (`role="status"` élő régió mondja: "Link másolva")

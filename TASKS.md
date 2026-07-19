@@ -23,6 +23,7 @@ Jelölés: `[ ]` nyitott, `[x]` kész.
 - [ ] Free csomag rollerkorlát döntés: a /pricing „1 roller nyilvántartása"-t ígér, de az API nem érvényesít limitet (vagy limit bevezetése, vagy pricing copy igazítása)
 - [ ] Eladó rollereim v1 (csak jelölés + megjelenítés, nem marketplace)
 - [x] Publikus roller adatlap v1 (`/profile/[username]/scooters/[id]`, csak biztonságos mezők, notFound minden nem publikus/törölt/idegen esetben)
+- [x] Eladási állapotlap v1 (Á1): saját `SaleReport` modell + megosztható, visszavonható publikus token-link (`/report/[token]`), egységes névhasználat, készültségi checklist, tulajdonosi előnézet ugyanabból a safe DTO-ból, mint a publikus oldal. Nyitva: PDF export (Premium), valódi 390 px eszközteszt, "rövid állapotleírás" ajánlott mező (nincs hozzá biztonságos publikus mező).
 - [ ] Profil előnézet finomítás
 - [ ] Soft launch QA oldal/lista karbantartás (`SOFT_LAUNCH_QA.md` frissítés az új funkciókkal)
 - [ ] Onboarding copy polish

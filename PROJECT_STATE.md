@@ -64,6 +64,9 @@ Launch előkészítés: körülbelül 80%
 
 ## Friss változások (2026. július)
 
+- Á1 batch: Eladási állapotlap véglegesítve. Új `SaleReport` Prisma modell (rollerenként legfeljebb egy sor, `scooterId` és `publicToken` egyedi), saját, biztonságos `crypto.randomBytes(32)` alapú publikus token, (re)aktiváláskor mindig új tokent kap, régi visszavont token soha nem éled újra. Publikus route: `/report/[token]` (loading/not-found, semleges 404 minden nem-aktív/törölt/idegen esetben). Egységes elnevezés mindenhol: "Eladási állapotlap" / "Állapotlap" (a korábbi "Sale Report", "Értékriport", "Riport" elnevezések eltávolítva). Saját safe DTO (`src/modules/sale-report/dto.ts`), amit a tulajdonosi előnézet és a publikus oldal is ugyanabból épít — nincs vételár, vásárlás dátuma, alvázszám, megjegyzés, értéktörténet, értékmegőrzési %, szerviz költség/megjegyzés, ride adat, belső Service ID. Készültségi checklist: kötelező minimum márka/modell/km-állás (gyakorlatban mindig teljesül), ajánlott: fotó, évjárat, ≥1 szerviz, becslés. A megosztás független a publikus profil/roller kapcsolótól. Tulajdonosi blokk a publikus oldalon csak akkor jelenik meg, ha a profil explicit publikus és van username, saját profilképpel (`ImageWithFallback`). A régi `SaleReport` komponens (`src/modules/garage/components/sale-report.tsx`, Premium badge + PDF-ígéret placeholder) törölve, `/sample-report` és `/pricing` copy-ja frissítve az új elnevezésre.
+- Á1 inspector javítókör: a `Megosztás frissítése` explicit `updatedAt: new Date()`-et állít be (korábban üres `data: {}` update nem billentette a `@updatedAt` mezőt, régi és új timestamp összehasonlítással igazolva). Minden report-műveletnél (lekérdezés, létrehozás, frissítés) explicit `ownerId` egyezés ellenőrzés, a publikus lekérdezés pedig `report.ownerId === scooter.userId` egyezést is ellenőriz build előtt (eltérésnél semleges 404, szkriptelt teszttel igazolva). `/report` layout `robots: noindex/nofollow/nocache` + `referrer: no-referrer` metadata. Linkmásolás sikere a live regionban is bemondja: "Link másolva".
+- Á1 végső pre-commit javítókör: `createOrReactivateShare` mostantól idempotens (már aktív megosztásnál ismételt POST nem generál új tokent, nem billenti az `updatedAt`-et; konkurens POST-ok feltételes `updateMany`/egyedi constraint utáni újraolvasással ugyanarra a ténylegesen aktív tokenre konvergálnak — élő API-hívással is igazolva). Minden állapotlap-dátum explicit `Europe/Budapest` időzónával formázódik (tulajdonosi panel és publikus oldal is). A linkmásolás állapota (`copied`/success/error) teljes életciklust kapott: minden új művelet törli a régit, sikeres másolás után csak akkor törlődik a success üzenet, ha időközben nem jelent meg másik, a timeout unmountkor takarítva.
 - G3/S1/E1 batch: rollerfotó és publikus roller adatlap véglegesítve, szervizkönyv soft delete-re állt át (szerkeszthető, törléskor `deletedAt`), értékbecslés stabilizálva. Részletek lent.
 - Rollerfotó külön `Fénykép` blokk a roller adatlapon (`ScooterPhotoEditor`), URL-alapú v1 (nincs storage SDK a repóban), broken-image fallback mindenhol (`ImageWithFallback`)
 - Roller publikus kapcsoló külön `Publikus megjelenés` blokk (`ScooterVisibility`), 4 privacy-kombináció szövegezve, link másolás
@@ -114,6 +117,7 @@ Launch előkészítés: körülbelül 80%
 - `Service`
 - `Ride`
 - `ValueEstimate`
+- `SaleReport`
 - `Session`
 - `Account`
 - `Verification`
