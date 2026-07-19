@@ -16,8 +16,7 @@ const freeFeatures = [
 
 const premiumFeatures = [
   "Korlátlan roller",
-  "Részletes értékriport",
-  "Eladási állapotlap (PDF)",
+  "Eladási állapotlap PDF exportja",
   "Szerviz emlékeztetők",
   "Export / adatmentés",
   "Minden ingyenes funkció",
@@ -84,7 +83,7 @@ export default async function PricingPage() {
                 </span>
               </div>
               <p className="text-muted-foreground mt-1 text-sm">
-                Több roller, részletes riportok, exportok
+                Több roller, eladási állapotlap PDF-ben, exportok
               </p>
               <p className="mt-4 text-4xl font-bold">
                 <span className="text-muted-foreground text-base font-normal">
@@ -103,8 +102,8 @@ export default async function PricingPage() {
             </ul>
 
             <p className="text-muted-foreground mb-4 text-xs leading-relaxed">
-              A Premium funkciók fokozatosan érkeznek. Először az értékriportot
-              és az eladási állapotlapot validáljuk.
+              A Premium funkciók fokozatosan érkeznek. Először az eladási
+              állapotlapot validáljuk.
             </p>
 
             <Button disabled variant="outline">
@@ -115,12 +114,12 @@ export default async function PricingPage() {
 
         <div className="mt-10 space-y-2 text-center">
           <p className="text-muted-foreground text-sm">
-            Kíváncsi vagy, hogyan néz ki egy értékriport?{" "}
+            Kíváncsi vagy, hogyan néz ki egy eladási állapotlap?{" "}
             <Link
               href="/sample-report"
               className="text-foreground font-medium underline underline-offset-4"
             >
-              Minta riport megnyitása →
+              Minta állapotlap megnyitása →
             </Link>
           </p>
           <p className="text-muted-foreground text-sm">

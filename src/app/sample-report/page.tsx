@@ -3,26 +3,43 @@ import { headers } from "next/headers";
 import { auth } from "@/lib/auth";
 import { Button } from "@/components/ui/button";
 import { PublicSiteHeader } from "@/components/public-site-header";
-import { SaleReport } from "@/modules/garage/components/sale-report";
+import { SaleReportView } from "@/modules/sale-report/components/sale-report-view";
+import type { SaleReportDto } from "@/modules/sale-report/dto";
 
-// Mock adatok az egyetlen publikus bemutatóoldalhoz.
-const scooter = {
+// Mock adat az egyetlen publikus bemutatóoldalhoz. Nincs Prisma, nincs
+// mentés, a valódi SaleReportView presentational komponenst használja.
+const mockReport: SaleReportDto = {
   brand: "Ruptor",
   model: "R1 v2",
   year: 2024,
-  currentMileage: 2000,
-  purchasePrice: 200000,
-  estimate: 148000,
-  serviceCount: 3,
-  rideCount: 12,
   photoUrl: null,
+  currentMileage: 2000,
+  batteryCapacity: 500,
+  topSpeed: 45,
+  rangeKm: 60,
+  color: "Fekete",
+  estimatedValue: 148000,
+  serviceCount: 3,
+  services: [
+    {
+      type: "BATTERY",
+      performedAt: "2026-06-01T00:00:00.000Z",
+      odometerKm: 1900,
+    },
+    {
+      type: "BRAKE_CHANGE",
+      performedAt: "2026-05-20T00:00:00.000Z",
+      odometerKm: 1500,
+    },
+    {
+      type: "TIRE_CHANGE",
+      performedAt: "2026-04-15T00:00:00.000Z",
+      odometerKm: 800,
+    },
+  ],
+  updatedAt: "2026-06-05T00:00:00.000Z",
+  owner: null,
 };
-
-const services = [
-  { label: "Akkuellenőrzés", performedAt: "2026-06-01", odometerKm: 1900 },
-  { label: "Fékállítás", performedAt: "2026-05-20", odometerKm: 1500 },
-  { label: "Gumicsere", performedAt: "2026-04-15", odometerKm: 800 },
-];
 
 export default async function SampleReportPage() {
   const session = await auth.api.getSession({ headers: await headers() });
@@ -35,32 +52,22 @@ export default async function SampleReportPage() {
       <section className="mx-auto w-full max-w-2xl px-6 py-12">
         <div className="mb-2 text-center">
           <span className="rounded-full border px-2 py-0.5 text-xs">
-            Előnézet · Demó adatok · Nem valódi riport
+            Előnézet · Demó adatok · Nem valódi állapotlap
           </span>
         </div>
         <h1 className="mt-3 text-center text-3xl font-bold tracking-tight sm:text-4xl">
-          Minta értékriport
+          Minta eladási állapotlap
         </h1>
         <p className="text-muted-foreground mt-3 text-center text-lg">
-          Minta állapotlap eladáshoz.
+          Egy megosztható összefoglaló a roller fontos adatairól,
+          szervizelőzményeiről és jelenlegi állapotáról.
         </p>
         <p className="text-muted-foreground mt-2 text-center text-sm">
-          Ez egy demó. A valódi riport a saját rolleradataidból készül.
+          Ez egy demó. A valódi állapotlap a saját rolleradataidból készül.
         </p>
 
         <div className="mt-10">
-          <SaleReport
-            brand={scooter.brand}
-            model={scooter.model}
-            year={scooter.year}
-            photoUrl={scooter.photoUrl}
-            currentMileage={scooter.currentMileage}
-            purchasePrice={scooter.purchasePrice}
-            lastEstimatedValue={scooter.estimate}
-            services={services}
-            serviceCount={scooter.serviceCount}
-            rideCount={scooter.rideCount}
-          />
+          <SaleReportView report={mockReport} variant="public" />
         </div>
 
         <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">

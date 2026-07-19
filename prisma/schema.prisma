@@ -23,9 +23,10 @@ model User {
   updatedAt         DateTime  @updatedAt
   deletedAt         DateTime?
 
-  scooters Scooter[]
-  sessions Session[]
-  accounts Account[]
+  scooters    Scooter[]
+  sessions    Session[]
+  accounts    Account[]
+  saleReports SaleReport[]
 
   @@map("user")
 }
@@ -55,8 +56,31 @@ model Scooter {
   valueEstimates ValueEstimate[]
   services       Service[]
   rides          Ride[]
+  saleReport     SaleReport?
 
   @@index([userId])
+}
+
+// Megosztható, visszavonható "Eladási állapotlap" link. Rollerenként
+// legfeljebb egy sor (unique scooterId): (re)aktiváláskor a meglévő sor
+// tokenje mindig lecserélődik, így egy visszavont token soha nem válik
+// újra érvényessé, még ugyanannak a rollernek az újbóli megosztásakor sem.
+// A publikus oldal mindig élő roller/szerviz/becslés adatból épül; az
+// `updatedAt` csak tudatos tulajdonosi művelet (létrehozás/frissítés/
+// visszavonás) után változik, nem a roller adatainak módosításakor.
+model SaleReport {
+  id          String    @id @default(cuid())
+  scooterId   String    @unique
+  scooter     Scooter   @relation(fields: [scooterId], references: [id], onDelete: Cascade)
+  ownerId     String
+  owner       User      @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  publicToken String    @unique
+  isActive    Boolean   @default(true)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  revokedAt   DateTime?
+
+  @@index([ownerId])
 }
 
 enum ServiceType {

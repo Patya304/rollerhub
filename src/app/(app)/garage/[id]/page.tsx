@@ -8,13 +8,10 @@ import { getUserSettings } from "@/modules/settings/services/settings-service";
 import { ScooterActions } from "@/modules/garage/components/scooter-actions";
 import { ScooterPhotoEditor } from "@/modules/garage/components/scooter-photo-editor";
 import { ScooterVisibility } from "@/modules/garage/components/scooter-visibility";
-import {
-  SERVICE_TYPE_LABELS,
-  type ServiceType,
-} from "@/modules/services/service-types";
 import { ServiceLog } from "@/modules/services/components/service-log";
 import { ValueHistory } from "@/modules/value/components/value-history";
-import { SaleReport } from "@/modules/garage/components/sale-report";
+import { SaleReportPanel } from "@/modules/sale-report/components/sale-report-panel";
+import { getOwnerSaleReportState } from "@/modules/sale-report/services/sale-report-service";
 import { AppSection, FieldList } from "@/components/app-page";
 import { VehicleHero } from "@/components/vehicle-hero";
 
@@ -46,6 +43,7 @@ export default async function ScooterDetailsPage({
 
   const valueHistory = (await getValueHistory(session.user.id, id)) ?? [];
   const userSettings = await getUserSettings(session.user.id);
+  const saleReportState = await getOwnerSaleReportState(session.user.id, id);
 
   const lastEstimate = scooter.valueEstimates[0] ?? null;
 
@@ -143,11 +141,13 @@ export default async function ScooterDetailsPage({
       />
 
       {/* Fénykép */}
-      <ScooterPhotoEditor
-        scooterId={scooter.id}
-        title={`${scooter.brand} ${scooter.model}`}
-        photoUrl={scooter.photoUrl}
-      />
+      <div id="fenykep" className="scroll-mt-20">
+        <ScooterPhotoEditor
+          scooterId={scooter.id}
+          title={`${scooter.brand} ${scooter.model}`}
+          photoUrl={scooter.photoUrl}
+        />
+      </div>
 
       {/* Publikus megjelenés */}
       <ScooterVisibility
@@ -189,25 +189,25 @@ export default async function ScooterDetailsPage({
         <ServiceLog scooterId={scooter.id} />
       </AppSection>
 
-      {/* Értékriport */}
-      <div id="ertekjelentes">
-        <SaleReport
-          brand={scooter.brand}
-          model={scooter.model}
-          year={scooter.year}
-          photoUrl={scooter.photoUrl}
-          currentMileage={scooter.currentMileage}
-          purchasePrice={scooter.purchasePrice}
-          lastEstimatedValue={lastEstimate?.estimatedValue ?? null}
-          services={scooter.services.map((s) => ({
-            label: SERVICE_TYPE_LABELS[s.type as ServiceType],
-            performedAt: s.performedAt.toISOString(),
-            odometerKm: s.odometerKm,
-          }))}
-          serviceCount={scooter._count.services}
-          rideCount={scooter._count.rides}
-        />
-      </div>
+      {/* Eladási állapotlap */}
+      <AppSection label="Eladási állapotlap" id="allapotlap">
+        {saleReportState.status === "ok" && (
+          <SaleReportPanel
+            scooterId={scooter.id}
+            readiness={saleReportState.readiness}
+            initialReport={
+              saleReportState.report
+                ? {
+                    isActive: saleReportState.report.isActive,
+                    publicToken: saleReportState.report.publicToken,
+                    updatedAt: saleReportState.report.updatedAt.toISOString(),
+                  }
+                : null
+            }
+            preview={saleReportState.preview}
+          />
+        )}
+      </AppSection>
 
       {/* Értéktörténet */}
       <AppSection label="Korábbi becslések" id="ertektortenet">
