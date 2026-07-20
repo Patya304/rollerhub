@@ -10,7 +10,7 @@ import { ScooterPhotoEditor } from "@/modules/garage/components/scooter-photo-ed
 import { ScooterVisibility } from "@/modules/garage/components/scooter-visibility";
 import { ServiceLog } from "@/modules/services/components/service-log";
 import { ValueHistory } from "@/modules/value/components/value-history";
-import { SaleReportPanel } from "@/modules/sale-report/components/sale-report-panel";
+import { SaleReportSummaryCard } from "@/modules/sale-report/components/sale-report-summary-card";
 import { getOwnerSaleReportState } from "@/modules/sale-report/services/sale-report-service";
 import { AppSection, FieldList } from "@/components/app-page";
 import { VehicleHero } from "@/components/vehicle-hero";
@@ -192,19 +192,12 @@ export default async function ScooterDetailsPage({
       {/* Eladási állapotlap */}
       <AppSection label="Eladási állapotlap" id="allapotlap">
         {saleReportState.status === "ok" && (
-          <SaleReportPanel
+          <SaleReportSummaryCard
             scooterId={scooter.id}
             readiness={saleReportState.readiness}
-            initialReport={
-              saleReportState.report
-                ? {
-                    isActive: saleReportState.report.isActive,
-                    publicToken: saleReportState.report.publicToken,
-                    updatedAt: saleReportState.report.updatedAt.toISOString(),
-                  }
-                : null
-            }
-            preview={saleReportState.preview}
+            isShared={saleReportState.report?.isActive === true}
+            snapshotStatus={saleReportState.snapshotStatus}
+            publicToken={saleReportState.report?.publicToken ?? null}
           />
         )}
       </AppSection>

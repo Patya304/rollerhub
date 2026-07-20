@@ -1,4 +1,3 @@
-
 generator client {
   provider = "prisma-client"
   output   = "../src/generated/prisma"
@@ -57,6 +56,7 @@ model Scooter {
   services       Service[]
   rides          Ride[]
   saleReport     SaleReport?
+  condition      ScooterCondition?
 
   @@index([userId])
 }
@@ -65,22 +65,67 @@ model Scooter {
 // legfeljebb egy sor (unique scooterId): (re)aktiváláskor a meglévő sor
 // tokenje mindig lecserélődik, így egy visszavont token soha nem válik
 // újra érvényessé, még ugyanannak a rollernek az újbóli megosztásakor sem.
-// A publikus oldal mindig élő roller/szerviz/becslés adatból épül; az
-// `updatedAt` csak tudatos tulajdonosi művelet (létrehozás/frissítés/
-// visszavonás) után változik, nem a roller adatainak módosításakor.
+// A publikus oldal a `snapshot` mezőben tárolt, validált, publikálás
+// pillanatában rögzített adatból épül fel (nem élő rollerből) — a
+// `snapshotHash` a snapshot tartalmának determinisztikus lenyomata, ami
+// alapján az élő adatokból újraépített előnézet összevethető a jelenleg
+// publikus tartalommal. A `snapshot` induláskor nullable, hogy a mezőt már
+// meglévő aktív sorokra is additívan rá lehessen vezetni (lásd a legacy
+// migrációs viselkedést a sale-report szolgáltatásban).
 model SaleReport {
-  id          String    @id @default(cuid())
-  scooterId   String    @unique
-  scooter     Scooter   @relation(fields: [scooterId], references: [id], onDelete: Cascade)
+  id          String  @id @default(cuid())
+  scooterId   String  @unique
+  scooter     Scooter @relation(fields: [scooterId], references: [id], onDelete: Cascade)
   ownerId     String
-  owner       User      @relation(fields: [ownerId], references: [id], onDelete: Cascade)
-  publicToken String    @unique
-  isActive    Boolean   @default(true)
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
-  revokedAt   DateTime?
+  owner       User    @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  publicToken String  @unique
+  isActive    Boolean @default(true)
+
+  snapshot        Json?
+  snapshotHash    String?
+  snapshotVersion Int       @default(1)
+  publishedAt     DateTime?
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  revokedAt DateTime?
 
   @@index([ownerId])
+}
+
+enum ConditionLevel {
+  GOOD
+  FAIR
+  NEEDS_ATTENTION
+}
+
+enum KnownIssuesState {
+  NOT_PROVIDED
+  NONE_REPORTED
+  REPORTED
+}
+
+// A tulajdonos saját, szöveges állapotfelmérése (nem hivatalos műszaki
+// vizsgálat). Nincs külön `ownerId` mező: a jogosultság mindig a Scooter
+// relációján keresztül, `scooter.userId`-n át ellenőrzendő, hogy ne legyen
+// egy második, önállóan elszállható owner-konzisztencia probléma.
+model ScooterCondition {
+  id        String  @id @default(cuid())
+  scooterId String  @unique
+  scooter   Scooter @relation(fields: [scooterId], references: [id], onDelete: Cascade)
+
+  overall          ConditionLevel?
+  battery          ConditionLevel?
+  brakes           ConditionLevel?
+  tires            ConditionLevel?
+  lights           ConditionLevel?
+  frame            ConditionLevel?
+  cosmetics        ConditionLevel?
+  knownIssuesState KnownIssuesState @default(NOT_PROVIDED)
+  knownIssues      String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 enum ServiceType {

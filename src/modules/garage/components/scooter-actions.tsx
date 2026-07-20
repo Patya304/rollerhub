@@ -660,7 +660,7 @@ export function ScooterActions({
           </span>
         </Link>
         <Link
-          href="#allapotlap"
+          href={`/garage/${scooter.id}/sale-report`}
           className="group hover:bg-muted/30 flex items-center gap-3 px-5 py-4 transition-colors"
         >
           <span className="bg-muted flex h-8 w-8 shrink-0 items-center justify-center rounded-lg text-base">

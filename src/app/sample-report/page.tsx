@@ -37,6 +37,18 @@ const mockReport: SaleReportDto = {
       odometerKm: 800,
     },
   ],
+  condition: {
+    overall: "GOOD",
+    battery: "FAIR",
+    brakes: "GOOD",
+    tires: "NEEDS_ATTENTION",
+    lights: "GOOD",
+    frame: "GOOD",
+    cosmetics: "FAIR",
+    knownIssuesState: "REPORTED",
+    knownIssues: "Az első gumi kopott, cserét igényel.",
+    updatedAt: "2026-06-01T00:00:00.000Z",
+  },
   updatedAt: "2026-06-05T00:00:00.000Z",
   owner: null,
 };

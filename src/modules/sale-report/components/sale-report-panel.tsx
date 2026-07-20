@@ -3,20 +3,18 @@
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import { SaleReportView } from "@/modules/sale-report/components/sale-report-view";
 import type { Readiness } from "@/modules/sale-report/readiness";
-import type { SaleReportDto } from "@/modules/sale-report/dto";
+import type { PublishedSnapshotStatus } from "@/modules/sale-report/services/sale-report-service";
 
 type ReportStatus = {
   isActive: boolean;
   publicToken: string;
-  updatedAt: string;
+  publishedAt: string | null;
 } | null;
 
-// Az összes állapotlap-dátum (tulajdonosi panel és publikus oldal is)
-// explicit Europe/Budapest időzónával formázódik, hogy a szerver saját
-// időzónájától és a kliens böngészőjétől függetlenül mindig ugyanazt a
-// naptári napot/órát mutassa.
+// Az összes állapotlap-dátum explicit Europe/Budapest időzónával
+// formázódik, hogy a szerver saját időzónájától és a kliens böngészőjétől
+// függetlenül mindig ugyanazt a naptári napot/órát mutassa.
 function formatBudapestDateTime(iso: string): string {
   return new Date(iso).toLocaleString("hu-HU", {
     timeZone: "Europe/Budapest",
@@ -32,27 +30,67 @@ export function SaleReportPanel({
   scooterId,
   readiness,
   initialReport,
-  preview,
+  initialSnapshotStatus,
 }: {
   scooterId: string;
   readiness: Readiness;
   initialReport: ReportStatus;
-  preview: SaleReportDto;
+  initialSnapshotStatus: PublishedSnapshotStatus;
 }) {
   const router = useRouter();
   const [report, setReport] = useState(initialReport);
+  const [snapshotStatus, setSnapshotStatus] = useState(initialSnapshotStatus);
   const [busy, setBusy] = useState<"create" | "refresh" | "revoke" | null>(
     null,
   );
   const [error, setError] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
   const [copied, setCopied] = useState(false);
-  const [previewOpen, setPreviewOpen] = useState(false);
   const [revokeConfirmOpen, setRevokeConfirmOpen] = useState(false);
   const copyResetTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  // Komponens-unmountkor takarítsuk el a függőben lévő copy-reset timeoutot,
-  // hogy ne történjen késői state update egy már eltűnt komponensen.
+  // Ez a state KIZÁRÓLAG az utoljára kapott szerverpropot követi - nem
+  // kevert egy optimista kliensművelet eredményével. Object.is/referencia-
+  // összehasonlítás itt nem használható, mert a szerver minden renderkor
+  // új objektumot ad vissza akkor is, ha az érték nem változott. A
+  // handlerek (handleCreate/handleRefresh/confirmRevoke) SOHA nem írják
+  // ezt a state-et - csak a `report`/`snapshotStatus` UI-state-et -, mert
+  // az összekeverés azt eredményezné, hogy egy sikeres optimista művelet
+  // után a komponens visszaugorhat a még régi `initialReport` prophoz.
+  const [previousInitialReport, setPreviousInitialReport] =
+    useState(initialReport);
+  const [previousInitialSnapshotStatus, setPreviousInitialSnapshotStatus] =
+    useState(initialSnapshotStatus);
+
+  // Render-fázisú state-igazítás (React ajánlott mintája props->state
+  // szinkronizálásra effect helyett - lásd "Adjusting state when a prop
+  // changes" a React dokumentációban): ha az `initialReport` prop
+  // ténylegesen (érték szerint) eltér a legutóbb kapott proptól, azonnal,
+  // ugyanabban a render-körben igazítjuk a helyi state-et. Ha a friss adat
+  // szerint a report már nem aktív, a nyitva felejtett revoke-confirm
+  // dialógust is bezárjuk - de a success/error üzenetet és a
+  // copy-timeoutot NEM érintjük, mert egy ártalmatlan háttérfrissítés nem
+  // törölheti a user által épp látott visszajelzést.
+  const initialReportChanged =
+    (previousInitialReport?.isActive ?? null) !==
+      (initialReport?.isActive ?? null) ||
+    (previousInitialReport?.publicToken ?? null) !==
+      (initialReport?.publicToken ?? null) ||
+    (previousInitialReport?.publishedAt ?? null) !==
+      (initialReport?.publishedAt ?? null);
+  if (initialReportChanged) {
+    setPreviousInitialReport(initialReport);
+    setReport(initialReport);
+    if (initialReport?.isActive !== true) {
+      setRevokeConfirmOpen(false);
+    }
+  }
+
+  if (previousInitialSnapshotStatus !== initialSnapshotStatus) {
+    setPreviousInitialSnapshotStatus(initialSnapshotStatus);
+    setSnapshotStatus(initialSnapshotStatus);
+  }
+
   useEffect(() => {
     return () => {
       if (copyResetTimeout.current) clearTimeout(copyResetTimeout.current);
@@ -67,7 +105,15 @@ export function SaleReportPanel({
   }
 
   const isShared = report?.isActive === true;
-  const publicUrl = isShared ? `/report/${report!.publicToken}` : null;
+  // A snapshot adatbázisban aktív lehet, de a felhasználó felé csak akkor
+  // állítjuk "működő megosztásnak", ha a publikus oldal ténylegesen olvasható
+  // tartalmat is ad vissza - `missing`/`invalid` esetén nincs élő halott link.
+  const hasReadablePublishedSnapshot =
+    isShared &&
+    (snapshotStatus === "up_to_date" || snapshotStatus === "outdated");
+  const publicUrl = hasReadablePublishedSnapshot
+    ? `/report/${report!.publicToken}`
+    : null;
 
   async function handleCreate() {
     if (busy) return;
@@ -83,15 +129,29 @@ export function SaleReportPanel({
       const data = await res.json().catch(() => ({}));
       if (!res.ok) {
         setError(data.error ?? "Nem sikerült létrehozni a megosztást.");
+        router.refresh();
         return;
       }
-      setReport({
+      const reportFromResponse = {
         isActive: true,
         publicToken: data.publicToken,
-        updatedAt: data.updatedAt,
-      });
-      setSuccessMessage("Az állapotlap megosztható.");
-      setPreviewOpen(false);
+        publishedAt: data.publishedAt,
+      };
+      if (data.createdOrReactivated) {
+        // Valódi (re)aktiválás történt, friss, valid snapshottal - a
+        // "naprakész" állapot biztonságosan feltételezhető.
+        setReport(reportFromResponse);
+        setSnapshotStatus("up_to_date");
+        setSuccessMessage("Az állapotlap megosztható.");
+      } else {
+        // A report már korábban is aktív volt - ez egy idempotens
+        // ismételt POST, ami nem ellenőrizte a snapshot állapotát. Az
+        // alapadatokat átvesszük, de a snapshot-státuszt NEM állítjuk
+        // vakon naprakészre; a valódi missing/invalid/outdated/up_to_date
+        // állapotot a következő szerverprop-szinkron adja meg.
+        setReport(reportFromResponse);
+        setSuccessMessage("A megosztás már létezik.");
+      }
       router.refresh();
     } catch {
       setError("Hálózati hiba a megosztás létrehozásakor.");
@@ -114,10 +174,19 @@ export function SaleReportPanel({
       const data = await res.json().catch(() => ({}));
       if (!res.ok) {
         setError(data.error ?? "Nem sikerült frissíteni a megosztást.");
+        // A szerver nézete lehet, hogy már eltér a kliensétől (pl. időközben
+        // visszavonták vagy egy párhuzamos frissítés/konfliktus történt) -
+        // ne maradjon optimista, elavult state.
+        router.refresh();
         return;
       }
-      setReport((r) => (r ? { ...r, updatedAt: data.updatedAt } : r));
-      setSuccessMessage("Az állapotlap frissítve.");
+      setReport((r) => (r ? { ...r, publishedAt: data.publishedAt } : r));
+      setSnapshotStatus("up_to_date");
+      setSuccessMessage(
+        data.alreadyUpToDate
+          ? "A publikus állapotlap naprakész."
+          : "Az állapotlap frissítve.",
+      );
       router.refresh();
     } catch {
       setError("Hálózati hiba a frissítéskor.");
@@ -127,7 +196,7 @@ export function SaleReportPanel({
   }
 
   async function confirmRevoke() {
-    if (busy) return;
+    if (busy || !report) return;
     setBusy("revoke");
     setError("");
     setSuccessMessage("");
@@ -136,13 +205,20 @@ export function SaleReportPanel({
     try {
       const res = await fetch(`/api/scooters/${scooterId}/sale-report`, {
         method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        // A jelenleg látott tokent küldjük el, hogy egy elavult
+        // böngészőfül soha ne vonhassa vissza egy időközben létrejött ÚJ
+        // megosztás tokenjét.
+        body: JSON.stringify({ publicToken: report.publicToken }),
       });
       if (!res.ok) {
         const data = await res.json().catch(() => ({}));
         setError(data.error ?? "Nem sikerült visszavonni a megosztást.");
+        router.refresh();
         return;
       }
       setReport((r) => (r ? { ...r, isActive: false } : r));
+      setSnapshotStatus("not_shared");
       setSuccessMessage("A megosztás visszavonva.");
       setRevokeConfirmOpen(false);
       router.refresh();
@@ -166,8 +242,6 @@ export function SaleReportPanel({
       setSuccessMessage("Link másolva");
       copyResetTimeout.current = setTimeout(() => {
         setCopied(false);
-        // Csak akkor töröljük a success üzenetet, ha időközben nem
-        // jelent meg egy másik (pl. frissítés/visszavonás) üzenet.
         setSuccessMessage((current) =>
           current === "Link másolva" ? "" : current,
         );
@@ -204,33 +278,90 @@ export function SaleReportPanel({
       ) : isShared ? (
         <>
           <div className="flex flex-wrap gap-2">
-            <Button asChild size="sm">
-              <a href={publicUrl!} target="_blank" rel="noopener noreferrer">
-                Publikus állapotlap megnyitása
-              </a>
-            </Button>
-            <Button
-              type="button"
-              variant="outline"
-              size="sm"
-              onClick={copyLink}
-              disabled={busy !== null}
-            >
-              {copied ? "Link másolva" : "Link másolása"}
-            </Button>
-            <Button
-              type="button"
-              variant="ghost"
-              size="sm"
-              onClick={handleRefresh}
-              disabled={busy !== null}
-            >
-              {busy === "refresh" ? "Frissítés..." : "Megosztás frissítése"}
-            </Button>
+            {hasReadablePublishedSnapshot ? (
+              <>
+                <Button asChild size="sm">
+                  <a
+                    href={publicUrl!}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Publikus állapotlap megnyitása
+                  </a>
+                </Button>
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  onClick={copyLink}
+                  disabled={busy !== null}
+                >
+                  {copied ? "Link másolva" : "Link másolása"}
+                </Button>
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="sm"
+                  onClick={handleRefresh}
+                  disabled={busy !== null}
+                >
+                  {busy === "refresh" ? "Frissítés..." : "Megosztás frissítése"}
+                </Button>
+              </>
+            ) : (
+              <Button
+                type="button"
+                size="sm"
+                onClick={handleRefresh}
+                disabled={busy !== null}
+              >
+                {busy === "refresh"
+                  ? "Frissítés..."
+                  : snapshotStatus === "invalid"
+                    ? "Állapotlap újrapublikálása"
+                    : "Állapotlap frissítése"}
+              </Button>
+            )}
           </div>
-          <p className="text-muted-foreground text-xs">
-            Utolsó frissítés: {formatBudapestDateTime(report!.updatedAt)}
-          </p>
+
+          {snapshotStatus === "missing" && (
+            <p className="text-sm font-medium text-amber-600">
+              Az állapotlapot frissíteni kell az új publikálási formátumra.
+            </p>
+          )}
+          {snapshotStatus === "invalid" && (
+            <p role="alert" className="text-sm font-medium text-red-500">
+              A publikált állapotlap adatai nem olvashatók. Publikáld újra az
+              állapotlapot.
+            </p>
+          )}
+          {hasReadablePublishedSnapshot && (
+            <>
+              {report!.publishedAt && (
+                <p className="text-muted-foreground text-xs">
+                  Publikálva: {formatBudapestDateTime(report!.publishedAt)}
+                </p>
+              )}
+              {snapshotStatus === "outdated" ? (
+                <div
+                  role="status"
+                  className="border-primary/30 bg-primary/5 rounded-lg border px-4 py-3"
+                >
+                  <p className="text-sm font-medium">
+                    Nem publikált módosítások vannak.
+                  </p>
+                  <p className="text-muted-foreground mt-1 text-xs">
+                    Az előnézet újabb adatokat tartalmaz, mint a jelenlegi
+                    publikus állapotlap.
+                  </p>
+                </div>
+              ) : (
+                <p className="text-muted-foreground text-xs">
+                  A publikus állapotlap naprakész.
+                </p>
+              )}
+            </>
+          )}
         </>
       ) : (
         <div className="flex flex-wrap gap-2">
@@ -242,15 +373,12 @@ export function SaleReportPanel({
           >
             {busy === "create" ? "Létrehozás..." : "Megosztás létrehozása"}
           </Button>
-          <Button
-            type="button"
-            variant="outline"
-            size="sm"
-            onClick={() => setPreviewOpen((v) => !v)}
-            disabled={busy !== null}
+          <a
+            href="#elozetes"
+            className="text-muted-foreground hover:text-foreground inline-flex items-center text-sm font-medium transition-colors"
           >
-            {previewOpen ? "Előnézet elrejtése" : "Állapotlap megtekintése"}
-          </Button>
+            Előnézet megtekintése
+          </a>
         </div>
       )}
 
@@ -304,7 +432,7 @@ export function SaleReportPanel({
       <div>
         <div className="mb-2 flex items-center justify-between gap-2">
           <p className="text-muted-foreground text-xs font-semibold tracking-[0.15em] uppercase">
-            Rögzített adatok
+            Rögzített adatok · {readiness.levelLabel}
           </p>
           <span className="text-muted-foreground font-mono text-xs tabular-nums">
             {readiness.recommendedOkCount}/{readiness.recommended.length}
@@ -331,10 +459,6 @@ export function SaleReportPanel({
           )}
         </div>
       </div>
-
-      {previewOpen && !isShared && (
-        <SaleReportView report={preview} variant="preview" />
-      )}
 
       <p className="text-muted-foreground text-xs leading-relaxed">
         Egy megosztható összefoglaló a roller fontos adatairól,

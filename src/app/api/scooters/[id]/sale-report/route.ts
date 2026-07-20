@@ -11,6 +11,12 @@ async function requireSession() {
   return auth.api.getSession({ headers: await headers() });
 }
 
+// Biztonságos felső korlát a publikus tokenre - a ténylegesen generált
+// tokenek (base64url, 32 bájt) ennél jóval rövidebbek, de nem akarunk
+// tetszőlegesen hosszú stringet a DB lekérdezésbe engedni. A token maga
+// SOHA nem kerül logba vagy hibaüzenetbe.
+const MAX_TOKEN_LENGTH = 512;
+
 export async function POST(
   _req: NextRequest,
   { params }: { params: Promise<{ id: string }> },
@@ -38,9 +44,16 @@ export async function POST(
       { status: 400 },
     );
   }
+  if (result.status === "conflict") {
+    return NextResponse.json(
+      { error: "Az adatok közben megváltoztak. Próbáld újra." },
+      { status: 409 },
+    );
+  }
   return NextResponse.json({
     publicToken: result.publicToken,
-    updatedAt: result.updatedAt,
+    publishedAt: result.publishedAt,
+    createdOrReactivated: result.createdOrReactivated ?? false,
   });
 }
 
@@ -74,14 +87,21 @@ export async function PATCH(
       { status: 400 },
     );
   }
+  if (result.status === "conflict") {
+    return NextResponse.json(
+      { error: "Az adatok közben megváltoztak. Próbáld újra." },
+      { status: 409 },
+    );
+  }
   return NextResponse.json({
     publicToken: result.publicToken,
-    updatedAt: result.updatedAt,
+    publishedAt: result.publishedAt,
+    alreadyUpToDate: result.alreadyUpToDate ?? false,
   });
 }
 
 export async function DELETE(
-  _req: NextRequest,
+  req: NextRequest,
   { params }: { params: Promise<{ id: string }> },
 ) {
   const session = await requireSession();
@@ -92,8 +112,21 @@ export async function DELETE(
     );
   }
 
+  const body = await req.json().catch(() => null);
+  const publicToken = body?.publicToken;
+  if (
+    typeof publicToken !== "string" ||
+    publicToken.length === 0 ||
+    publicToken.length > MAX_TOKEN_LENGTH
+  ) {
+    return NextResponse.json(
+      { error: "Hibás vagy hiányzó token." },
+      { status: 400 },
+    );
+  }
+
   const { id } = await params;
-  const result = await revokeShare(session.user.id, id);
+  const result = await revokeShare(session.user.id, id, publicToken);
 
   if (result.status === "not_found") {
     return NextResponse.json(

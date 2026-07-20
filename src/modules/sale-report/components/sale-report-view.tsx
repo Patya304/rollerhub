@@ -2,6 +2,11 @@ import Link from "next/link";
 import { ImageWithFallback } from "@/components/image-with-fallback";
 import { SERVICE_TYPE_LABELS } from "@/modules/services/service-types";
 import type { SaleReportDto } from "@/modules/sale-report/dto";
+import {
+  CONDITION_CATEGORIES,
+  CONDITION_CATEGORY_LABELS,
+  CONDITION_LEVEL_LABELS,
+} from "@/modules/sale-report/condition";
 
 // Az egyetlen presentational komponens, amit a tulajdonosi előnézet és a
 // publikus /report/[token] oldal is használ, ugyanabból a safe DTO-ból.
@@ -74,9 +79,11 @@ export function SaleReportView({
               <p className="font-bold break-words">
                 {report.brand} {report.model}
               </p>
-              <p className="text-muted-foreground mt-0.5 text-xs">
-                Frissítve: {formatDate(report.updatedAt)}
-              </p>
+              {variant === "public" && (
+                <p className="text-muted-foreground mt-0.5 text-xs">
+                  Publikálva: {formatDate(report.updatedAt)}
+                </p>
+              )}
             </div>
           </div>
         </div>
@@ -171,6 +178,100 @@ export function SaleReportView({
                 Még nincs rögzített szervizelőzmény.
               </p>
             )}
+          </div>
+
+          {/* Állapotfelmérés — a tulajdonos saját, szöveges bejelentése,
+              nem hivatalos műszaki vizsgálat vagy tanúsítvány. */}
+          <div>
+            <p className="text-muted-foreground mb-2 text-xs font-semibold tracking-[0.15em] uppercase">
+              Állapotfelmérés
+            </p>
+            {report.condition?.updatedAt && (
+              <p className="text-muted-foreground mb-2 text-xs">
+                Állapotfelmérés rögzítve:{" "}
+                {formatDate(report.condition.updatedAt)}
+              </p>
+            )}
+            {report.condition ? (
+              <div className="space-y-3">
+                {CONDITION_CATEGORIES.filter(
+                  (key) => report.condition![key] === "NEEDS_ATTENTION",
+                ).length > 0 && (
+                  <div
+                    role="alert"
+                    className="space-y-1 rounded-lg border border-red-500/40 bg-red-500/5 px-4 py-3"
+                  >
+                    <p className="text-xs font-semibold text-red-500">
+                      Figyelmet igénylő kategóriák
+                    </p>
+                    <ul className="text-sm">
+                      {CONDITION_CATEGORIES.filter(
+                        (key) => report.condition![key] === "NEEDS_ATTENTION",
+                      ).map((key) => (
+                        <li key={key} className="break-words">
+                          {CONDITION_CATEGORY_LABELS[key]}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+
+                <div className="divide-border/30 divide-y rounded-lg border">
+                  {CONDITION_CATEGORIES.filter(
+                    (key) => report.condition![key] != null,
+                  ).map((key) => {
+                    const level = report.condition![key]!;
+                    return (
+                      <div
+                        key={key}
+                        className="flex items-center justify-between gap-3 px-4 py-2.5 text-sm"
+                      >
+                        <span className="min-w-0 font-medium break-words">
+                          {CONDITION_CATEGORY_LABELS[key]}
+                        </span>
+                        <span
+                          className={`shrink-0 text-xs font-semibold ${
+                            level === "NEEDS_ATTENTION"
+                              ? "text-red-500"
+                              : level === "FAIR"
+                                ? "text-amber-500"
+                                : "text-green-600"
+                          }`}
+                        >
+                          {CONDITION_LEVEL_LABELS[level]}
+                        </span>
+                      </div>
+                    );
+                  })}
+                </div>
+
+                <div className="rounded-lg border px-4 py-3">
+                  <p className="text-xs font-semibold">Ismert problémák</p>
+                  {report.condition.knownIssuesState === "REPORTED" ? (
+                    <p className="mt-1 text-sm break-words whitespace-pre-wrap">
+                      {report.condition.knownIssues}
+                    </p>
+                  ) : report.condition.knownIssuesState === "NONE_REPORTED" ? (
+                    <p className="text-muted-foreground mt-1 text-sm">
+                      A tulajdonos jelenleg nem jelölt meg ismert hibát.
+                    </p>
+                  ) : (
+                    <p className="text-muted-foreground mt-1 text-sm">
+                      A tulajdonos ehhez a kategóriához még nem adott meg
+                      nyilatkozatot.
+                    </p>
+                  )}
+                </div>
+              </div>
+            ) : (
+              <p className="text-muted-foreground text-sm">
+                A tulajdonos még nem rögzített részletes állapotfelmérést.
+              </p>
+            )}
+            <p className="text-muted-foreground mt-3 text-xs leading-relaxed">
+              Az állapotfelmérés a tulajdonos által megadott információ. Nem
+              helyettesíti a személyes átvizsgálást vagy műszaki ellenőrzést.
+            </p>
           </div>
 
           {/* Tulajdonos — csak publikus profilnál jelenik meg */}
