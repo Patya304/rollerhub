@@ -122,3 +122,32 @@ A valódi 390 px-es eszközteszt ez idáig nem történt meg (a Chrome ablak ebb
 - [ ] Tulajdonosi profilkép megjelenik a publikus oldalon, ha a profil publikus és van kép; hibás/hiányzó képnél monogram fallback
 - [ ] Service ID nem jelenik meg sem a DTO-ban, sem a publikus HTML/RSC tartalomban
 - [ ] Linkmásolás sikere képernyőolvasóval is érzékelhető (`role="status"` élő régió mondja: "Link másolva")
+
+## Eladási állapotlap — snapshot alapú publikálás és állapotfelmérés (Á2+Á3+UX2)
+
+Chrome+DB regresszió QA felhasználóval elvégezve (2026. július, lásd PROJECT_STATE.md) — az alábbi tételek ott ténylegesen ellenőrzésre kerültek:
+
+- [x] `/garage/[id]/sale-report` dedikált workspace betölt: megosztás-kezelés, állapotfelmérés form, élő előnézet egy oldalon
+- [x] A roller adatlapján (`/garage/[id]`) az "Eladási állapotlap" blokk csak kompakt összefoglaló kártya, nincs duplikált szerkesztő/előnézet
+- [x] Első publikáláskor a publikus oldal a pillanatnyi élő adatokból készült snapshotot mutatja
+- [x] Roller/condition adatainak módosítása UTÁN a publikus oldal NEM változik, amíg nincs "Megosztás frissítése" (élesben igazolva: condition-mentés után a publikus HTML még a régi tartalmat adta)
+- [x] Workspace jelzi: "Nem publikált módosítások vannak.", ha az élő előnézet eltér a publikustól, teljes reload nélkül, egy `router.refresh()`-t kiváltó mentés után
+- [x] "Megosztás frissítése" után a token nem változik, a publikus oldal az új tartalmat mutatja
+- [x] Ismételt "Megosztás frissítése" változatlan tartalom mellett "A publikus állapotlap naprakész." üzenetet ad, a `publishedAt` nem változik
+- [x] Visszavonás után a régi token publikusan 404, majd újbóli megosztás mindig új tokent és friss snapshotot kap
+- [x] Legacy (snapshot nélküli) aktív megosztásnál a publikus link semleges 404, a workspace "Az állapotlapot frissíteni kell az új publikálási formátumra." üzenetet mutatja, a frissítés a régi tokennel hozza létre az első snapshotot
+- [x] Corrupt tárolt snapshot (Zod-invalid JSON, hash mismatch, snapshotVersion mismatch) publikusan semleges 404, tulajdonosi oldalon "nem olvashatók" üzenet, "Megosztás frissítése" ugyanazzal a tokennel javítja
+- [x] Azonos `performedAt` mellett a szervizsorrend determinisztikus (type szerint), stabil két egymást követő frissítés között
+- [ ] Állapotfelmérés form: mind a 7 kategória menthető (3 kategória tesztelve élesben), `fieldset`/`legend` és `aria-pressed` jelöli a kiválasztást — vizuálisan igazolva, teljes 7/7 mátrix még nyitott
+- [x] REPORTED → NONE_REPORTED/NOT_PROVIDED váltáskor a textarea eltűnik és a rejtett szöveg nem marad a state-ben
+- [ ] Ismert hibák teljes validációs mátrix API-n keresztül (1000/1001 karakter határ, REPORTED szöveg nélkül elutasítva élesben a UI-n át) — még nyitott
+- [ ] Publikus oldalon a NEEDS_ATTENTION kategóriák kiemelt blokkban (csak GOOD állapottal tesztelve, NEEDS_ATTENTION highlight vizuálisan még nem igazolt)
+- [x] Snapshot és publikus HTML sehol nem tartalmaz: user/owner/scooter/report/service ID-t, emailt, usernevet, alvázszámot, vételárat, vásárlás dátumát, megjegyzést, szerviz költséget/megjegyzést, algorithmVersion-t (a token csak az URL-ben/routing payloadban jelenik meg, cím/leírásban nem)
+- [x] `missing`/`invalid` snapshotnál sem a workspace-en, sem a garázs-összefoglaló kártyán nem jelenik meg publikus megnyitás, linkmásolás vagy "Megosztva" állítás - csak a megfelelő CTA ("Állapotlap frissítése" / "Állapotlap újrapublikálása")
+- [x] Két párhuzamos "Megosztás frissítése" (változatlan tartalommal) mindkettő naprakészt ad, azonos token/publishedAt
+- [x] "Megosztás frissítése" és "Megosztás visszavonása" versenyeztetve: ha a visszavonás nyer, a frissítés nem jelez hamis sikert (`not_found`), a report inaktív marad
+- [x] Visszavonás + újbóli megosztás (új token) után egy "elavult" frissítési kísérlet az ÚJ tokenre áll rá, nem a régire
+- [x] Egy elavult böngészőfül a régi tokennel küldött DELETE-je nem vonja vissza az időközben létrejött ÚJ tokent - az továbbra is aktív marad
+- [ ] Tulajdonosi profil publikusságának változása azonnal hat a tulajdonosi blokkra a publikus oldalon, de nem érinti a snapshotot vagy annak hash-ét
+- [ ] Idegen vagy törölt roller kondíciója nem módosítható más felhasználóval
+- [x] 390px konténerszorításos overflow-teszt: workspace és publikus oldal is `scrollWidth === clientWidth` (nem helyettesíti a valódi mobil eszköztesztet)
